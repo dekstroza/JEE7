@@ -1,0 +1,20 @@
+div.info {
+    background-color: greenyellow;
+}
+
+div.error {
+    background-color: red;
+}
+
+div.warning {
+    background-color: yellow;
+}
+
+div.debug {
+    background-color: aqua;
+}
+
+div.trace {
+    background-color: antiquewhite;
+}
+

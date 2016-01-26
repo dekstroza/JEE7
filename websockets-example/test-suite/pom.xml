@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>websockets-example</artifactId>
+        <groupId>org.dekstroza.sandbox</groupId>
+        <version>1.0.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>test-suite</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
+    <modules>
+        <module>jee</module>
+    </modules>
+    <packaging>pom</packaging>
+
+    <properties>
+        <wildfly.version>10.0.0.CR5</wildfly.version>
+        <wildfly.arquillian.container.managed.version>8.2.1.Final</wildfly.arquillian.container.managed.version>
+        <tyrus.version>1.12</tyrus.version>
+        <jboss.home>target/wildfly-${wildfly.version}</jboss.home>
+    </properties>
+</project>
