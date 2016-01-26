@@ -13,7 +13,7 @@ public class CoWImplementationTest extends BaseTestImplementation {
 
     private static final Logger log = LoggerFactory.getLogger(CoWImplementationTest.class);
     private static final String WEBSOCKET_URI = "ws://localhost:8080/websockets-war-cow/console";
-    private static final String REQUEST_URL = "http://localhost:8080/websockets-war-cow/logger/insert";
+    private static final String REQUEST_URL = "http://localhost:8080/websockets-war-cow/websockets/insert";
 
     private static final String QUERY_PARAM_NAME = "log";
     private static final String QUERY_PARAM_VALUE = "10:22:56,694%20INFO%20[org.jboss.weld.deployer]%20(MSC%20service%20thread%201-7)%20WFLYWELD0009:%20Starting%20weld%20service%20for%20deployment%20logger-war-1.0.1-SNAPSHOT.war";
@@ -21,7 +21,7 @@ public class CoWImplementationTest extends BaseTestImplementation {
     @Deployment(name = "websockets-war-cow", testable = false)
     public static WebArchive createDeployment() {
         final WebArchive war = createDeployment("websockets-war-cow.war");
-        war.addPackage("org.dekstroza.logger.partitioning.impl.cow");
+        war.addPackage("org.dekstroza.websockets.partitioning.impl.cow");
         return war;
 
     }

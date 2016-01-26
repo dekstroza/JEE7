@@ -46,11 +46,11 @@ public class BaseTestImplementation {
 
     public static WebArchive createDeployment(final String name) {
         WebArchive war = ShrinkWrap.create(WebArchive.class, name);
-        war.addPackage("org.dekstroza.logger.partitioning.api");
-        war.addPackage("org.dekstroza.logger.configuration.api");
-        war.addPackage("org.dekstroza.logger.rest");
-        war.addPackage("org.dekstroza.logger.session");
-        war.addPackage("org.dekstroza.logger.util.logging");
+        war.addPackage("org.dekstroza.websockets.partitioning.api");
+        war.addPackage("org.dekstroza.websockets.configuration.api");
+        war.addPackage("org.dekstroza.websockets.rest");
+        war.addPackage("org.dekstroza.websockets.session");
+        war.addPackage("org.dekstroza.websockets.util.logging");
         war.addClass(SimpleConfigurationEnvironment.class);
         war.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
         return war;
