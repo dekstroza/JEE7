@@ -1,5 +1,5 @@
 function openSocket() {
-    var ws = new WebSocket("ws://" + window.location.hostname + ":8080/logger-war/console");
+    var ws = new WebSocket("ws://" + window.location.hostname + ":8080/websockets-war/console");
     ws.onopen = function () {
     };
     ws.onmessage = function (evt) {
