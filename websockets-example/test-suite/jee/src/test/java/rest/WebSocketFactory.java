@@ -52,7 +52,7 @@ public class WebSocketFactory implements Callable<Boolean> {
         for (int i = 0; i < sockNumber; i++) {
             final WebSocketConnector sockConnector = new WebSocketConnector(uri, connectionCountLatch, msgReceivedLatch);
             resultList.add(executorService.submit(sockConnector));
-            log.info("Created socket {} .", i);
+            log.debug("Created socket {} .", i);
         }
         return connectionCountLatch.await(latchAwait, timeUnit);
 
