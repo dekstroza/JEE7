@@ -24,8 +24,7 @@ public class WebSocketFactory implements Callable<Boolean> {
      * Constructor taking number of sockets, time to wait for connection to be estblished from all sockets and unit of time
      *
      * @param uri
-     *            URI in format ws://someserver/somepath
-     * 
+     *            String in format ws://someserver/somepath
      * @param sockNumber
      *            Number of sockets to create and connect to server
      * @param latchAwait
@@ -33,12 +32,13 @@ public class WebSocketFactory implements Callable<Boolean> {
      * @param timeUnit
      *            Unit of time
      */
-    public WebSocketFactory(final URI uri, final int sockNumber, final long latchAwait, final TimeUnit timeUnit) {
+    public WebSocketFactory(final String uri, final int sockNumber, final long latchAwait, final TimeUnit timeUnit) {
         this.latchAwait = latchAwait;
         this.timeUnit = timeUnit;
         this.sockNumber = sockNumber;
-        this.uri = uri;
+
         try {
+            this.uri = new URI(uri);
             this.msgReceivedLatch = new CountDownLatch(sockNumber);
         } catch (Exception e) {
             throw new IllegalStateException("Unable to create msg receive latch.");
