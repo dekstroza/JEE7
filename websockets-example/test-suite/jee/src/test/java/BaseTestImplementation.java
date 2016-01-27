@@ -37,7 +37,7 @@ public class BaseTestImplementation {
     /**
      * Set number of web socket clients connected to our server.
      */
-    private static final int NUM_OF_SOCK_CLIENTS = 650;
+    private static final int NUM_OF_SOCK_CLIENTS = 1000;
 
     /**
      * Number of thread for executor service, when creating web sockets.
@@ -68,7 +68,8 @@ public class BaseTestImplementation {
         final boolean isConfirmed = webSocketFactory.msgReceivedByAllWebSockets();
         final long end = System.nanoTime();
         Assert.assertTrue(isConfirmed);
-        log.info("Time taken to deliver single message to {} client(s) was:[{} nanoseconds].", NUM_OF_SOCK_CLIENTS, (end - start));
+        log.info("Time taken to deliver single message to {} client(s) was: {}ms.", NUM_OF_SOCK_CLIENTS,
+                String.format("%.3f", ((double) end - start) / 1000000));
         webSocketFactory.closeAllSockets();
         log.info("Closed all sockets...");
     }

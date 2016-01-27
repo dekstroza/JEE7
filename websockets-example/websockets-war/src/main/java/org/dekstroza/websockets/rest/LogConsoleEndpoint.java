@@ -21,6 +21,7 @@ public class LogConsoleEndpoint {
 
     @OnOpen
     public void onCreateSession(final Session session) {
+        log.debug("Opening session {}", session.getId());
         this.sessionManager.addSession(session);
     }
 
@@ -31,6 +32,7 @@ public class LogConsoleEndpoint {
 
     @OnClose
     public void onCloseSession(final Session session) {
+        log.debug("Closing session {}", session.getId());
         sessionManager.removeSession(session);
     }
 

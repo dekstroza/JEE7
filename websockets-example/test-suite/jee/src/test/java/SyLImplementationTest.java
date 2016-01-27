@@ -2,15 +2,12 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 @RunWith(Arquillian.class)
 public class SyLImplementationTest extends BaseTestImplementation {
 
-    private static final Logger log = LoggerFactory.getLogger(SyLImplementationTest.class);
     private static final String WEBSOCKET_URI = "ws://localhost:8080/websockets-war-syl/console";
     private static final String REQUEST_URL = "http://localhost:8080/websockets-war-syl/websockets/insert";
 
