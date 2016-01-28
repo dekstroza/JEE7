@@ -3,7 +3,7 @@
 Combination of JSR 356 mixed with CDI, EJB, JAXRS and some arquillian.
 
 Includes arquillian test(s) with connection to 1000 websocket clients, measuring time to deliver 1 message to all of them, using three different versions of session partitioning.
-To compile and run:
+To compile and run (it tests fail, you may neet to set max open files and max proc per user to higher values to allow 1000 websocket clients to be created):
 ```
 mvn clean install
 ```
