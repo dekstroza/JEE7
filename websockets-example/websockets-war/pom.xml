@@ -33,6 +33,23 @@
                     <attachClasses>true</attachClasses>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.wildfly.swarm</groupId>
+                <artifactId>wildfly-swarm-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <bundleDependencies>false</bundleDependencies>
+                    <properties>
+                        <swarm.bind.address>127.0.0.1</swarm.bind.address>
+                    </properties>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <dependencies>
