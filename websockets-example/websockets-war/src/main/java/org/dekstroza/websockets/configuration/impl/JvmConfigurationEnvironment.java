@@ -27,10 +27,12 @@ public class JvmConfigurationEnvironment implements ConfigurationEnvironment {
         try {
             selectedType = Partition.Implementations.valueOf(System.getProperty("pmImplementation"));
         } catch (Exception e) {
-            log.warn("Uknown partition manager implementation, or implementation not specified. Using default CopyOnWriteList implementation.");
+            log.warn("Uknown partition manager implementation, or implementation not specified. Using default implementation.");
         }
         final PartitionManagerTypeQualifier qualifier = new PartitionManagerTypeQualifier(selectedType);
-        return partitionManagers.select(qualifier).get();
+        final PartitionManager partitionManager = partitionManagers.select(qualifier).get();
+        log.info("Selected implementation of partition manager is:{}", partitionManager.getClass().getCanonicalName());
+        return partitionManager;
     }
 
 }
