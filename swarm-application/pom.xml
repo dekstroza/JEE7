@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.dekstroza.examples</groupId>
+    <artifactId>swarm-application</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.1-SNAPSHOT</version>
+    <modules>
+        <module>application-jar</module>
+    </modules>
+
+    <properties>
+        <!-- dependencies, sort in alphabetical order -->
+        <jee.version>7.0</jee.version>
+        <junit.version>4.11</junit.version>
+        <resteasy.version>3.0.14.Final</resteasy.version>
+        <slf4.api.version>1.7.5</slf4.api.version>
+        <wildfly.swarm.version>1.0.0.Alpha8</wildfly.swarm.version>
+        <!-- maven plugin versions -->
+        <maven.compiler.plugin.version>2.5.1</maven.compiler.plugin.version>
+        <maven.war.plugin.version>2.2</maven.war.plugin.version>
+        <maven.docker.plugin>0.13.8</maven.docker.plugin>
+        <!-- java source/target version -->
+        <java.source.version>1.8</java.source.version>
+        <java.target.version>1.8</java.target.version>
+    </properties>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.compiler.plugin.version}</version>
+                    <configuration>
+                        <source>${java.source.version}</source>
+                        <target>${java.target.version}</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>javax</groupId>
+                <artifactId>javaee-api</artifactId>
+                <version>${jee.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
