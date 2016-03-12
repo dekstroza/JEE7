@@ -9,13 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>application-jar</artifactId>
+    <artifactId>payment-backend</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
-        <version.h2>1.4.187</version.h2>
         <version.commons-lang3>3.4</version.commons-lang3>
+        <version.postgresql>9.4.1207</version.postgresql>
     </properties>
 
     <build>
@@ -151,9 +151,9 @@
             <version>${wildfly.swarm.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>${version.h2}</version>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${version.postgresql}</version>
         </dependency>
     </dependencies>
 
