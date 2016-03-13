@@ -18,11 +18,11 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         final Container container = new Container();
-        final String dbHost = System.getProperty("dbHost", "localhost");
-        final String dbPort = System.getProperty("dbPort", "5432");
-        final String dbName = System.getProperty("dbName", "swarmapp");
-        final String dbUser = System.getProperty("dbUser", "postgres");
-        final String dbPassword = System.getProperty("dbPassword", "mysecretpassword");
+        final String dbHost = System.getenv("dbHost") == null ? "localhost" : System.getenv("dbHost");
+        final String dbPort = System.getenv("dbPort") == null ? "5432" : System.getenv("dbPort");
+        final String dbName = System.getenv("dbName") == null ? "swarmapp" : System.getenv("dbName");
+        final String dbUser = System.getenv("dbUser") == null ? "postgres" : System.getenv("dbUser");
+        final String dbPassword = System.getenv("dbPassword") == null ? "mysecretpassword" : System.getenv("dbPassword");
 
         container.fraction(new DatasourcesFraction().jdbcDriver("org.postgresql", (d) -> {
             d.driverClassName("org.postgresql.Driver");

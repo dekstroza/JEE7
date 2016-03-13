@@ -35,7 +35,6 @@ public class PaymentsRestEndpoint {
     private static final String INSERT_QUERY = "INSERT INTO public.payments(id,firstname,lastname,phone,total_ammount,deducted_fee_ammount,receiver_location_id,sender_location_id) VALUES (?,?,?,?,?,?,?,?)";
 
     @POST
-    @Path("insert")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response insertNewPayment(@NotNull final Payment payment) throws NamingException, SQLException {
