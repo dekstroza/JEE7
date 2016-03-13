@@ -33,7 +33,33 @@ To run the code:
 $ java -jar payment-backend/target/payment-backend-1.0.1-SNAPSHOT-swarm.jar
 ```
 
-Or run the container with usual docker run ....
+Or run the containers:
+```
+cd docker-compose && docker-compose up
+```
+
+Test everything is working by doing POST to http://IP:8080/api/v1.0/payments using content type: application/json
+
+```
+{
+"firstName": "Dejan",
+"lastName": "Kitic",
+"phoneNumber": "0871984116",
+"totalAmmount": 500,
+"feeDeductedAmmount": 450,
+"senderLocationId": 100,
+"receiverLocationId": 200
+}
+
+```
+
+To find out IP address use something like:
+```
+docker ps -a | grep swarm | grep Up | awk '{print $1}' | xargs -I {} docker inspect {} | grep IPAddress
+
+```
+
+
 
 Happy hacking,
 Dejan

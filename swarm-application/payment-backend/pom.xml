@@ -58,7 +58,7 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>swarm-application</name>
+                                    <name>dekstroza/swarm-application:${project.parent.version}</name>
                                     <run>
                                         <ports>
                                             <port>8080:8080</port>

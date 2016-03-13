@@ -26,7 +26,7 @@ import org.slf4j.Logger;
  * Payments rest endpoint, handling all payments rest calls
  */
 
-@Path("payments")
+@Path("v1.0")
 public class PaymentsRestEndpoint {
 
     @Inject
@@ -35,6 +35,7 @@ public class PaymentsRestEndpoint {
     private static final String INSERT_QUERY = "INSERT INTO public.payments(id,firstname,lastname,phone,total_ammount,deducted_fee_ammount,receiver_location_id,sender_location_id) VALUES (?,?,?,?,?,?,?,?)";
 
     @POST
+    @Path("payments")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response insertNewPayment(@NotNull final Payment payment) throws NamingException, SQLException {
