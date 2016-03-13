@@ -4,6 +4,8 @@ import org.dekstroza.swarm.application.PaymentsApplication;
 import org.dekstroza.swarm.application.utils.logging.LoggerProducer;
 import org.dekstroza.swarm.payments.api.Payment;
 import org.dekstroza.swarm.payments.api.PaymentInsertResponse;
+import org.dekstroza.swarm.payments.dao.PaymentsService;
+import org.dekstroza.swarm.payments.dao.PaymentsServiceImpl;
 import org.dekstroza.swarm.payments.endpoint.PaymentsRestEndpoint;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -18,7 +20,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         final Container container = new Container();
-        final String dbHost = System.getenv("dbHost") == null ? "localhost" : System.getenv("dbHost");
+        final String dbHost = System.getenv("dbHost") == null ? "172.18.0.2" : System.getenv("dbHost");
         final String dbPort = System.getenv("dbPort") == null ? "5432" : System.getenv("dbPort");
         final String dbName = System.getenv("dbName") == null ? "swarmapp" : System.getenv("dbName");
         final String dbUser = System.getenv("dbUser") == null ? "postgres" : System.getenv("dbUser");
@@ -28,7 +30,7 @@ public class Main {
             d.driverClassName("org.postgresql.Driver");
             d.xaDatasourceClass("org.postgresql.xa.PGXADataSource");
             d.driverModuleName("org.postgresql");
-        }).dataSource("ExampleDS", (ds) -> {
+        }).dataSource("BackendDS", (ds) -> {
             ds.driverName("org.postgresql");
             ds.connectionUrl(new StringBuilder("jdbc:postgresql://").append(dbHost).append(":").append(dbPort).append("/").append(dbName).toString());
             ds.userName(dbUser);
@@ -42,6 +44,8 @@ public class Main {
         jaxrsArchive.addClass(LoggerProducer.class);
         jaxrsArchive.addClass(Payment.class);
         jaxrsArchive.addClass(PaymentInsertResponse.class);
+        jaxrsArchive.addClass(PaymentsService.class);
+        jaxrsArchive.addClass(PaymentsServiceImpl.class);
         jaxrsArchive.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
         jaxrsArchive.addAllDependencies();
         container.deploy(jaxrsArchive);
