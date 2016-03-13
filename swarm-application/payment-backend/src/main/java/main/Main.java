@@ -18,6 +18,11 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         final Container container = new Container();
+        final String dbHost = System.getProperty("dbHost", "localhost");
+        final String dbPort = System.getProperty("dbPort", "5432");
+        final String dbName = System.getProperty("dbName", "swarmapp");
+        final String dbUser = System.getProperty("dbUser", "postgres");
+        final String dbPassword = System.getProperty("dbPassword", "mysecretpassword");
 
         container.fraction(new DatasourcesFraction().jdbcDriver("org.postgresql", (d) -> {
             d.driverClassName("org.postgresql.Driver");
@@ -25,9 +30,9 @@ public class Main {
             d.driverModuleName("org.postgresql");
         }).dataSource("ExampleDS", (ds) -> {
             ds.driverName("org.postgresql");
-            ds.connectionUrl("jdbc:postgresql://172.18.0.2:5432/swarmapp");
-            ds.userName("postgres");
-            ds.password("mysecretpassword");
+            ds.connectionUrl(new StringBuilder("jdbc:postgresql://").append(dbHost).append(":").append(dbPort).append("/").append(dbName).toString());
+            ds.userName(dbUser);
+            ds.password(dbPassword);
         }));
 
         container.start();
