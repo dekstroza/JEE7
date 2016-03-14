@@ -1,11 +1,10 @@
 package org.dekstroza.swarm.payments.dao;
 
-import java.sql.SQLException;
 import java.util.UUID;
 
-import org.dekstroza.swarm.payments.api.Payment;
+import org.dekstroza.swarm.payments.api.Payments;
 
 public interface PaymentsService {
 
-    UUID insertNewPayment(final Payment payment) throws SQLException;
+    UUID insertNewPayment(final Payments payments);
 }

@@ -3,7 +3,7 @@ package org.dekstroza.swarm.payments.api;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
- * Payment response
+ * Payments response
  */
 public class PaymentInsertResponse {
 

@@ -2,16 +2,18 @@ package main;
 
 import org.dekstroza.swarm.application.PaymentsApplication;
 import org.dekstroza.swarm.application.utils.logging.LoggerProducer;
-import org.dekstroza.swarm.payments.api.Payment;
 import org.dekstroza.swarm.payments.api.PaymentInsertResponse;
+import org.dekstroza.swarm.payments.api.Payments;
 import org.dekstroza.swarm.payments.dao.PaymentsService;
 import org.dekstroza.swarm.payments.dao.PaymentsServiceImpl;
 import org.dekstroza.swarm.payments.endpoint.PaymentsRestEndpoint;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.ClassLoaderAsset;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.wildfly.swarm.container.Container;
 import org.wildfly.swarm.datasources.DatasourcesFraction;
 import org.wildfly.swarm.jaxrs.JAXRSArchive;
+import org.wildfly.swarm.jpa.JPAFraction;
 
 /**
  * Main entry point for swarm
@@ -37,12 +39,16 @@ public class Main {
             ds.password(dbPassword);
         }));
 
+        // Prevent JPA Fraction from installing it's default datasource fraction
+        container.fraction(new JPAFraction().inhibitDefaultDatasource().defaultDatasource("jboss/datasources/BackendDS"));
+
         container.start();
         final JAXRSArchive jaxrsArchive = ShrinkWrap.create(JAXRSArchive.class, "payments-backend.war");
+        jaxrsArchive.addAsWebInfResource(new ClassLoaderAsset("META-INF/persistence.xml", Main.class.getClassLoader()), "classes/META-INF/persistence.xml");
         jaxrsArchive.addResource(PaymentsApplication.class);
         jaxrsArchive.addClass(PaymentsRestEndpoint.class);
         jaxrsArchive.addClass(LoggerProducer.class);
-        jaxrsArchive.addClass(Payment.class);
+        jaxrsArchive.addClass(Payments.class);
         jaxrsArchive.addClass(PaymentInsertResponse.class);
         jaxrsArchive.addClass(PaymentsService.class);
         jaxrsArchive.addClass(PaymentsServiceImpl.class);

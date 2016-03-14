@@ -12,7 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.dekstroza.swarm.payments.api.Payment;
+import org.dekstroza.swarm.payments.api.Payments;
 import org.dekstroza.swarm.payments.api.PaymentInsertResponse;
 import org.dekstroza.swarm.payments.dao.PaymentsService;
 import org.slf4j.Logger;
@@ -34,10 +34,10 @@ public class PaymentsRestEndpoint {
     @Path("payments")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response insertNewPayment(@NotNull final Payment payment) {
-        logger.debug("Inserting new payment record {}", payment);
+    public Response insertNewPayment(@NotNull final Payments payments) {
+        logger.debug("Inserting new payments record {}", payments);
         try {
-            final UUID uuid = paymentsService.insertNewPayment(payment);
+            final UUID uuid = paymentsService.insertNewPayment(payments);
             PaymentInsertResponse paymentInsertResponse = new PaymentInsertResponse("OK", uuid.toString());
             return Response.status(Response.Status.OK).entity(paymentInsertResponse).build();
         } catch (final Exception exception) {

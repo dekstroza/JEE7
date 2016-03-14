@@ -5,7 +5,7 @@
 -- Dumped from database version 9.5.1
 -- Dumped by pg_dump version 9.5.1
 
--- Started on 2016-03-11 23:52:01 GMT
+-- Started on 2016-03-14 00:54:45 GMT
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -16,7 +16,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 2103 (class 1262 OID 16384)
+-- TOC entry 2106 (class 1262 OID 16384)
 -- Name: swarmapp; Type: DATABASE; Schema: -; Owner: postgres
 --
 
@@ -37,16 +37,16 @@ SET row_security = off;
 
 --
 -- TOC entry 1 (class 3079 OID 12361)
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2106 (class 0 OID 0)
+-- TOC entry 2109 (class 0 OID 0)
 -- Dependencies: 1
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
@@ -64,23 +64,25 @@ SET default_with_oids = false;
 --
 
 CREATE TABLE payments (
-    firstname character varying(50),
-    lastname character varying(50),
-    phone character varying(20),
-    total_ammount integer,
-    deducted_fee_ammount integer,
-    receiver_location_id integer,
-    sender_location_id integer,
-    completed boolean,
+    firstname character varying(50) NOT NULL,
+    lastname character varying(50) NOT NULL,
+    phone character varying(20) NOT NULL,
+    total_amount numeric NOT NULL,
+    deducted_fee_amount numeric NOT NULL,
+    receiver_location_id integer NOT NULL,
+    sender_location_id integer NOT NULL,
+    is_completed boolean DEFAULT false,
     passport_id character varying(100),
-    id character varying(50) NOT NULL
+    id character varying(50) NOT NULL,
+    created timestamp with time zone DEFAULT now() NOT NULL,
+    completed timestamp with time zone
 );
 
 
 ALTER TABLE payments OWNER TO postgres;
 
 --
--- TOC entry 1984 (class 2606 OID 16397)
+-- TOC entry 1987 (class 2606 OID 16389)
 -- Name: pk_txid; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -89,8 +91,8 @@ ALTER TABLE ONLY payments
 
 
 --
--- TOC entry 2105 (class 0 OID 0)
--- Dependencies: 6
+-- TOC entry 2108 (class 0 OID 0)
+-- Dependencies: 7
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
 
@@ -100,7 +102,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2016-03-11 23:52:01 GMT
+-- Completed on 2016-03-14 00:54:45 GMT
 
 --
 -- PostgreSQL database dump complete
