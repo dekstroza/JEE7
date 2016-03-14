@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: swarm-application-svc
+spec:
+  clusterIP: 10.0.216.130
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+    name: http-port
+  selector:
+    app: swarm-application

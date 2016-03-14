@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: postgres-database
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: database
+        layer: db
+        track: stable
+    spec:
+      containers:
+      - name: database
+        image: dekstroza/payments_db
+        ports:
+        - containerPort: 5432
