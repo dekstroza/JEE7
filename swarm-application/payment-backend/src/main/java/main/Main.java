@@ -2,13 +2,11 @@ package main;
 
 import org.dekstroza.swarm.application.PaymentsApplication;
 import org.dekstroza.swarm.application.utils.logging.LoggerProducer;
-import org.dekstroza.swarm.payments.api.PaymentInsertResponse;
-import org.dekstroza.swarm.payments.api.Payments;
-import org.dekstroza.swarm.payments.dao.PaymentsService;
-import org.dekstroza.swarm.payments.dao.PaymentsServiceImpl;
+import org.dekstroza.swarm.payments.PaymentResponse;
+import org.dekstroza.swarm.payments.PaymentsService;
+import org.dekstroza.swarm.payments.PaymentsServiceImpl;
 import org.dekstroza.swarm.payments.endpoint.PaymentsRestEndpoint;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.ClassLoaderAsset;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.wildfly.swarm.container.Container;
 import org.wildfly.swarm.datasources.DatasourcesFraction;
@@ -28,6 +26,9 @@ public class Main {
         final String dbUser = System.getenv("dbUser") == null ? "postgres" : System.getenv("dbUser");
         final String dbPassword = System.getenv("dbPassword") == null ? "mysecretpassword" : System.getenv("dbPassword");
 
+        /**
+         * Set up datasource for postgres database
+         */
         container.fraction(new DatasourcesFraction().jdbcDriver("org.postgresql", (d) -> {
             d.driverClassName("org.postgresql.Driver");
             d.xaDatasourceClass("org.postgresql.xa.PGXADataSource");
@@ -44,12 +45,10 @@ public class Main {
 
         container.start();
         final JAXRSArchive jaxrsArchive = ShrinkWrap.create(JAXRSArchive.class, "payments-backend.war");
-        jaxrsArchive.addAsWebInfResource(new ClassLoaderAsset("META-INF/persistence.xml", Main.class.getClassLoader()), "classes/META-INF/persistence.xml");
         jaxrsArchive.addResource(PaymentsApplication.class);
         jaxrsArchive.addClass(PaymentsRestEndpoint.class);
         jaxrsArchive.addClass(LoggerProducer.class);
-        jaxrsArchive.addClass(Payments.class);
-        jaxrsArchive.addClass(PaymentInsertResponse.class);
+        jaxrsArchive.addClass(PaymentResponse.class);
         jaxrsArchive.addClass(PaymentsService.class);
         jaxrsArchive.addClass(PaymentsServiceImpl.class);
         jaxrsArchive.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");

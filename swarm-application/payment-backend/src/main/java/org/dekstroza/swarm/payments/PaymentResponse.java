@@ -1,11 +1,15 @@
-package org.dekstroza.swarm.payments.api;
+package org.dekstroza.swarm.payments;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
- * Payments response
+ * Representation of operation response on payments table
  */
-public class PaymentInsertResponse {
+public class PaymentResponse {
+
+    public enum ResponseStatus {
+        SUCCESS, ERROR
+    }
 
     /**
      * Full arg constructor
@@ -15,7 +19,7 @@ public class PaymentInsertResponse {
      * @param status
      *            can be SUCCESS or FAILURE
      */
-    public PaymentInsertResponse(final String message, final String status) {
+    public PaymentResponse(final String message, final ResponseStatus status) {
         this.message = message;
         this.status = status;
     }
@@ -27,7 +31,7 @@ public class PaymentInsertResponse {
     /**
      * Status indication, can be success or failure
      */
-    private String status;
+    private ResponseStatus status;
 
     public String getMessage() {
         return message;
@@ -37,11 +41,11 @@ public class PaymentInsertResponse {
         this.message = message;
     }
 
-    public String getStatus() {
+    public ResponseStatus getStatus() {
         return status;
     }
 
-    public void setStatus(final String status) {
+    public void setStatus(final ResponseStatus status) {
         this.status = status;
     }
 

@@ -1,5 +1,9 @@
 package org.dekstroza.swarm.payments.endpoint;
 
+import static javax.ws.rs.core.Response.Status.OK;
+import static org.dekstroza.swarm.payments.PaymentResponse.ResponseStatus.ERROR;
+import static org.dekstroza.swarm.payments.PaymentResponse.ResponseStatus.SUCCESS;
+
 import java.util.UUID;
 
 import javax.ejb.EJB;
@@ -12,13 +16,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.dekstroza.swarm.payments.api.Payments;
-import org.dekstroza.swarm.payments.api.PaymentInsertResponse;
-import org.dekstroza.swarm.payments.dao.PaymentsService;
+import org.dekstroza.swarm.payments.PaymentResponse;
+import org.dekstroza.swarm.payments.PaymentsService;
+import org.dekstroza.swarm.payments.entities.Payment;
 import org.slf4j.Logger;
 
 /**
- * Payments rest endpoint, handling all payments rest calls
+ * Payment rest endpoint, handling all payments rest calls
  */
 
 @Path("v1.0")
@@ -31,18 +35,18 @@ public class PaymentsRestEndpoint {
     private PaymentsService paymentsService;
 
     @POST
-    @Path("payments")
+    @Path("payment")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response insertNewPayment(@NotNull final Payments payments) {
-        logger.debug("Inserting new payments record {}", payments);
+    public Response insertNewPayment(@NotNull final Payment payment) {
+        logger.debug("Inserting new payment record {}", payment);
         try {
-            final UUID uuid = paymentsService.insertNewPayment(payments);
-            PaymentInsertResponse paymentInsertResponse = new PaymentInsertResponse("OK", uuid.toString());
-            return Response.status(Response.Status.OK).entity(paymentInsertResponse).build();
+            final UUID uuid = paymentsService.insertNewPayment(payment);
+            PaymentResponse paymentResponse = new PaymentResponse(uuid.toString(), SUCCESS);
+            return Response.status(OK).entity(paymentResponse).build();
         } catch (final Exception exception) {
-            PaymentInsertResponse paymentInsertResponse = new PaymentInsertResponse("ERROR", exception.getMessage());
-            return Response.status(Response.Status.OK).entity(paymentInsertResponse).build();
+            PaymentResponse paymentResponse = new PaymentResponse(exception.getMessage(), ERROR);
+            return Response.status(OK).entity(paymentResponse).build();
         }
 
     }

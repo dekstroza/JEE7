@@ -38,15 +38,15 @@ Or run the containers:
 cd docker-compose && docker-compose up
 ```
 
-Test everything is working by doing POST to http://IP:8080/api/v1.0/payments using content type: application/json
+Test everything is working by doing POST to ```http://IP:8080/api/v1.0/payment``` using content type: application/json
 
 ```
 {
 "firstName": "Dejan",
 "lastName": "Kitic",
-"phoneNumber": "0871984116",
-"totalAmmount": 500,
-"feeDeductedAmmount": 450,
+"phone": "0871984116",
+"totalAmount": 500,
+"feeDeductedAmount": 450,
 "senderLocationId": 100,
 "receiverLocationId": 200
 }

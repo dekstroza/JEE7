@@ -11,6 +11,7 @@
     <version>1.0.1-SNAPSHOT</version>
     <modules>
         <module>payment-backend</module>
+        <module>payment-entities</module>
     </modules>
 
     <properties>

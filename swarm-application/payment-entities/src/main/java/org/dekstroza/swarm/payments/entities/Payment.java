@@ -1,4 +1,4 @@
-package org.dekstroza.swarm.payments.api;
+package org.dekstroza.swarm.payments.entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -7,43 +7,43 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Representation of single payment record
+ * Representation of single payment entry in payments table
  */
 @Entity
 @Table(schema = "public", name = "payments")
 @XmlRootElement
-public class Payments implements Serializable {
+public class Payment implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     private String id;
 
-    @Column(name = "firstname", length = 50)
+    @Column(name = "firstname", length = 50, nullable = false)
     private String firstName;
 
-    @Column(name = "lastName", length = 50)
+    @Column(name = "lastName", length = 50, nullable = false)
     private String lastName;
 
-    @Column(name = "phone", length = 20)
+    @Column(name = "phone", length = 20, nullable = false)
     private String phone;
 
-    @Column(name = "total_amount")
+    @Column(name = "total_amount", nullable = false)
     private Integer totalAmount;
 
-    @Column(name = "deducted_fee_amount")
+    @Column(name = "deducted_fee_amount", nullable = false)
     private Integer feeDeductedAmount;
 
-    @Column(name = "receiver_location_id")
+    @Column(name = "receiver_location_id", nullable = false)
     private Integer receiverLocationId;
 
-    @Column(name = "sender_location_id")
+    @Column(name = "sender_location_id", nullable = false)
     private Integer senderLocationId;
 
     @Column(name = "is_completed", insertable = false, updatable = true)
     private Boolean payed;
 
-    @Column(name = "passport_id")
+    @Column(name = "passport_id", length = 100, nullable = false)
     private String passportId;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -65,7 +65,7 @@ public class Payments implements Serializable {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
@@ -73,7 +73,7 @@ public class Payments implements Serializable {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
 
@@ -81,7 +81,7 @@ public class Payments implements Serializable {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(final String phone) {
         this.phone = phone;
     }
 
@@ -89,7 +89,7 @@ public class Payments implements Serializable {
         return totalAmount;
     }
 
-    public void setTotalAmount(Integer totalAmount) {
+    public void setTotalAmount(final Integer totalAmount) {
         this.totalAmount = totalAmount;
     }
 
@@ -97,7 +97,7 @@ public class Payments implements Serializable {
         return feeDeductedAmount;
     }
 
-    public void setFeeDeductedAmount(Integer feeDeductedAmount) {
+    public void setFeeDeductedAmount(final Integer feeDeductedAmount) {
         this.feeDeductedAmount = feeDeductedAmount;
     }
 
@@ -105,7 +105,7 @@ public class Payments implements Serializable {
         return receiverLocationId;
     }
 
-    public void setReceiverLocationId(Integer receiverLocationId) {
+    public void setReceiverLocationId(final Integer receiverLocationId) {
         this.receiverLocationId = receiverLocationId;
     }
 
@@ -113,7 +113,7 @@ public class Payments implements Serializable {
         return senderLocationId;
     }
 
-    public void setSenderLocationId(Integer senderLocationId) {
+    public void setSenderLocationId(final Integer senderLocationId) {
         this.senderLocationId = senderLocationId;
     }
 
@@ -121,7 +121,7 @@ public class Payments implements Serializable {
         return payed;
     }
 
-    public void setPayed(Boolean payed) {
+    public void setPayed(final Boolean payed) {
         this.payed = payed;
     }
 
@@ -129,7 +129,7 @@ public class Payments implements Serializable {
         return passportId;
     }
 
-    public void setPassportId(String passportId) {
+    public void setPassportId(final String passportId) {
         this.passportId = passportId;
     }
 
@@ -137,7 +137,7 @@ public class Payments implements Serializable {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(final Date created) {
         this.created = created;
     }
 
@@ -145,7 +145,7 @@ public class Payments implements Serializable {
         return completed;
     }
 
-    public void setCompleted(Date completed) {
+    public void setCompleted(final Date completed) {
         this.completed = completed;
     }
 
@@ -156,11 +156,8 @@ public class Payments implements Serializable {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-
-        final Payments payments = (Payments) other;
-
-        return id.equals(payments.id);
-
+        final Payment payment = (Payment) other;
+        return id.equals(payment.id);
     }
 
     @Override

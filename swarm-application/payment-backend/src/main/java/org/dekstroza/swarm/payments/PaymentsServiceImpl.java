@@ -1,4 +1,4 @@
-package org.dekstroza.swarm.payments.dao;
+package org.dekstroza.swarm.payments;
 
 import java.util.UUID;
 
@@ -8,9 +8,12 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.dekstroza.swarm.payments.api.Payments;
+import org.dekstroza.swarm.payments.entities.Payment;
 import org.slf4j.Logger;
 
+/**
+ * Implementation of payment service
+ */
 @Stateless
 @Local(PaymentsService.class)
 public class PaymentsServiceImpl implements PaymentsService {
@@ -21,10 +24,13 @@ public class PaymentsServiceImpl implements PaymentsService {
     @PersistenceContext(name = "PaymentsPU")
     private EntityManager em;
 
-    public UUID insertNewPayment(Payments payments) {
+    /**
+     * @see PaymentsService
+     */
+    public UUID insertNewPayment(Payment payment) {
         final UUID uuid = UUID.randomUUID();
-        payments.setId(uuid.toString());
-        em.persist(payments);
+        payment.setId(uuid.toString());
+        em.persist(payment);
         return uuid;
     }
 
