@@ -53,6 +53,10 @@ Test everything is working by doing POST to ```http://IP:8080/api/v1.0/payment``
 
 ```
 
+To list all entries from database, do GET to ```http://IP:8080/api/v1.0/payment``` it will return JSON containing all records.
+
+To update record (marking it as payed) do PUT to ```http://IP:8080/api/v1.0/payment/${UUID}?passport=${SOME_PASSPORT_DATA}```
+
 To find out IP address use something like:
 ```
 docker ps -a | grep swarm | grep Up | awk '{print $1}' | xargs -I {} docker inspect {} | grep IPAddress

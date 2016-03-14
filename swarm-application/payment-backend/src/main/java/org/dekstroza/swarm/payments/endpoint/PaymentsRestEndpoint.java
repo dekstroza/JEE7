@@ -63,7 +63,7 @@ public class PaymentsRestEndpoint {
      * @return Collection of all records in payments table
      */
     @GET
-    @Path("payment/all")
+    @Path("payment")
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<Payment> getAllPayments() {
         return paymentsService.getAllPayments();
