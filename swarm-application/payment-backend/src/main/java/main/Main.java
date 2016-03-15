@@ -5,6 +5,7 @@ import org.dekstroza.swarm.application.utils.logging.LoggerProducer;
 import org.dekstroza.swarm.payments.PaymentResponse;
 import org.dekstroza.swarm.payments.PaymentsService;
 import org.dekstroza.swarm.payments.PaymentsServiceImpl;
+import org.dekstroza.swarm.payments.endpoint.CORSFilter;
 import org.dekstroza.swarm.payments.endpoint.PaymentsRestEndpoint;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -47,6 +48,7 @@ public class Main {
         final JAXRSArchive jaxrsArchive = ShrinkWrap.create(JAXRSArchive.class, "payments-backend.war");
         jaxrsArchive.addResource(PaymentsApplication.class);
         jaxrsArchive.addClass(PaymentsRestEndpoint.class);
+        jaxrsArchive.addClass(CORSFilter.class);
         jaxrsArchive.addClass(LoggerProducer.class);
         jaxrsArchive.addClass(PaymentResponse.class);
         jaxrsArchive.addClass(PaymentsService.class);
