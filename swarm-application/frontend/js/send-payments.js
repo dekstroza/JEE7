@@ -11,7 +11,15 @@ $("form").submit(function (event) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
-            $('#tracking_number').html("Tracking identification: <strong>"+data['message']+"</strong>");
+            console.log(data)
+            if (data['status'] == 'SUCCESS') {
+                $('#info-msg').html("You money has been wired successfully.");
+                $('#tracking-number').html("Tracking identification: <strong>" + data['message'] + "</strong>");
+            }
+            else {
+                $('#info-msg').html("Something went very wrong. I have failed to send money for you.");
+                $('#tracking-number').html("Problem description: <strong>" + data['message'] + "</strong>");
+            }
             $('#myModal').modal('show')
         }
     });
