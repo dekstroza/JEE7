@@ -1,1 +1,74 @@
-<!DOCTYPE html><html lang="en"><head><title>Swarm Money Transfer Service</title><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"></head><body><div id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" class="modal fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">&times;</span></button><h4 id="myModalLabel" class="modal-title">Transfer money</h4></div><div class="modal-body"><p id="info-msg"></p><p id="tracking-number">Tracking identification is:</p></div><div class="modal-footer"><button type="button" data-dismiss="modal" class="btn btn-default">Close</button></div></div></div></div><div class="container-fluid"><header><div class="row"><div class="panel panel-primary"><div class="panel-heading"><p>Money Transfer</p></div><div class="panel-body"><form id="form" class="form-horizontal"><div class="form-group"><label for="firstName" class="col-sm-1 control-label">Firstname</label><div class="col-sm-10"><input type="text" placeholder="Firstname" id="firstName" name="firstName" class="form-control"></div></div><div class="form-group"><label for="lastName" class="col-sm-1 control-label">Lastname</label><div class="col-sm-10"><input type="text" placeholder="LastName" id="lastName" name="lastName" class="form-control"></div></div><div class="form-group"><label for="phone" class="col-sm-1 control-label">Phone</label><div class="col-sm-10"><input type="text" placeholder="Phone number" id="phone" name="phone" class="form-control"></div></div><div class="form-group"><label for="totalAmount" class="col-sm-1 control-label">Amount</label><div class="col-sm-10"><input type="text" min="100" placeholder="Amount" id="totalAmount" name="totalAmount" class="form-control"></div></div><div class="form-group"><input type="hidden" id="feeDeductedAmount" value="450" name="feeDeductedAmount" class="form-control"></div><div class="form-group"><label for="senderLocationId" class="col-sm-1 control-label">Sender</label><div class="col-sm-10"><input type="text" placeholder="Sender location address" id="senderLocationId" name="senderLocationId" class="form-control"></div></div><div class="form-group"><label for="receiverLocationId" class="col-sm-1 control-label">Receiver</label><div class="col-sm-10"><input type="text" placeholder="Receiver location address" id="receiverLocationId" name="receiverLocationId" class="form-control"></div></div><div class="form-group"><div class="col-sm-offset-1 col-sm-10"><button id="btn-1" type="submit" class="btn btn-default">Send payment</button><button id="btn-2" type="submit" class="btn btn-default">Send payment1</button></div></div></form></div></div></div></header></div><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script><script src="js/send-payments.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head><title>Swarm Money Transfer Service</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+          integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+</head>
+<body>
+<div id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">&times;</span></button>
+                <h4 id="myModalLabel" class="modal-title">Transfer money</h4></div>
+            <div class="modal-body"><p id="info-msg"></p>
+                <p id="tracking-number">Tracking identification is:</p></div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <header>
+        <div class="row">
+            <div class="panel panel-primary">
+                <div class="panel-heading"><p>Money Transfer</p></div>
+                <div class="panel-body">
+                    <form id="form" class="form-horizontal">
+                        <div class="form-group"><label for="firstName" class="col-sm-1 control-label">Firstname</label>
+                            <div class="col-sm-10"><input type="text" placeholder="Firstname" id="firstName" name="firstName" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group"><label for="lastName" class="col-sm-1 control-label">Lastname</label>
+                            <div class="col-sm-10"><input type="text" placeholder="LastName" id="lastName" name="lastName" class="form-control"></div>
+                        </div>
+                        <div class="form-group"><label for="phone" class="col-sm-1 control-label">Phone</label>
+                            <div class="col-sm-10"><input type="text" placeholder="Phone number" id="phone" name="phone" class="form-control"></div>
+                        </div>
+                        <div class="form-group"><label for="totalAmount" class="col-sm-1 control-label">Amount</label>
+                            <div class="col-sm-10"><input type="text" min="100" placeholder="Amount" id="totalAmount" name="totalAmount"
+                                                          class="form-control"></div>
+                        </div>
+                        <div class="form-group"><input type="hidden" id="feeDeductedAmount" value="450" name="feeDeductedAmount" class="form-control">
+                        </div>
+                        <div class="form-group"><label for="senderLocationId" class="col-sm-1 control-label">Sender</label>
+                            <div class="col-sm-10"><input type="text" placeholder="Sender location address" id="senderLocationId"
+                                                          name="senderLocationId" class="form-control"></div>
+                        </div>
+                        <div class="form-group"><label for="receiverLocationId" class="col-sm-1 control-label">Receiver</label>
+                            <div class="col-sm-10"><input type="text" placeholder="Receiver location address" id="receiverLocationId"
+                                                          name="receiverLocationId" class="form-control"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-sm-10">
+                                <button id="btn-1" type="submit" class="btn btn-default">Send payment</button>
+                                <button id="btn-2" type="submit" class="btn btn-default">Send payment1</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script src="js/send-payments.js"></script>
+</body>
+</html>
