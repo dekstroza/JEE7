@@ -1,4 +1,35 @@
+$("#form").validate({
+    rules: {
+        senderLocationId: {
+            required: true,
+            digits: true
+        },
+        receiverLocationId: {
+            required: true,
+            digits: true
+        },
+        totalAmount: {
+            required: true,
+            digits: true
+        },
+        phone: {
+            required: true
+        },
+        firstName: {
+            required: true
+        },
+        lastName: {
+            required: true
+        }
+
+    }
+});
+
 $("form").submit(function (event) {
+    if (!$("#form").valid()) {
+        return;
+    }
+
     var data_array = $('#form').serializeArray().reduce(function (obj, item) {
         obj[item.name] = item.value;
         return obj;
@@ -24,4 +55,5 @@ $("form").submit(function (event) {
         }
     });
     event.preventDefault();
+
 });

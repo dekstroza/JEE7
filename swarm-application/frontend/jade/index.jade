@@ -6,6 +6,8 @@ html(lang="en")
         link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', integrity='sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7', crossorigin='anonymous')
         link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css', integrity='sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r' crossorigin='anonymous')
     body
+
+        include includes/payments-success
         .container-fluid
             header
                 .row
@@ -29,9 +31,9 @@ html(lang="en")
                                 div(class="form-group")
                                     label(for="totalAmount", class="col-sm-1 control-label") Amount
                                     div(class="col-sm-10")
-                                        input(type="text", class="form-control", placeholder="Amount", id="totalAmount", name="totalAmount")
+                                        input(type="text", class="form-control", min="100" placeholder="Amount", id="totalAmount", name="totalAmount")
                                 div(class="form-group")
-                                        input(type="hidden", class="form-control", id="feeDeductedAmount", value="450", name="feeDeductedAmount")
+                                    input(type="hidden", class="form-control", id="feeDeductedAmount", value="450", name="feeDeductedAmount")
                                 div(class="form-group")
                                     label(for="senderLocationId", class="col-sm-1 control-label") Sender
                                     div(class="col-sm-10")
@@ -43,12 +45,9 @@ html(lang="en")
                                 div(class="form-group")
                                     div(class="col-sm-offset-1 col-sm-10")
                                         button(class="btn btn-default", id="btn-1" type="submit") Send payment
-                    include ./includes/payments-success.jade
-
-
+                                        button(class="btn btn-default", id="btn-2" type="submit") Send payment1
 
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
+        script(src='http://jqueryvalidation.org/files/dist/jquery.validate.min.js')
         script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js', integrity='sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS', crossorigin='anonymous')
         script(src='js/send-payments.js')
-
-
