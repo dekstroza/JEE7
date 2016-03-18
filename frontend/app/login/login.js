@@ -8,6 +8,7 @@ LoginController.$inject = ['$location', '$rootScope', 'AuthenticationService'];
 function LoginController($location, $rootScope, AuthenticationService) {
     var vm = this;
     vm.login = login;
+    vm.register = redirectToRegisterPage;
     $rootScope.layout = "login";
 
     (function initController() {
@@ -15,6 +16,10 @@ function LoginController($location, $rootScope, AuthenticationService) {
         AuthenticationService.ClearCredentials();
     })();
 
+
+    function redirectToRegisterPage() {
+        $location.path('/register');
+    }
 
     function login() {
         vm.dataLoading = true;

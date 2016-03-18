@@ -1,4 +1,4 @@
-<script src="login/login-utils.js"></script>
+<script src="background-theme.js"></script>
 <div class="container">
     <div class="row vertical-offset-100">
         <div class="col-md-4 col-md-offset-4">
@@ -16,11 +16,14 @@
                                 <input class="form-control" placeholder="Password" name="password" type="password" ng-model="vm.password" required
                                        value="">
                             </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input name="remember" type="checkbox" value="Remember Me"> Remember Me
-                                </label>
+                            <div class="form-group col-md-6">
+                                <a href="" id="registerlink" ng-click="vm.register()" name="registerlink">Sign up</a>
                             </div>
+                            <div class="form-group col-md-6">
+                                <a href="" id="passreset" ng-click="vm.resetpass()" name="passreset">Forgot password</a>
+                            </div>
+
+
                             <input class="btn btn-lg btn-success btn-block" ng-disabled="form.$invalid || vm.dataLoading" type="submit" value="Login">
                         </fieldset>
                     </form>
