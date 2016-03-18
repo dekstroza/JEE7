@@ -23,7 +23,7 @@ public class PaymentsServiceImpl implements PaymentsService {
     @Inject
     private Logger logger;
 
-    @PersistenceContext(name = "PaymentsPU")
+    @PersistenceContext(unitName = "PaymentsPU")
     private EntityManager em;
 
     @Override

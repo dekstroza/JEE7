@@ -1,6 +1,9 @@
 package main;
 
 import org.dekstroza.swarm.application.PaymentsApplication;
+import org.dekstroza.swarm.application.security.SecurityService;
+import org.dekstroza.swarm.application.security.SecurityServiceImpl;
+import org.dekstroza.swarm.application.security.endpoint.SecurityRestEndpoint;
 import org.dekstroza.swarm.application.utils.logging.LoggerProducer;
 import org.dekstroza.swarm.payments.PaymentResponse;
 import org.dekstroza.swarm.payments.PaymentsService;
@@ -48,6 +51,9 @@ public class Main {
         final JAXRSArchive jaxrsArchive = ShrinkWrap.create(JAXRSArchive.class, "payments-backend.war");
         jaxrsArchive.addResource(PaymentsApplication.class);
         jaxrsArchive.addClass(PaymentsRestEndpoint.class);
+        jaxrsArchive.addClass(SecurityService.class);
+        jaxrsArchive.addClass(SecurityServiceImpl.class);
+        jaxrsArchive.addClass(SecurityRestEndpoint.class);
         jaxrsArchive.addClass(CORSFilter.class);
         jaxrsArchive.addClass(LoggerProducer.class);
         jaxrsArchive.addClass(PaymentResponse.class);

@@ -129,6 +129,11 @@
             <artifactId>payment-entities</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.dekstroza.examples</groupId>
+            <artifactId>swarm-security-entities</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
         <!-- swarm dependencies -->
         <dependency>
             <groupId>org.wildfly.swarm</groupId>

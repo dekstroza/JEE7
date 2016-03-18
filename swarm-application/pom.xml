@@ -12,6 +12,7 @@
     <modules>
         <module>payment-backend</module>
         <module>payment-entities</module>
+        <module>swarm-security-entities</module>
     </modules>
 
     <properties>
