@@ -1,7 +1,7 @@
-## Simple rest endpoint exposed using WildflySwarm ##
+## Simple rest endpoint exposed using Wildfly Swarm ##
 
 
-Demo application exposing few rest endpoints, some of which are secured with JWT for demonstration purposes.
+Demo application exposing few rest endpoints, some of which are secured with JWT for demonstration purposes. Application is packed and deployed using (Wildfly Swarm)[http://wildfly-swarm.io]
 Exposed rest endpoints are:
  
 ### Building and running ###
