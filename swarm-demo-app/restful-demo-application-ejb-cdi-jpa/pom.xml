@@ -10,9 +10,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>restul-demo-application</artifactId>
+    <artifactId>restful-demo-application-ejb-cdi-jpa</artifactId>
     <version>1.0.1-SNAPSHOT</version>
 
+    <properties>
+        <com.h2database.version>1.4.187</com.h2database.version>
+    </properties>
 
     <build>
         <plugins>
@@ -60,6 +63,32 @@
         <dependency>
             <groupId>org.wildfly.swarm</groupId>
             <artifactId>undertow</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>logstash</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>monitor</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>topology-consul</artifactId>
+        </dependency>
+
+        <!-- database driver -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${com.h2database.version}</version>
         </dependency>
 
         <!-- Resteasy dependencies -->
