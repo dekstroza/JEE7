@@ -45,13 +45,17 @@ Will return 405 if Authorization header does not contain valid JWT, or will retu
 ### restful-demo-application-ejb-cdi-jpa ###
 
 Features basic example of rest point plus jpa and ejb, exposing secured and public rest endpoints - same as previous example, building bit more on top of it. In this case, we add service topology and consul. When service is started it will attempt to register in consul catalog.
-This example also demonstrates use of consule for service topology, so before running consul should be started. On OSX consul can be installed using brew, with: ```brew install consul``` and then we can run it with:```consul agent -dev -bind IP_ADDRESS``` and it will be also
-available at ```http://localhost:8500``` Once consul agent is up, provide information about it when running jar:
+This example also demonstrates use of consule for service topology, so before running consul should be started. On OSX consul can be installed using brew, with: ```brew install consul``` and then we can run it with:
+
+```consul agent -dev -bind IP_ADDRESS``` 
+
+and it will be also available at ```http://localhost:8500```.Once consul agent is up, provide information about it when running jar:
 
 To build run ```mvn clean install```
 
 To run simply type (assuming consule is up and running, available on http://localhost:8500): 
-```java -jar -Djava.net.preferIPv4Stack=true -Dswarm.consul.url="http://127.0.0.1:8500" swarm-demo-app/restful-demo-application-ejb-cdi-jpa/target/restful-demo-application-ejb-cdi-jpa-1.0.1-SNAPSHOT-swarm.jar```
+
+```java -jar -Dswarm.consul.url="http://127.0.0.1:8500" swarm-demo-app/restful-demo-application-ejb-cdi-jpa/target/restful-demo-application-ejb-cdi-jpa-1.0.1-SNAPSHOT-swarm.jar```
 
 Exposed public endpoints are:
 
@@ -98,8 +102,9 @@ More on the above can be found in wildfly docs: https://wildfly-swarm.gitbooks.i
 
 To build run ```mvn clean install```
 
-To run simply type (will assume defaults, which are statsdHost=localhost, statsdPort=8125 and nodeId will be random UUID). These can also be passed as jvm arguments. 
-```java -jar -Djava.net.preferIPv4Stack=true -Dswarm.consul.url="http://127.0.0.1:8500" swarm-demo-app/restful-demo-application-ejb-cdi-jpa/target/restful-demo-application-ejb-cdi-jpa-1.0.1-SNAPSHOT-swarm.jar```
+To run simply type (will assume defaults, which are statsdHost=localhost, statsdPort=8125 and nodeId will be random UUID). These can also be passed as jvm arguments.
+ 
+```java -jar swarm-demo-app/restful-demo-application-ejb-cdi-jpa-metrics/target/restful-demo-application-ejb-cdi-jpa-metrics-1.0.1-SNAPSHOT-swarm.jar```
 
 By default when login enpoint is invoked, latency will be recorded and sent to statsd/influxDb, from which you can draw new graph. Create new graph and set datasource to one named datasource, and if connection is successfull, metrics for login method will be there.
 Time units are in nanoseconds.
@@ -136,6 +141,7 @@ Has folder called elastic-kibana-rsyslog in which you will find startup.sh. Runn
 Elastic will be available on: http://localhost:9200/_plugin/hq/#cluster
 Kibana is available on: http://localhost:5601/app/kibana
 And last, but not least you can test rsyslog->elastic with:
+
 ```docker exec -it rsyslog logger "SomeMetric,15,ROP1,STATS,NODETYPE1,1220"```
 
 it will index it inside index called enm_logs-*: 
