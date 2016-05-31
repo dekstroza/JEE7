@@ -7,7 +7,7 @@
 3. Docker (recent installation with working docker-compose)
 
 ### Content ###
-Demo application exposing few rest endpoints, some of which are secured with JWT for demonstration purposes. Application is packed and deployed using (Wildfly Swarm)[http://wildfly-swarm.io]
+Demo application exposing few rest endpoints, some of which are secured with JWT for demonstration purposes. Application is packed and deployed using Wildfly Swarm (http://wildfly-swarm.io).
 Project contains three maven modules, each building more on top of previous one, and repetition of code across all three of them is intentional.
 
 Maven modules included are:
