@@ -40,6 +40,7 @@
     <modules>
         <module>restful-demo-application</module>
         <module>restful-demo-application-ejb-cdi-jpa</module>
+	<module>restful-demo-application-ejb-cdi-jpa-metrics</module>
     </modules>
 
     <build>
