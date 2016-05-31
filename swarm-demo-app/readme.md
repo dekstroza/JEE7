@@ -88,6 +88,12 @@ This will expose:
 Grafana can be configured through UI to use influxDB datasource, database name datasource, credentials: datasource/datasource and url: http://localhost:8086
 With this setup, statsd will feed data into influxDB, from which Grafana can draw nice graphs.
 
+On a side, it will also expose built-in healtcheck monitoring from wildfly-swarm:
+
+1. http://localhost:8080/threads
+2. http://localhost:8080/heap
+3. http://localhost:8080/node
+
 To build run ```mvn clean install```
 
 To run simply type (will assume defaults, which are statsdHost=localhost, statsdPort=8125 and nodeId will be random UUID). These can also be passed as jvm arguments. 
@@ -118,16 +124,18 @@ Will return 405 if Authorization header does not contain valid JWT, or will retu
  
 ### docker-compose ###
  
- Has folder called elastic-kibana-rsyslog in which you will find startup.sh. Running this script will start several containers:
+Has folder called elastic-kibana-rsyslog in which you will find startup.sh. Running this script will start several containers:
  
- 1. elastic master
- 2. three elastic nodes
- 3. kibana
- 4. rsyslog
+1. elastic master
+2. three elastic nodes
+3. kibana
+4. rsyslog
  
- Elastic will be available on: http://localhost:9200/_plugin/hq/#cluster
- Kibana is available on: http://localhost:5601/app/kibana
- And last, but not least you can test rsyslog->elastic with, it will index it inside index called enm_logs-*: 
- ```docker exec -it rsyslog logger "SomeMetric,15,ROP1,STATS,NODETYPE1,1220"```
- 
- 
+Elastic will be available on: http://localhost:9200/_plugin/hq/#cluster
+Kibana is available on: http://localhost:5601/app/kibana
+And last, but not least you can test rsyslog->elastic with:
+```docker exec -it rsyslog logger "SomeMetric,15,ROP1,STATS,NODETYPE1,1220"```
+
+it will index it inside index called enm_logs-*: 
+
+Happy hacking.
