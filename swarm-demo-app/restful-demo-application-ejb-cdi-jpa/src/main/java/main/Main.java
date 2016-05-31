@@ -6,9 +6,9 @@ import org.wildfly.swarm.container.Container;
 import org.wildfly.swarm.datasources.DatasourcesFraction;
 import org.wildfly.swarm.jaxrs.JAXRSArchive;
 import org.wildfly.swarm.jpa.JPAFraction;
+import org.wildfly.swarm.topology.TopologyArchive;
 
 import io.dekstroza.github.jee7.swarmdemo.app.RestApplication;
-import org.wildfly.swarm.topology.TopologyArchive;
 
 public class Main {
 
@@ -29,7 +29,6 @@ public class Main {
         // Prevent JPA Fraction from installing it's default datasource fraction
         container.fraction(new JPAFraction().inhibitDefaultDatasource().defaultDatasource("jboss/datasources/MyDS"));
 
-        container.start();
         final JAXRSArchive jaxrsArchive = ShrinkWrap.create(JAXRSArchive.class, "restful-demo-app-ejb-cdi-jpa.war");
         jaxrsArchive.addPackages(true, "io.dekstroza.github.jee7.swarmdemo");
         jaxrsArchive.addResource(RestApplication.class);
@@ -41,6 +40,7 @@ public class Main {
         jaxrsArchive.addAllDependencies();
 
         jaxrsArchive.as(TopologyArchive.class).advertise();
+        container.start();
         container.deploy(jaxrsArchive);
 
     }
