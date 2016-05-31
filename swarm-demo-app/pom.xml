@@ -14,6 +14,8 @@
     <properties>
 
         <!-- dependencies, sort in alphabetical order -->
+        <com.timgroup.statsd.version>3.0.1</com.timgroup.statsd.version>
+        <io.jsonwebtoken.version>0.6.0</io.jsonwebtoken.version>
         <javax.json.version>1.0.4</javax.json.version>
         <jee.version>7.0</jee.version>
         <junit.version>4.11</junit.version>

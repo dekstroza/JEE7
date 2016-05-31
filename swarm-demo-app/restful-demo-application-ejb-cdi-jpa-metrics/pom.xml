@@ -79,11 +79,6 @@
             <artifactId>monitor</artifactId>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>org.wildfly.swarm</groupId>-->
-            <!--<artifactId>topology-consul</artifactId>-->
-        <!--</dependency>-->
-
         <!-- database driver -->
         <dependency>
             <groupId>com.h2database</groupId>
@@ -108,13 +103,13 @@
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
-            <version>0.6.0</version>
+            <version>${io.jsonwebtoken.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.timgroup</groupId>
             <artifactId>java-statsd-client</artifactId>
-            <version>3.0.1</version>
+            <version>${com.timgroup.statsd.version}</version>
         </dependency>
 
     </dependencies>
