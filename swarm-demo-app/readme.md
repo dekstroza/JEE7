@@ -94,6 +94,8 @@ On a side, it will also expose built-in healtcheck monitoring from wildfly-swarm
 2. http://localhost:8080/heap
 3. http://localhost:8080/node
 
+More on the above can be found in wildfly docs: https://wildfly-swarm.gitbooks.io/wildfly-swarm-users-guide/content/v/7d7ea3560e6b65f673bc76ff7fd65499e28ffca2/advanced/monitoring.html
+
 To build run ```mvn clean install```
 
 To run simply type (will assume defaults, which are statsdHost=localhost, statsdPort=8125 and nodeId will be random UUID). These can also be passed as jvm arguments. 
