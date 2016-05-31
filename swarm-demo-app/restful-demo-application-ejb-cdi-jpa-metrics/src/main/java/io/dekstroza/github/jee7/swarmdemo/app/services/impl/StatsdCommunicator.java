@@ -1,19 +1,30 @@
 package io.dekstroza.github.jee7.swarmdemo.app.services.impl;
 
+import java.util.UUID;
+
 import com.timgroup.statsd.NonBlockingStatsDClient;
 import com.timgroup.statsd.StatsDClient;
 
-import javax.ejb.*;
-
-@Singleton
-@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-@Startup
 public class StatsdCommunicator {
 
-    private static final StatsDClient statsd = new NonBlockingStatsDClient("ExampleApp", "localhost", 8125);
+    private static StatsDClient statsd = null;
+    private static StatsdCommunicator _instance = null;
 
-    @Asynchronous
-    public void recordLatency(final long latency) {
-        statsd.recordGaugeValue("Latency", latency);
+    private StatsdCommunicator() {
+        final String statsdHost = System.getProperty("statsdHost", "localhost");
+        final int statsdPort = Integer.parseInt(System.getProperty("statsdPort", "8125"));
+        final String nodeIdentifier = System.getProperty("nodeId", UUID.randomUUID().toString());
+        this.statsd = new NonBlockingStatsDClient(nodeIdentifier, statsdHost, statsdPort);
+    }
+
+    public static final StatsdCommunicator getInstance() {
+        if (_instance == null) {
+            _instance = new StatsdCommunicator();
+        }
+        return _instance;
+    }
+
+    public void recordLatency(final String gaugeName, final long latency) {
+        statsd.recordGaugeValue(gaugeName, latency);
     }
 }
