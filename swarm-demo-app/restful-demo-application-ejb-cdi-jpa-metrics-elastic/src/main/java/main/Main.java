@@ -46,13 +46,14 @@ public class Main {
         handler.port(514);
 
 
-        container.fraction(new LoggingFraction().syslogHandler("io.dekstroza.github.jee7.swarmdemo", (logger) -> {
-            logger.serverAddress("localhost");
-            logger.port(514);
-            logger.appName("swarm-demo-app");
-            logger.level(Level.INFO);
-            logger.enabled(true);
-        }));
+        SyslogHandler syslogHandler = new SyslogHandler("syslog");
+        syslogHandler.serverAddress("localhost");
+        syslogHandler.port(514);
+        syslogHandler.appName("swarm-demo-app");
+        syslogHandler.level(Level.INFO);
+        syslogHandler.enabled(true);
+
+        container.fraction(new LoggingFraction().syslogHandler(syslogHandler).rootLogger(Level.ALL, syslogHandler.getKey()));
         container.start();
         container.deploy(jaxrsArchive);
 
