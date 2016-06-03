@@ -26,37 +26,6 @@ services:
         - master:es_master
         - kibana:kibana
 
-  es-node2:
-      image: elasticsearch:2
-      command: elasticsearch --discovery.zen.ping.unicast.hosts=es_master
-      restart: always
-      container_name: es-node2
-      environment:
-        - "affinity:container!=*master*"
-        - "affinity:container!=*es-node*"
-      depends_on:
-        - master
-        - kibana
-      links:
-          - master:es_master
-          - kibana:kibana
-
-  es-node3:
-      image: elasticsearch:2
-      command: elasticsearch --discovery.zen.ping.unicast.hosts=es_master
-      restart: always
-      container_name: es-node3
-      environment:
-        - "affinity:container!=*master*"
-        - "affinity:container!=*es-node*"
-      depends_on:
-        - master
-        - kibana
-      links:
-          - master:es_master
-          - kibana:kibana        
-
-
   kibana:
       image: kibana:4
       environment:
@@ -67,14 +36,14 @@ services:
  
   rsyslog:
       image: dekstroza/elastic-rsyslog
+      environment:
+        - ELASTIC_SERVER=es_master
+      ports:
+        - "514:514/udp"
       container_name: rsyslog
-      links:
-        - master:es_master
       depends_on:
         - master
-      environment:
-          - ELASTIC_SERVER=es_master
-      ports:
-        - "514:514/tcp"
-        - "514:515/udp"
- 
+      links:
+        - master:es_master
+
+

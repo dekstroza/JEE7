@@ -15,7 +15,7 @@ public class ProfilingInterceptor {
         final long start = System.nanoTime();
         final Object result = ctx.proceed();
         final long timeTaken = System.nanoTime() - start;
-        logger.info("{}->{} ns.", ctx.getMethod(), timeTaken);
+        logger.info("{}: {}ns", ctx.getMethod().getName(), timeTaken);
         return result;
 
     }

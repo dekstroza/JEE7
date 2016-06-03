@@ -24,7 +24,7 @@
         <slf4.api.version>1.7.5</slf4.api.version>
 
         <!-- Wildfly SWARM Version -->
-        <wildfly.swarm.version>1.0.0.Beta8</wildfly.swarm.version>
+        <wildfly.swarm.version>1.0.0.CR1</wildfly.swarm.version>
 
         <!-- maven plugin versions -->
         <maven.compiler.plugin.version>2.5.1</maven.compiler.plugin.version>

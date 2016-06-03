@@ -15,6 +15,7 @@ Maven modules included are:
 1. restful-demo-application
 2. restful-demo-application-ejb-cdi-jpa
 3. restful-demo-application-ejb-cdi-jpa-metrics
+4. restful-demo-application-ejb-cdi-jpa-metrics-elastic
 
 ### restful-demo-application ###
 
@@ -29,6 +30,7 @@ Exposed public endpoints are:
  ```HTTP GET: http://localhost:8080/api/v1.0.0/public/data```
  
  Will return Content-Type: text/plain and body: Some public data
+
  2. Login endpoint:
  ```HTTP GET: http://localhost:8080/api/v1.0.0/login?username=dejan&password=kitic```
  
@@ -45,17 +47,24 @@ Will return 405 if Authorization header does not contain valid JWT, or will retu
 ### restful-demo-application-ejb-cdi-jpa ###
 
 Features basic example of rest point plus jpa and ejb, exposing secured and public rest endpoints - same as previous example, building bit more on top of it. In this case, we add service topology and consul. When service is started it will attempt to register in consul catalog.
-This example also demonstrates use of consule for service topology, so before running consul should be started. On OSX consul can be installed using brew, with: ```brew install consul``` and then we can run it with:
+This example also demonstrates use of consul for service topology, so before running consul should be started. 
+It is available in most linux distros and windows: https://www.consul.io
+
+On OSX consul can be installed using brew, with: ```brew install consul``` and then we can run it with:
 
 ```consul agent -dev -bind IP_ADDRESS``` 
 
-and it will be also available at ```http://localhost:8500```.Once consul agent is up, provide information about it when running jar:
+and it's ui will be also available at ```http://localhost:8500/ui/#/dc1/nodes```. Once consul agent is up, provide information about it when running jar:
 
 To build run ```mvn clean install```
 
-To run simply type (assuming consule is up and running, available on http://localhost:8500): 
+To run: 
 
 ```java -jar -Dswarm.consul.url="http://127.0.0.1:8500" swarm-demo-app/restful-demo-application-ejb-cdi-jpa/target/restful-demo-application-ejb-cdi-jpa-1.0.1-SNAPSHOT-swarm.jar```
+
+Once running our app will register as a service in consul catalog, so check http://localhost:8500/ui/#/dc1/services/consul . Starting more instances of above swarm jar (add port offset with  -Dswarm.port.offset=N), will 
+show more instances registered in the service catalog. This demontstrates integration with consul and ability to use consul from our app for service discovery (through api we can query for presence 
+of other even non-JEE services, or even notify clients about availability of new service etc...)
 
 Exposed public endpoints are:
 
@@ -79,7 +88,7 @@ Will return 405 if Authorization header does not contain valid JWT, or will retu
  
 ### restful-demo-application-ejb-cdi-jpa-metrics ### 
 
-Features same as above, but not requiring consul - this one demonstrates us of grafana, statsd and influxdb for performance monitoring.
+Features same as above, but not requiring consul anymore, and instead this one demonstrates use of grafana, statsd and influxdb for performance monitoring.
 Before running the code, start the docker container using script in swarm-demo-app/docker-compose/grafana-inflix-statsd/startup.sh
 Container above was taken from: https://github.com/samuelebistoletti/docker-statsd-influxdb-grafana - Please give a star to the fella who created it, as he did great job.
 
@@ -89,8 +98,20 @@ This will expose:
 2. InfluxDB - available on http://localhost:3004
 3. Statsd  - available on localhost port 8125
 
-Grafana can be configured through UI to use influxDB datasource, database name datasource, credentials: datasource/datasource and url: http://localhost:8086
-With this setup, statsd will feed data into influxDB, from which Grafana can draw nice graphs.
+Grafana can be configured through UI to use influxDB datasource. Database name: datasource, credentials: datasource/datasource and url: http://localhost:8086
+With this setup, statsd will feed data into influxDB, from which Grafana can draw nice graphs. Statsd api is expose through:
+
+```
+<dependency>
+    <groupId>com.timgroup</groupId>
+    <artifactId>java-statsd-client</artifactId>
+    <version>${com.timgroup.statsd.version}</version>
+</dependency>
+```
+
+It has very nice and simple api, and is described here: https://github.com/tim-group/java-statsd-client (hit the star button on github, nice work).
+
+Monitoring:
 
 On a side, it will also expose built-in healtcheck monitoring from wildfly-swarm:
 
@@ -128,22 +149,35 @@ Exposed secured enpoints are:
  
 Will return 405 if Authorization header does not contain valid JWT, or will return Content-Type: text/plain and body: Some super secret data
  
+### restful-demo-application-ejb-cdi-jpa-metrics-elastic ###
+ 
+Same as examples above, this one will demonstrate ability to log metric through slf4 over rsyslog into elastic search (which is running in docker container, more on that to follow). Same endpoints
+are exposed as in previous examples, and code can be ran and compiled in exactly the same manner (mvn clean install and then java -jar), no specific setup is required for integration with rsyslog, it's all done 
+through wildfly swarm (or normally through jboss/EAP). To see full demo, start the docker containers found in docker-compose/elastic-kibana-rsyslog/ by running startup.sh from the same folder.
+
+This will start up:
+
+1. Two elastic nodes (master + node). Copy-paste node to expand in docker-compose to bring up even more.
+2. Kibana, for slicing, dicing and visualising data from elastic
+3. rsyslog listending on 514/udp, for easier setup
+ 
+Once containers are running, and java -jar starts this app, triggering Login endpoint will generate latency log, which will be sent
+to rsyslog, normalization rules applied in real time and stored in elastic. Kibana can then be used to dicover and visualise
+data in the logs. 
+
+Kibana is available on: http://localhost:5601/ (on the main page add index pattern enm_logs-*)
+
+Elastic will be available on: http://localhost:9200/_plugin/hq/#cluster
+
+rsyslog will be on udp/514, localhost again,if running with docker-compose as described above
  
 ### docker-compose ###
- 
-Has folder called elastic-kibana-rsyslog in which you will find startup.sh. Running this script will start several containers:
- 
-1. elastic master
-2. three elastic nodes
-3. kibana
-4. rsyslog
- 
-Elastic will be available on: http://localhost:9200/_plugin/hq/#cluster
-Kibana is available on: http://localhost:5601/app/kibana
-And last, but not least you can test rsyslog->elastic with:
 
-```docker exec -it rsyslog logger "SomeMetric,15,ROP1,STATS,NODETYPE1,1220"```
-
-it will index it inside index called enm_logs-*: 
+ Has couple of folders:
+ 
+ 1. elastic-kibana-rsyslog contains docker file and docker-compose with small helper script to run them
+ 2. grafana-influx-statsd contains docker file and compose with small helper script to run them
+ 
+ All of these have been tested on latest stable docker and docker beta for mac, using docker-compose.
 
 Happy hacking.

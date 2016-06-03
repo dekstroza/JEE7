@@ -9,6 +9,7 @@ import org.wildfly.swarm.jpa.JPAFraction;
 import org.wildfly.swarm.topology.TopologyArchive;
 
 import io.dekstroza.github.jee7.swarmdemo.app.RestApplication;
+import org.wildfly.swarm.topology.consul.ConsulTopologyFraction;
 
 public class Main {
 
@@ -39,6 +40,7 @@ public class Main {
         jaxrsArchive.addAsWebInfResource(new ClassLoaderAsset("META-INF/beans.xml", Main.class.getClassLoader()), "classes/META-INF/beans.xml");
         jaxrsArchive.addAllDependencies();
 
+        container.fraction(new ConsulTopologyFraction("http://localhost:8500"));
         jaxrsArchive.as(TopologyArchive.class).advertise();
         container.start();
         container.deploy(jaxrsArchive);
