@@ -3,7 +3,7 @@
 ### Requirements ###
 
 1. Java 8
-2. Maven (min 3.3.9)
+2. Maven (recent one)
 3. Docker (recent installation with working docker-compose)
 
 ### Content ###
