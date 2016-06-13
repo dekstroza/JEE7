@@ -13,7 +13,7 @@ public class StatsdCommunicator {
     private StatsdCommunicator() {
         final String statsdHost = System.getProperty("statsdHost", "localhost");
         final int statsdPort = Integer.parseInt(System.getProperty("statsdPort", "8125"));
-        final String nodeIdentifier = System.getProperty("nodeId", UUID.randomUUID().toString());
+        final String nodeIdentifier = System.getProperty("swarm.node.id", UUID.randomUUID().toString());
         this.statsd = new NonBlockingStatsDClient(nodeIdentifier, statsdHost, statsdPort);
     }
 

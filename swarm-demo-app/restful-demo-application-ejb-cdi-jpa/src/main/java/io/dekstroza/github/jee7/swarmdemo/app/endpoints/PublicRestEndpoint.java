@@ -10,7 +10,6 @@ import javax.ws.rs.core.Response;
 @Path("v1.0.0")
 public class PublicRestEndpoint {
 
-
     @PermitAll
     @Produces(MediaType.TEXT_PLAIN)
     @GET

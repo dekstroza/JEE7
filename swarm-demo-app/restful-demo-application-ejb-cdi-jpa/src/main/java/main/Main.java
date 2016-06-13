@@ -7,9 +7,9 @@ import org.wildfly.swarm.datasources.DatasourcesFraction;
 import org.wildfly.swarm.jaxrs.JAXRSArchive;
 import org.wildfly.swarm.jpa.JPAFraction;
 import org.wildfly.swarm.topology.TopologyArchive;
+import org.wildfly.swarm.topology.consul.ConsulTopologyFraction;
 
 import io.dekstroza.github.jee7.swarmdemo.app.RestApplication;
-import org.wildfly.swarm.topology.consul.ConsulTopologyFraction;
 
 public class Main {
 

@@ -8,6 +8,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.container.AsyncResponse;
+import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -25,15 +27,16 @@ public class ApplicationLoginEndpoint {
     @Path("login")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public Response applicationLogin(@QueryParam("username") final String username, @QueryParam("password") final String password) {
-        final Credentials credentials = new Credentials(username, password);
+    public void applicationLogin(@QueryParam("username") final String username, @QueryParam("password") final String password,
+                                 final @Suspended AsyncResponse response) {
         try {
+            final Credentials credentials = new Credentials(username, password);
             final String JWToken = authenticationService.authenticateUser(credentials);
-            return Response.status(OK).header("Authorization", JWToken).build();
+            response.resume(Response.status(OK).header("Authorization", JWToken).build());
         } catch (final InvalidCredentialsException ie) {
-            return Response.status(BAD_REQUEST).entity(ie.getMessage()).build();
+            response.resume(Response.status(BAD_REQUEST).entity(ie.getMessage()).build());
         } catch (final Exception e) {
-            return Response.status(INTERNAL_SERVER_ERROR).build();
+            response.resume(Response.status(INTERNAL_SERVER_ERROR).build());
         }
 
     }
