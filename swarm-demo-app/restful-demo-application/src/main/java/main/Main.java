@@ -4,15 +4,16 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.ClassLoaderAsset;
 import org.wildfly.swarm.container.Container;
 import org.wildfly.swarm.jaxrs.JAXRSArchive;
+import org.wildfly.swarm.jolokia.JolokiaFraction;
 
 import io.dekstroza.github.jee7.swarmdemo.app.RestApplication;
 
 public class Main {
 
-
     public static void main(String[] args) throws Exception {
         final Container container = new Container();
-
+        container.fraction(
+                   new JolokiaFraction("/jmx"));
         container.start();
         final JAXRSArchive jaxrsArchive = ShrinkWrap.create(JAXRSArchive.class, "restful-demo-app.war");
         jaxrsArchive.addPackages(true, "io.dekstroza.github.jee7.swarmdemo");
