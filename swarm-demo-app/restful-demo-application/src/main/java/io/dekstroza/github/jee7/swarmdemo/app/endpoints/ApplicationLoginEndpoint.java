@@ -12,11 +12,10 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.container.AsyncResponse;
+import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -24,18 +23,17 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Path("v1.0.0")
 public class ApplicationLoginEndpoint {
 
-
     @PermitAll
     @Path("login")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public Response applicationLogin(@QueryParam("username") final String username, @QueryParam("password") final String password) {
-
+    public void applicationLogin(@QueryParam("username") final String username, @QueryParam("password") final String password,
+                                 @Suspended final AsyncResponse response) {
         final String jwtToken = createLoginToken(username, password);
-        return Response.status(OK).header("Authorization", jwtToken).build();
+        response.resume(Response.status(OK).header("Authorization", jwtToken).build());
     }
 
-    public String createLoginToken(final String username, final String password) {
+    String createLoginToken(final String username, final String password) {
         final Date now = new Date();
         final Calendar cal = Calendar.getInstance();
         cal.setTime(now);
