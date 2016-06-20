@@ -1,5 +1,8 @@
 package io.dekstroza.github.jee7.swarmdemo.app.endpoints;
 
+import static javax.ws.rs.core.Response.Status.OK;
+import static javax.ws.rs.core.Response.status;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -14,6 +17,6 @@ public class SecuredRestEndpoint {
     @Path("secure/data")
     public Response showSomeSecureData() {
 
-        return Response.status(Response.Status.OK).entity("Some super secret data").build();
+        return status(OK).entity("Some super secret data").build();
     }
 }

@@ -1,7 +1,8 @@
 package io.dekstroza.github.jee7.swarmdemo.app.endpoints;
 
-import static io.dekstroza.github.jee7.swarmdemo.app.endpoints.ApplicationConstants.SUPER_SECRET_KEY;
+import static io.dekstroza.github.jee7.swarmdemo.app.endpoints.ApplicationConstants.*;
 import static javax.ws.rs.core.Response.Status.OK;
+import static javax.ws.rs.core.Response.status;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -15,7 +16,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -27,10 +27,10 @@ public class ApplicationLoginEndpoint {
     @Path("login")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public void applicationLogin(@QueryParam("username") final String username, @QueryParam("password") final String password,
+    public void applicationLogin(@QueryParam(USERNAME) final String username, @QueryParam(PASSWORD) final String password,
                                  @Suspended final AsyncResponse response) {
         final String jwtToken = createLoginToken(username, password);
-        response.resume(Response.status(OK).header("Authorization", jwtToken).build());
+        response.resume(status(OK).header(AUTHORIZATION, jwtToken).build());
     }
 
     String createLoginToken(final String username, final String password) {
@@ -39,8 +39,8 @@ public class ApplicationLoginEndpoint {
         cal.setTime(now);
         cal.add(Calendar.HOUR_OF_DAY, 1);
 
-        final String jwtToken = Jwts.builder().setId(UUID.randomUUID().toString()).setSubject(username).setIssuedAt(now)
-                .setIssuer("https://dekstroza.io").setExpiration(cal.getTime()).signWith(SignatureAlgorithm.HS512, SUPER_SECRET_KEY).compact();
-        return new StringBuilder("Bearer ").append(jwtToken).toString();
+        final String jwtToken = Jwts.builder().setId(UUID.randomUUID().toString()).setSubject(username).setIssuedAt(now).setIssuer(ISSUER)
+                .setExpiration(cal.getTime()).signWith(SignatureAlgorithm.HS512, SUPER_SECRET_KEY).compact();
+        return new StringBuilder(BEARER).append(jwtToken).toString();
     }
 }

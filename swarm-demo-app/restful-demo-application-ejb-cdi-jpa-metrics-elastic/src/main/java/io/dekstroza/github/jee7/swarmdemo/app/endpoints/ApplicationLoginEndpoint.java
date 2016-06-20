@@ -1,6 +1,8 @@
 package io.dekstroza.github.jee7.swarmdemo.app.endpoints;
 
+import static io.dekstroza.github.jee7.swarmdemo.app.endpoints.ApplicationConstants.*;
 import static javax.ws.rs.core.Response.Status.*;
+import static javax.ws.rs.core.Response.status;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
@@ -9,13 +11,14 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.container.AsyncResponse;
+import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import io.dekstroza.github.jee7.swarmdemo.app.api.Credentials;
 import io.dekstroza.github.jee7.swarmdemo.app.api.InvalidCredentialsException;
-import io.dekstroza.github.jee7.swarmdemo.app.services.AuthenticationService;
 import io.dekstroza.github.jee7.swarmdemo.app.services.ProfilingInterceptor;
+import io.dekstroza.github.jee7.swarmdemo.app.services.AuthenticationService;
 
 @Path("v1.0.0")
 public class ApplicationLoginEndpoint {
@@ -28,15 +31,16 @@ public class ApplicationLoginEndpoint {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     @Interceptors(ProfilingInterceptor.class)
-    public Response applicationLogin(@QueryParam("username") final String username, @QueryParam("password") final String password) {
+    public void applicationLogin(@QueryParam(USERNAME) final String username, @QueryParam(PASSWORD) final String password,
+                                 final @Suspended AsyncResponse response) {
         final Credentials credentials = new Credentials(username, password);
         try {
             final String JWToken = authenticationService.authenticateUser(credentials);
-            return Response.status(OK).header("Authorization", JWToken).build();
+            response.resume(status(OK).header(AUTHORIZATION, JWToken).build());
         } catch (final InvalidCredentialsException ie) {
-            return Response.status(BAD_REQUEST).entity(ie.getMessage()).build();
+            response.resume(status(BAD_REQUEST).entity(ie.getMessage()).build());
         } catch (final Exception e) {
-            return Response.status(INTERNAL_SERVER_ERROR).build();
+            response.resume(status(INTERNAL_SERVER_ERROR).build());
         }
 
     }

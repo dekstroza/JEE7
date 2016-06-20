@@ -1,4 +1,4 @@
-package io.dekstroza.github.jee7.swarmdemo.app.services.impl;
+package io.dekstroza.github.jee7.swarmdemo.app.services;
 
 import java.util.UUID;
 

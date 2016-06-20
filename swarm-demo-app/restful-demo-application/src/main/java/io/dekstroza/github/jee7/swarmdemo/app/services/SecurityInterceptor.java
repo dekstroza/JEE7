@@ -2,6 +2,7 @@ package io.dekstroza.github.jee7.swarmdemo.app.services;
 
 import static io.dekstroza.github.jee7.swarmdemo.app.endpoints.ApplicationConstants.SUPER_SECRET_KEY;
 import static javax.ws.rs.core.Response.Status.FORBIDDEN;
+import static javax.ws.rs.core.Response.status;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -11,7 +12,6 @@ import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
 import org.jboss.resteasy.annotations.interception.ServerInterceptor;
@@ -34,7 +34,7 @@ public class SecurityInterceptor implements ContainerRequestFilter {
         }
         //Access denied for all
         if (method.isAnnotationPresent(DenyAll.class)) {
-            requestContext.abortWith(Response.status(FORBIDDEN).build());
+            requestContext.abortWith(status(FORBIDDEN).build());
         }
         final List<String> authHeaders = requestContext.getHeaders().get("Authorization");
         if (authHeaders != null && !authHeaders.isEmpty()) {
@@ -46,14 +46,14 @@ public class SecurityInterceptor implements ContainerRequestFilter {
                     //OK, we can trust this JWT
                 } catch (Exception e) {
                     //don't trust the JWT!
-                    requestContext.abortWith(Response.status(FORBIDDEN).build());
+                    requestContext.abortWith(status(FORBIDDEN).build());
                 }
             } else {
-                requestContext.abortWith(Response.status(FORBIDDEN).build());
+                requestContext.abortWith(status(FORBIDDEN).build());
             }
 
         } else {
-            requestContext.abortWith(Response.status(FORBIDDEN).build());
+            requestContext.abortWith(status(FORBIDDEN).build());
         }
 
     }

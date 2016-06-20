@@ -1,18 +1,52 @@
 package io.dekstroza.github.jee7.swarmdemo.app.services;
 
+import static io.dekstroza.github.jee7.swarmdemo.app.endpoints.ApplicationConstants.*;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.UUID;
+
+import javax.ejb.EJB;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
+
+import io.dekstroza.github.jee7.swarmdemo.app.api.ApplicationUser;
 import io.dekstroza.github.jee7.swarmdemo.app.api.Credentials;
 import io.dekstroza.github.jee7.swarmdemo.app.api.InvalidCredentialsException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
-public interface AuthenticationService {
+/**
+ * Authentication service implementation
+ */
+@Stateless
+@LocalBean
+public class AuthenticationService {
 
-    /**
-     * Authenticate user and return JWT token or throw exception if credentials are invalid
-     * 
-     * @param credentials
-     *            Credentials to verify
-     * @return JWT for this user
-     * @throws InvalidCredentialsException
-     *             if credentials provided are invalid
-     */
-    String authenticateUser(final Credentials credentials) throws InvalidCredentialsException;
+    @EJB
+    private ApplicationUserService applicationUserService;
+
+    public String authenticateUser(Credentials credentials) throws InvalidCredentialsException {
+        try {
+            final ApplicationUser applicationUser = applicationUserService.findApplicationUserByCredentials(credentials);
+            return createLoginToken(credentials);
+        } catch (final NoResultException nre) {
+            throw new InvalidCredentialsException("Invalid username or password");
+        } catch (final Exception e) {
+            throw new InvalidCredentialsException(e.getMessage());
+        }
+
+    }
+
+    String createLoginToken(final Credentials credentials) {
+        final Date now = new Date();
+        final Calendar cal = Calendar.getInstance();
+        cal.setTime(now);
+        cal.add(Calendar.HOUR_OF_DAY, 1);
+
+        final String jwtToken = Jwts.builder().setId(UUID.randomUUID().toString()).setSubject(credentials.getUsername()).setIssuedAt(now)
+                .setIssuer(ISSUER).setExpiration(cal.getTime()).signWith(SignatureAlgorithm.HS512, SUPER_SECRET_KEY).compact();
+        return new StringBuilder(BEARER).append(jwtToken).toString();
+    }
 }

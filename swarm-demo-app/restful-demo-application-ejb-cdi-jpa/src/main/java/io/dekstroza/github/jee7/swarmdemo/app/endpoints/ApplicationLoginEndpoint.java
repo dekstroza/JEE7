@@ -1,6 +1,8 @@
 package io.dekstroza.github.jee7.swarmdemo.app.endpoints;
 
+import static io.dekstroza.github.jee7.swarmdemo.app.endpoints.ApplicationConstants.*;
 import static javax.ws.rs.core.Response.Status.*;
+import static javax.ws.rs.core.Response.status;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
@@ -11,7 +13,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import io.dekstroza.github.jee7.swarmdemo.app.api.Credentials;
 import io.dekstroza.github.jee7.swarmdemo.app.api.InvalidCredentialsException;
@@ -27,16 +28,16 @@ public class ApplicationLoginEndpoint {
     @Path("login")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public void applicationLogin(@QueryParam("username") final String username, @QueryParam("password") final String password,
+    public void applicationLogin(@QueryParam(USERNAME) final String username, @QueryParam(PASSWORD) final String password,
                                  final @Suspended AsyncResponse response) {
         try {
             final Credentials credentials = new Credentials(username, password);
             final String JWToken = authenticationService.authenticateUser(credentials);
-            response.resume(Response.status(OK).header("Authorization", JWToken).build());
+            response.resume(status(OK).header(AUTHORIZATION, JWToken).build());
         } catch (final InvalidCredentialsException ie) {
-            response.resume(Response.status(BAD_REQUEST).entity(ie.getMessage()).build());
+            response.resume(status(BAD_REQUEST).entity(ie.getMessage()).build());
         } catch (final Exception e) {
-            response.resume(Response.status(INTERNAL_SERVER_ERROR).build());
+            response.resume(status(INTERNAL_SERVER_ERROR).build());
         }
 
     }
