@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.UUID;
 
 import javax.annotation.security.PermitAll;
+import javax.ejb.Asynchronous;
+import javax.ejb.Stateless;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -20,6 +22,7 @@ import javax.ws.rs.core.MediaType;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+@Stateless
 @Path("v1.0.0")
 public class ApplicationLoginEndpoint {
 
@@ -27,6 +30,7 @@ public class ApplicationLoginEndpoint {
     @Path("login")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
+    @Asynchronous
     public void applicationLogin(@QueryParam(USERNAME) final String username, @QueryParam(PASSWORD) final String password,
                                  @Suspended final AsyncResponse response) {
         final String jwtToken = createLoginToken(username, password);

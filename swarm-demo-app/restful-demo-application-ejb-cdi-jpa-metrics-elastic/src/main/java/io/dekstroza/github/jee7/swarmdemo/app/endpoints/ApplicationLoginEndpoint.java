@@ -5,7 +5,9 @@ import static javax.ws.rs.core.Response.Status.*;
 import static javax.ws.rs.core.Response.status;
 
 import javax.annotation.security.PermitAll;
+import javax.ejb.Asynchronous;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -17,9 +19,10 @@ import javax.ws.rs.core.MediaType;
 
 import io.dekstroza.github.jee7.swarmdemo.app.api.Credentials;
 import io.dekstroza.github.jee7.swarmdemo.app.api.InvalidCredentialsException;
-import io.dekstroza.github.jee7.swarmdemo.app.services.ProfilingInterceptor;
 import io.dekstroza.github.jee7.swarmdemo.app.services.AuthenticationService;
+import io.dekstroza.github.jee7.swarmdemo.app.services.ProfilingInterceptor;
 
+@Stateless
 @Path("v1.0.0")
 public class ApplicationLoginEndpoint {
 
@@ -31,6 +34,7 @@ public class ApplicationLoginEndpoint {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     @Interceptors(ProfilingInterceptor.class)
+    @Asynchronous
     public void applicationLogin(@QueryParam(USERNAME) final String username, @QueryParam(PASSWORD) final String password,
                                  final @Suspended AsyncResponse response) {
         final Credentials credentials = new Credentials(username, password);

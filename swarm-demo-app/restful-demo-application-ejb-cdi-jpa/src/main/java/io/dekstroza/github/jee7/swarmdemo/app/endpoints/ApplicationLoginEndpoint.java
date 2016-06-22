@@ -5,7 +5,9 @@ import static javax.ws.rs.core.Response.Status.*;
 import static javax.ws.rs.core.Response.status;
 
 import javax.annotation.security.PermitAll;
-import javax.ejb.EJB;
+import javax.ejb.Asynchronous;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -18,21 +20,22 @@ import io.dekstroza.github.jee7.swarmdemo.app.api.Credentials;
 import io.dekstroza.github.jee7.swarmdemo.app.api.InvalidCredentialsException;
 import io.dekstroza.github.jee7.swarmdemo.app.services.AuthenticationService;
 
+@Stateless
 @Path("v1.0.0")
 public class ApplicationLoginEndpoint {
 
-    @EJB
+    @Inject
     private AuthenticationService authenticationService;
 
     @PermitAll
     @Path("login")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
+    @Asynchronous
     public void applicationLogin(@QueryParam(USERNAME) final String username, @QueryParam(PASSWORD) final String password,
                                  final @Suspended AsyncResponse response) {
         try {
-            final Credentials credentials = new Credentials(username, password);
-            final String JWToken = authenticationService.authenticateUser(credentials);
+            final String JWToken = authenticationService.authenticateUser(new Credentials(username, password));
             response.resume(status(OK).header(AUTHORIZATION, JWToken).build());
         } catch (final InvalidCredentialsException ie) {
             response.resume(status(BAD_REQUEST).entity(ie.getMessage()).build());
