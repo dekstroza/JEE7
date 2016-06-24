@@ -35,7 +35,7 @@ public class ApplicationLoginEndpoint {
     public void applicationLogin(@QueryParam(USERNAME) final String username, @QueryParam(PASSWORD) final String password,
                                  final @Suspended AsyncResponse response) {
         try {
-            final String JWToken = authenticationService.parallelAuthenticateUser(new Credentials(username, password));
+            final String JWToken = authenticationService.authenticateUser(new Credentials(username, password));
             response.resume(status(OK).header(AUTHORIZATION, JWToken).build());
         } catch (final InvalidCredentialsException ie) {
             response.resume(status(BAD_REQUEST).entity(ie.getMessage()).build());

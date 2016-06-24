@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>restful-demo-application-ejb-cdi-jpa</artifactId>
+    <artifactId>restful-demo-application-ejb-cdi-jpa-consul</artifactId>
     <version>1.0.1-SNAPSHOT</version>
 
     <properties>
@@ -40,7 +40,6 @@
 
 
     <dependencies>
-
         <!-- JEE Dependencies -->
         <dependency>
             <groupId>javax</groupId>
@@ -68,6 +67,11 @@
         <dependency>
             <groupId>org.wildfly.swarm</groupId>
             <artifactId>jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>topology-consul</artifactId>
         </dependency>
 
         <!-- database driver -->

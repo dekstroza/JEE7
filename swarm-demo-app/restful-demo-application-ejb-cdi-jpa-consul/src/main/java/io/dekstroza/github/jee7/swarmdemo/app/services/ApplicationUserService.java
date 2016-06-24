@@ -4,7 +4,6 @@ import static io.dekstroza.github.jee7.swarmdemo.app.endpoints.ApplicationConsta
 import static io.dekstroza.github.jee7.swarmdemo.app.endpoints.ApplicationConstants.USERNAME;
 
 import java.util.Collection;
-import java.util.concurrent.CompletableFuture;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -32,15 +31,9 @@ public class ApplicationUserService {
 
     }
 
-    public CompletableFuture<ApplicationUser> findApplicationUserByCredentials(Credentials credentials) {
-        System.out.println("credentials = " + credentials);
-        CompletableFuture<ApplicationUser> cf = new CompletableFuture<>();
-        cf.supplyAsync(() -> {
-            return em.createQuery("SELECT au FROM ApplicationUser au WHERE au.username = :username AND au.password = :password",
-                       ApplicationUser.class).setParameter(USERNAME, credentials.getUsername()).setParameter(PASSWORD, credentials.getPassword())
-                       .getSingleResult();
-        });
-        return cf;
+    public ApplicationUser findApplicationUserByCredentials(Credentials credentials) {
+        return em.createQuery("SELECT au FROM ApplicationUser au WHERE au.username = :username AND au.password = :password", ApplicationUser.class)
+                .setParameter(USERNAME, credentials.getUsername()).setParameter(PASSWORD, credentials.getPassword()).getSingleResult();
     }
 
     public Collection<ApplicationUser> findAllApplicationUsers() {

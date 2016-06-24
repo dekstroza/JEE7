@@ -6,6 +6,8 @@ import org.wildfly.swarm.container.Container;
 import org.wildfly.swarm.datasources.DatasourcesFraction;
 import org.wildfly.swarm.jaxrs.JAXRSArchive;
 import org.wildfly.swarm.jpa.JPAFraction;
+import org.wildfly.swarm.topology.TopologyArchive;
+import org.wildfly.swarm.topology.consul.ConsulTopologyFraction;
 
 import io.dekstroza.github.jee7.swarmdemo.app.RestApplication;
 
@@ -23,9 +25,6 @@ public class Main {
             ds.connectionUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE");
             ds.userName("sa");
             ds.password("sa");
-            ds.initialPoolSize(20);
-            ds.minPoolSize(20);
-            ds.maxPoolSize(20);
         }));
 
         // Prevent JPA Fraction from installing it's default datasource fraction
@@ -41,6 +40,8 @@ public class Main {
         jaxrsArchive.addAsWebInfResource(new ClassLoaderAsset("META-INF/beans.xml", Main.class.getClassLoader()), "classes/META-INF/beans.xml");
         jaxrsArchive.addAllDependencies();
 
+        container.fraction(new ConsulTopologyFraction("http://localhost:8500"));
+        jaxrsArchive.as(TopologyArchive.class).advertise();
         container.start();
         container.deploy(jaxrsArchive);
 
