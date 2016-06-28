@@ -3,7 +3,6 @@ package io.dekstroza.github.jee7.swarmdemo.app.endpoints;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.OK;
-import static javax.ws.rs.core.Response.created;
 import static javax.ws.rs.core.Response.status;
 
 import java.util.Collection;
@@ -17,15 +16,15 @@ import javax.ws.rs.*;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import io.dekstroza.github.jee7.swarmdemo.app.api.AbstractApplicationUserRestEndpoint;
 import io.dekstroza.github.jee7.swarmdemo.app.api.ApplicationUser;
 import io.dekstroza.github.jee7.swarmdemo.app.api.NoSuchApplicationUserException;
 
 @Stateless
 @Path("v1.0.0")
-public class ApplicationUserRestEndpoint {
+public class ApplicationUserRestEndpoint extends AbstractApplicationUserRestEndpoint {
 
     @PersistenceContext
     private EntityManager em;
@@ -44,14 +43,7 @@ public class ApplicationUserRestEndpoint {
     @Asynchronous
     public void insertApplicationUser(final ApplicationUser applicationUser, final @Suspended AsyncResponse response,
                                       final @Context UriInfo uriInfo) {
-        try {
-            final ApplicationUser persistedApplicationUser = insertApplicationUser(applicationUser);
-            final UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder().path(Integer.toString(persistedApplicationUser.getId()));
-            response.resume(created(uriBuilder.build()).build());
-        } catch (final Exception e) {
-            response.resume(status(BAD_REQUEST).entity(e.getMessage()).build());
-        }
-
+        super.insertApplicationUser(applicationUser, response, uriInfo);
     }
 
     @Produces(APPLICATION_JSON)
@@ -67,7 +59,7 @@ public class ApplicationUserRestEndpoint {
         }
     }
 
-    ApplicationUser findApplicationUserById(int id) throws NoSuchApplicationUserException {
+    protected ApplicationUser findApplicationUserById(int id) throws NoSuchApplicationUserException {
         try {
             return em.find(ApplicationUser.class, id);
         } catch (final NoResultException nre) {
@@ -76,12 +68,12 @@ public class ApplicationUserRestEndpoint {
 
     }
 
-    Collection<ApplicationUser> findAllApplicationUsers() {
+    protected Collection<ApplicationUser> findAllApplicationUsers() {
         Collection<ApplicationUser> applicationUsers = em.createQuery("SELECT au FROM ApplicationUser au", ApplicationUser.class).getResultList();
         return applicationUsers;
     }
 
-    ApplicationUser insertApplicationUser(final ApplicationUser applicationUser) {
+    protected ApplicationUser insertApplicationUser(final ApplicationUser applicationUser) {
         em.persist(applicationUser);
         return applicationUser;
     }

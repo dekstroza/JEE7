@@ -9,7 +9,6 @@ import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -20,13 +19,14 @@ import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.MediaType;
 
 import io.dekstroza.github.jee7.swarmdemo.app.ProfilingInterceptor;
+import io.dekstroza.github.jee7.swarmdemo.app.api.AbstractApplicationLoginEndpoint;
 import io.dekstroza.github.jee7.swarmdemo.app.api.ApplicationUser;
 import io.dekstroza.github.jee7.swarmdemo.app.api.Credentials;
 import io.dekstroza.github.jee7.swarmdemo.app.api.InvalidCredentialsException;
 
 @Stateless
 @Path("v1.0.0")
-public class ApplicationLoginEndpoint {
+public class ApplicationLoginEndpoint extends AbstractApplicationLoginEndpoint {
 
     @PersistenceContext
     private EntityManager em;
@@ -51,19 +51,7 @@ public class ApplicationLoginEndpoint {
 
     }
 
-    public String authenticateUser(Credentials credentials) throws InvalidCredentialsException {
-        try {
-            final ApplicationUser applicationUser = findApplicationUserByCredentials(credentials);
-            return credentials.generateJWToken();
-        } catch (final NoResultException nre) {
-            throw new InvalidCredentialsException("Invalid username or password");
-        } catch (final Exception e) {
-            throw new InvalidCredentialsException(e.getMessage());
-        }
-
-    }
-
-    ApplicationUser findApplicationUserByCredentials(Credentials credentials) {
+    protected ApplicationUser findApplicationUserByCredentials(Credentials credentials) {
         return em.createQuery("SELECT au FROM ApplicationUser au WHERE au.username = :username AND au.password = :password", ApplicationUser.class)
                 .setParameter(USERNAME, credentials.getUsername()).setParameter(PASSWORD, credentials.getPassword()).getSingleResult();
     }

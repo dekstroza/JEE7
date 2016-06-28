@@ -15,11 +15,13 @@ import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.MediaType;
 
+import io.dekstroza.github.jee7.swarmdemo.app.api.AbstractApplicationLoginEndpoint;
+import io.dekstroza.github.jee7.swarmdemo.app.api.ApplicationUser;
 import io.dekstroza.github.jee7.swarmdemo.app.api.Credentials;
 
 @Stateless
 @Path("v1.0.0")
-public class ApplicationLoginEndpoint {
+public class ApplicationLoginEndpoint extends AbstractApplicationLoginEndpoint {
 
     @PermitAll
     @Path("login")
@@ -32,4 +34,8 @@ public class ApplicationLoginEndpoint {
         response.resume(status(OK).header(AUTHORIZATION, jwtToken).build());
     }
 
+    @Override
+    protected ApplicationUser findApplicationUserByCredentials(Credentials credentials) {
+        throw new IllegalStateException("Method not supported.");
+    }
 }

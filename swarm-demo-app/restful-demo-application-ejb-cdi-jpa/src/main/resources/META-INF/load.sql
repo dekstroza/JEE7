@@ -1,1 +1,0 @@
-INSERT INTO REST_DB_ACCESS("ID", "FIRSTNAME", "LASTNAME", "USERNAME", "PASSWORD") VALUES (1, 'Dejan', 'Kitic', 'dejan','kitic')

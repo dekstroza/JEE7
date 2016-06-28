@@ -40,7 +40,7 @@
     </properties>
 
     <modules>
-        <module>restful-demo-application</module>
+        <module>restful-demo-application-cdi</module>
         <module>restful-demo-application-ejb-cdi-jpa</module>
         <module>restful-demo-application-ejb-cdi-jpa-consul</module>
         <module>restful-demo-application-ejb-cdi-jpa-metrics</module>
