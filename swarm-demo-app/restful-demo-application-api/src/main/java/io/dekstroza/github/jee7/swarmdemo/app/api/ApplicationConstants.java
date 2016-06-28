@@ -1,4 +1,4 @@
-package io.dekstroza.github.jee7.swarmdemo.app.endpoints;
+package io.dekstroza.github.jee7.swarmdemo.app.api;
 
 public class ApplicationConstants {
 

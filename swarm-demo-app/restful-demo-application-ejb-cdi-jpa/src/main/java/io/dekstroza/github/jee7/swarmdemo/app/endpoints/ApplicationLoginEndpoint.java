@@ -1,6 +1,6 @@
 package io.dekstroza.github.jee7.swarmdemo.app.endpoints;
 
-import static io.dekstroza.github.jee7.swarmdemo.app.endpoints.ApplicationConstants.*;
+import static io.dekstroza.github.jee7.swarmdemo.app.api.ApplicationConstants.*;
 import static javax.ws.rs.core.Response.Status.*;
 import static javax.ws.rs.core.Response.status;
 

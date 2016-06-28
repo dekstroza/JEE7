@@ -20,7 +20,7 @@ import javax.ws.rs.core.MediaType;
 import io.dekstroza.github.jee7.swarmdemo.app.api.Credentials;
 import io.dekstroza.github.jee7.swarmdemo.app.api.InvalidCredentialsException;
 import io.dekstroza.github.jee7.swarmdemo.app.services.AuthenticationService;
-import io.dekstroza.github.jee7.swarmdemo.app.services.ProfilingInterceptor;
+import io.dekstroza.github.jee7.swarmdemo.app.ProfilingInterceptor;
 
 @Stateless
 @Path("v1.0.0")

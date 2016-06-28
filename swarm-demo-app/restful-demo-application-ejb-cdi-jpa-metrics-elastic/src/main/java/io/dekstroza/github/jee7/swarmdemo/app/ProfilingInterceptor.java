@@ -1,4 +1,4 @@
-package io.dekstroza.github.jee7.swarmdemo.app.services;
+package io.dekstroza.github.jee7.swarmdemo.app;
 
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;

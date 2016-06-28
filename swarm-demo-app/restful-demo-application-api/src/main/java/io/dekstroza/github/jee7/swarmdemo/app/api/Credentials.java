@@ -1,6 +1,6 @@
 package io.dekstroza.github.jee7.swarmdemo.app.api;
 
-import static io.dekstroza.github.jee7.swarmdemo.app.endpoints.ApplicationConstants.*;
+import static io.dekstroza.github.jee7.swarmdemo.app.api.ApplicationConstants.*;
 
 import java.util.Calendar;
 import java.util.Date;

@@ -1,6 +1,6 @@
-package io.dekstroza.github.jee7.swarmdemo.app.services;
+package io.dekstroza.github.jee7.swarmdemo.app;
 
-import static io.dekstroza.github.jee7.swarmdemo.app.endpoints.ApplicationConstants.*;
+import static io.dekstroza.github.jee7.swarmdemo.app.api.ApplicationConstants.*;
 import static javax.ws.rs.core.Response.Status.FORBIDDEN;
 import static javax.ws.rs.core.Response.status;
 

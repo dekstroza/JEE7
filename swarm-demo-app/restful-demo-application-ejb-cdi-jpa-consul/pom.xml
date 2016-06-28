@@ -47,6 +47,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Project dependencies -->
+        <dependency>
+            <groupId>io.dekstroza.github.jee7</groupId>
+            <artifactId>restful-demo-application-api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
         <!-- Swarm dependencies -->
         <dependency>
             <groupId>org.wildfly.swarm</groupId>

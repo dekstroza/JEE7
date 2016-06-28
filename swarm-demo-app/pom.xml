@@ -45,6 +45,7 @@
         <module>restful-demo-application-ejb-cdi-jpa-consul</module>
         <module>restful-demo-application-ejb-cdi-jpa-metrics</module>
         <module>restful-demo-application-ejb-cdi-jpa-metrics-elastic</module>
+        <module>restful-demo-application-api</module>
     </modules>
 
     <build>
