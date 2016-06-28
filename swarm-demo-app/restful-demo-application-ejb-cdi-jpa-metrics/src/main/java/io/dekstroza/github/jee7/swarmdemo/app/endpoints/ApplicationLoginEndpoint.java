@@ -4,10 +4,6 @@ import static io.dekstroza.github.jee7.swarmdemo.app.api.ApplicationConstants.*;
 import static javax.ws.rs.core.Response.Status.*;
 import static javax.ws.rs.core.Response.status;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.UUID;
-
 import javax.annotation.security.PermitAll;
 import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
@@ -27,8 +23,6 @@ import io.dekstroza.github.jee7.swarmdemo.app.ProfilingInterceptor;
 import io.dekstroza.github.jee7.swarmdemo.app.api.ApplicationUser;
 import io.dekstroza.github.jee7.swarmdemo.app.api.Credentials;
 import io.dekstroza.github.jee7.swarmdemo.app.api.InvalidCredentialsException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 @Stateless
 @Path("v1.0.0")
@@ -61,7 +55,7 @@ public class ApplicationLoginEndpoint {
     String authenticateUser(Credentials credentials) throws InvalidCredentialsException {
         try {
             final ApplicationUser applicationUser = findApplicationUserByCredentials(credentials);
-            return createLoginToken(credentials);
+            return credentials.generateJWToken();
         } catch (final NoResultException nre) {
             throw new InvalidCredentialsException("Invalid username or password");
         } catch (final Exception e) {
@@ -73,17 +67,6 @@ public class ApplicationLoginEndpoint {
     ApplicationUser findApplicationUserByCredentials(final Credentials credentials) {
         return em.createQuery("SELECT au FROM ApplicationUser au WHERE au.username = :username AND au.password = :password", ApplicationUser.class)
                 .setParameter(USERNAME, credentials.getUsername()).setParameter(PASSWORD, credentials.getPassword()).getSingleResult();
-    }
-
-    String createLoginToken(final Credentials credentials) {
-        final Date now = new Date();
-        final Calendar cal = Calendar.getInstance();
-        cal.setTime(now);
-        cal.add(Calendar.HOUR_OF_DAY, 1);
-
-        final String jwtToken = Jwts.builder().setId(UUID.randomUUID().toString()).setSubject(credentials.getUsername()).setIssuedAt(now)
-                .setIssuer(ISSUER).setExpiration(cal.getTime()).signWith(SignatureAlgorithm.HS512, SUPER_SECRET_KEY).compact();
-        return new StringBuilder(BEARER).append(jwtToken).toString();
     }
 
 }
