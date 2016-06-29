@@ -7,6 +7,7 @@ import static javax.ws.rs.core.Response.status;
 import javax.annotation.security.PermitAll;
 import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -37,5 +38,10 @@ public class ApplicationLoginEndpoint extends AbstractApplicationLoginEndpoint {
     @Override
     protected ApplicationUser findApplicationUserByCredentials(Credentials credentials) {
         throw new IllegalStateException("Method not supported.");
+    }
+
+    @Override
+    protected EntityManager getEntityManager() {
+        throw new IllegalStateException("Not supported.");
     }
 }
