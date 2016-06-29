@@ -42,8 +42,7 @@ public class ApplicationLoginEndpoint extends AbstractApplicationLoginEndpoint {
     public void login(@QueryParam(USERNAME) final String username, @QueryParam(PASSWORD) final String password,
                       final @Suspended AsyncResponse response) {
         try {
-            final String JWToken = authenticate(new Credentials(username, password));
-            response.resume(status(OK).header(AUTHORIZATION, JWToken).build());
+            response.resume(status(OK).header(AUTHORIZATION, authenticate(new Credentials(username, password))).build());
         } catch (final InvalidCredentialsException ie) {
             response.resume(status(BAD_REQUEST).entity(ie.getMessage()).build());
         } catch (final Exception e) {
@@ -57,6 +56,7 @@ public class ApplicationLoginEndpoint extends AbstractApplicationLoginEndpoint {
             return generateToken(credentials).thenCombineAsync(findAppUser(credentials), (jwToken, appUser) -> {
                 return jwToken;
             }).get();
+
         } catch (final CompletionException ce) {
             if (ce.getCause() instanceof NoResultException) {
                 throw new InvalidCredentialsException(ce.getCause().getMessage());
