@@ -62,6 +62,7 @@ public class ApplicationLoginEndpoint extends AbstractApplicationLoginEndpoint {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     @Asynchronous
+    @Interceptors(ProfilingInterceptor.class)
     public void loginFunctional(@QueryParam(USERNAME) final String username, @QueryParam(PASSWORD) final String password,
                       final @Suspended AsyncResponse response) {
         try {
