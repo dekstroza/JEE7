@@ -1,6 +1,5 @@
 package io.dekstroza.github.jee7.swarmdemo.app.endpoints;
 
-import static java.lang.String.format;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.OK;
@@ -11,7 +10,6 @@ import java.util.Collection;
 import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.*;
 import javax.ws.rs.container.AsyncResponse;
@@ -60,22 +58,9 @@ public class ApplicationUserRestEndpoint extends AbstractApplicationUserRestEndp
         }
     }
 
-    protected Collection<ApplicationUser> findAllApplicationUsers() {
-        Collection<ApplicationUser> applicationUsers = em.createQuery("SELECT au FROM ApplicationUser au", ApplicationUser.class).getResultList();
-        return applicationUsers;
-    }
-
-    protected ApplicationUser findApplicationUserById(int id) throws NoSuchApplicationUserException {
-        try {
-            return em.find(ApplicationUser.class, id);
-        } catch (final NoResultException nre) {
-            throw new NoSuchApplicationUserException(format("Application user with id=%s does not exist", id));
-        }
-    }
-
-    protected ApplicationUser insertApplicationUser(final ApplicationUser applicationUser) {
-        em.persist(applicationUser);
-        return applicationUser;
+    @Override
+    protected EntityManager getEntityManager() {
+        return this.em;
     }
 
 }

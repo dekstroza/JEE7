@@ -10,7 +10,6 @@ import java.util.Collection;
 import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.*;
 import javax.ws.rs.container.AsyncResponse;
@@ -60,22 +59,9 @@ public class ApplicationUserRestEndpoint extends AbstractApplicationUserRestEndp
         }
     }
 
-    protected Collection<ApplicationUser> findAllApplicationUsers() {
-        Collection<ApplicationUser> applicationUsers = em.createQuery("SELECT au FROM ApplicationUser au", ApplicationUser.class).getResultList();
-        return applicationUsers;
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
     }
 
-    protected ApplicationUser insertApplicationUser(final ApplicationUser applicationUser) {
-        em.persist(applicationUser);
-        return applicationUser;
-    }
-
-    protected ApplicationUser findApplicationUserById(int id) throws NoSuchApplicationUserException {
-        try {
-            return em.find(ApplicationUser.class, id);
-        } catch (final NoResultException nre) {
-            throw new NoSuchApplicationUserException(new StringBuilder("Application user with id=").append(id).append(" does not exist.").toString());
-        }
-
-    }
 }
