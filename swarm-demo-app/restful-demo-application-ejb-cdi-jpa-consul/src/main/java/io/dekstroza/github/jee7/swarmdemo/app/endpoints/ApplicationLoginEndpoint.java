@@ -18,7 +18,6 @@ import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.MediaType;
 
 import io.dekstroza.github.jee7.swarmdemo.app.api.AbstractApplicationLoginEndpoint;
-import io.dekstroza.github.jee7.swarmdemo.app.api.ApplicationUser;
 import io.dekstroza.github.jee7.swarmdemo.app.api.Credentials;
 import io.dekstroza.github.jee7.swarmdemo.app.api.InvalidCredentialsException;
 
@@ -47,9 +46,8 @@ public class ApplicationLoginEndpoint extends AbstractApplicationLoginEndpoint {
 
     }
 
-    protected ApplicationUser findApplicationUserByCredentials(Credentials credentials) {
-        return em.createQuery("SELECT au FROM ApplicationUser au WHERE au.username = :username AND au.password = :password", ApplicationUser.class)
-                .setParameter(USERNAME, credentials.getUsername()).setParameter(PASSWORD, credentials.getPassword()).getSingleResult();
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
     }
-
 }

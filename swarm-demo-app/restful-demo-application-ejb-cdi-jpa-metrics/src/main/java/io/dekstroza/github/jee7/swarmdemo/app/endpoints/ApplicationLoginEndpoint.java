@@ -20,7 +20,6 @@ import javax.ws.rs.core.MediaType;
 
 import io.dekstroza.github.jee7.swarmdemo.app.ProfilingInterceptor;
 import io.dekstroza.github.jee7.swarmdemo.app.api.AbstractApplicationLoginEndpoint;
-import io.dekstroza.github.jee7.swarmdemo.app.api.ApplicationUser;
 import io.dekstroza.github.jee7.swarmdemo.app.api.Credentials;
 import io.dekstroza.github.jee7.swarmdemo.app.api.InvalidCredentialsException;
 
@@ -37,7 +36,7 @@ public class ApplicationLoginEndpoint extends AbstractApplicationLoginEndpoint {
     @Produces(MediaType.TEXT_PLAIN)
     @Interceptors(ProfilingInterceptor.class)
     @Asynchronous
-    public void applicationLoginFunct(@QueryParam(USERNAME) final String username, @QueryParam(PASSWORD) final String password,
+    public void login(@QueryParam(USERNAME) final String username, @QueryParam(PASSWORD) final String password,
                                       final @Suspended AsyncResponse response) {
 
         try {
@@ -52,9 +51,8 @@ public class ApplicationLoginEndpoint extends AbstractApplicationLoginEndpoint {
 
     }
 
-    protected ApplicationUser findApplicationUserByCredentials(final Credentials credentials) {
-        return em.createQuery("SELECT au FROM ApplicationUser au WHERE au.username = :username AND au.password = :password", ApplicationUser.class)
-                .setParameter(USERNAME, credentials.getUsername()).setParameter(PASSWORD, credentials.getPassword()).getSingleResult();
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
     }
-
 }

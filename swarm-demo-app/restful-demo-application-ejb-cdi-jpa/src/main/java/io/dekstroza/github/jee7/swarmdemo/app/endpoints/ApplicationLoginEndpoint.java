@@ -22,13 +22,14 @@ import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.MediaType;
 
+import io.dekstroza.github.jee7.swarmdemo.app.api.AbstractApplicationLoginEndpoint;
 import io.dekstroza.github.jee7.swarmdemo.app.api.ApplicationUser;
 import io.dekstroza.github.jee7.swarmdemo.app.api.Credentials;
 import io.dekstroza.github.jee7.swarmdemo.app.api.InvalidCredentialsException;
 
 @Stateless
 @Path("v1.0.0")
-public class ApplicationLoginEndpoint {
+public class ApplicationLoginEndpoint extends AbstractApplicationLoginEndpoint {
 
     @PersistenceContext
     private EntityManager em;
@@ -53,7 +54,7 @@ public class ApplicationLoginEndpoint {
 
     String authenticate(final Credentials credentials) throws InvalidCredentialsException {
         try {
-            return generateToken(credentials).thenCombineAsync(findApplicationUserByCredentials(credentials), (jwToken, appUser) -> {
+            return generateToken(credentials).thenCombineAsync(findAppUser(credentials), (jwToken, appUser) -> {
                 return jwToken;
             }).get();
         } catch (final CompletionException ce) {
@@ -73,12 +74,14 @@ public class ApplicationLoginEndpoint {
 
     }
 
-    CompletableFuture<ApplicationUser> findApplicationUserByCredentials(Credentials credentials) {
+    CompletableFuture<ApplicationUser> findAppUser(Credentials credentials) {
         return new CompletableFuture<ApplicationUser>().supplyAsync(() -> {
-            return em
-                    .createQuery("SELECT au FROM ApplicationUser au WHERE au.username = :username AND au.password = :password", ApplicationUser.class)
-                    .setParameter(USERNAME, credentials.getUsername()).setParameter(PASSWORD, credentials.getPassword()).getSingleResult();
+            return findApplicationUserByCredentials(credentials);
         });
     }
 
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 }
