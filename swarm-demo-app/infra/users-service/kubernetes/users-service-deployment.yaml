@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: users-service
+  namespace: default
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: "10%"
+      maxSurge: "10%"
+  template:
+    metadata:
+      labels:
+        app: users-service
+    spec:
+      dnsPolicy: ClusterFirst
+      containers:
+      - name: users-service
+        image: dekstroza/auth-microservice:1.0.2-SNAPSHOT
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /api/v1.0.0/public/healthz
+            port: 8080
+          initialDelaySeconds: 20
+          periodSeconds: 3
+        env:
+        - name: http_proxy_host
+          value: linkerd-linkerd
+        - name: http_proxy_port
+          value: "4140"
+        - name: token_service_url
+          value: "http://token-service/api/v1.0.0/token"
+        ports:
+        - name: http-port
+          containerPort: 8080
+

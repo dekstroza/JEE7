@@ -24,7 +24,7 @@
         <slf4.api.version>1.7.5</slf4.api.version>
 
         <!-- Wildfly SWARM Version -->
-        <wildfly.swarm.version>1.0.0.CR2</wildfly.swarm.version>
+        <wildfly.swarm.version>2017.3.3</wildfly.swarm.version>
 
         <!-- maven plugin versions -->
         <maven.compiler.plugin.version>2.5.1</maven.compiler.plugin.version>
@@ -37,15 +37,12 @@
         <java.source.version>1.8</java.source.version>
         <java.target.version>1.8</java.target.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <docker.repo>dekstroza</docker.repo>
     </properties>
 
     <modules>
-        <module>restful-demo-application-cdi</module>
-        <module>restful-demo-application-ejb-cdi-jpa</module>
-        <module>restful-demo-application-ejb-cdi-jpa-consul</module>
-        <module>restful-demo-application-ejb-cdi-jpa-metrics</module>
-        <module>restful-demo-application-ejb-cdi-jpa-metrics-elastic</module>
-        <module>restful-demo-application-api</module>
+        <module>users-service</module>
+        <module>token-service</module>
     </modules>
 
     <build>
