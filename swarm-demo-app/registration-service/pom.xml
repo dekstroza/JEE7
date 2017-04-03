@@ -9,12 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>token-service</artifactId>
+    <artifactId>registration-service</artifactId>
     <version>1.0.1-SNAPSHOT</version>
 
     <properties>
         <session.request.userSettingsFile.path>${project.build}/session</session.request.userSettingsFile.path>
         <host.port>8080</host.port>
+        <version.h2>1.4.187</version.h2>
     </properties>
 
     <profiles>
@@ -77,6 +78,12 @@
         </profile>
     </profiles>
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.wildfly.swarm</groupId>
@@ -129,6 +136,11 @@
 
         <dependency>
             <groupId>io.dekstroza.github.jee7</groupId>
+            <artifactId>user-service-api</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dekstroza.github.jee7</groupId>
             <artifactId>token-service-api</artifactId>
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
@@ -144,41 +156,66 @@
         </dependency>
         <dependency>
             <groupId>org.wildfly.swarm</groupId>
+            <artifactId>ejb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
             <artifactId>undertow</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-client</artifactId>
-            <scope>test</scope>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>jpa</artifactId>
         </dependency>
-
-        <!-- Logging dependencies -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${version.h2}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>datasources</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <scope>provided</scope>
         </dependency>
-
-        <!-- JWT Library -->
+        <!-- TEST DEPS -->
         <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>${io.jsonwebtoken.version}</version>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
+            <scope>provided</scope>
         </dependency>
-
-        <!-- Junit tests -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxrs</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>jaxrs-api</artifactId>
+            <version>3.0.12.Final</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxb-provider</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jackson2-provider</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.easytesting</groupId>
             <artifactId>fest-assert</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.wildfly.swarm</groupId>
             <artifactId>arquillian</artifactId>
@@ -189,6 +226,7 @@
             <artifactId>arquillian-junit-container</artifactId>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
 

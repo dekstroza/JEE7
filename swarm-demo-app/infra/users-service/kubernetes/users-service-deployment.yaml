@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: users-service
+  name: user-service
   namespace: default
 spec:
   replicas: 3
@@ -13,12 +13,12 @@ spec:
   template:
     metadata:
       labels:
-        app: users-service
+        app: user-service
     spec:
       dnsPolicy: ClusterFirst
       containers:
-      - name: users-service
-        image: dekstroza/auth-microservice:1.0.2-SNAPSHOT
+      - name: user-service
+        image: dekstroza/user-service:1.0.1-SNAPSHOT
         imagePullPolicy: Always
         livenessProbe:
           httpGet:

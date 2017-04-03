@@ -1,12 +1,13 @@
 package main;
 
-import io.dekstroza.github.jee7.swarmdemo.app.endpoints.HealthzEndpoint;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.ClassLoaderAsset;
 import org.wildfly.swarm.Swarm;
 import org.wildfly.swarm.jaxrs.JAXRSArchive;
 
-import app.RestApplication;
+import io.dekstroza.github.jee7.swarmdemo.app.TokenServiceApplication;
+import io.dekstroza.github.jee7.swarmdemo.app.domain.Credentials;
+import io.dekstroza.github.jee7.swarmdemo.app.endpoints.HealthzEndpoint;
 import io.dekstroza.github.jee7.swarmdemo.app.endpoints.TokenGeneratorEndpoint;
 
 public class Main {
@@ -14,15 +15,19 @@ public class Main {
     public static void main(String[] args) throws Exception {
         final Swarm swarm = new Swarm();
         swarm.start();
-        final JAXRSArchive jaxrsArchive = ShrinkWrap.create(JAXRSArchive.class, "restful-demo-app.war");
+        swarm.deploy(createDeployment());
 
+    }
+
+    public static JAXRSArchive createDeployment() throws Exception {
+        final JAXRSArchive jaxrsArchive = ShrinkWrap.create(JAXRSArchive.class, "token-service.war");
         jaxrsArchive.addClass(TokenGeneratorEndpoint.class);
-        jaxrsArchive.addResource(RestApplication.class);
+        jaxrsArchive.addResource(TokenServiceApplication.class);
         jaxrsArchive.addClass(HealthzEndpoint.class);
+        jaxrsArchive.addClass(Credentials.class);
 
         jaxrsArchive.addAsWebInfResource(new ClassLoaderAsset("META-INF/beans.xml", Main.class.getClassLoader()), "classes/META-INF/beans.xml");
         jaxrsArchive.addAllDependencies();
-        swarm.deploy(jaxrsArchive);
-
+        return jaxrsArchive;
     }
 }

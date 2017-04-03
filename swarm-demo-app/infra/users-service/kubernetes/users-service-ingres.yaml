@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: users-service-ingress
+  name: user-service-ingress
   namespace: default
   annotations:
     kubernetes.io/ingress.class: "nginx"
@@ -12,10 +12,10 @@ spec:
       paths:
       - path: /api/v1.0.0/public/data
         backend:
-          serviceName: users-service
+          serviceName: user-service
           servicePort: 7881
       - path: /api/v1.0.0/public/register_user
         backend:
-          serviceName: users-service
+          serviceName: user-service
           servicePort: 7881
 

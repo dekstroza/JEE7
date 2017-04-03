@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>swarm-demo-app</artifactId>
@@ -9,14 +10,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>token-service</artifactId>
+    <artifactId>user-service</artifactId>
     <version>1.0.1-SNAPSHOT</version>
 
     <properties>
         <session.request.userSettingsFile.path>${project.build}/session</session.request.userSettingsFile.path>
         <host.port>8080</host.port>
+        <version.h2>1.4.187</version.h2>
     </properties>
-
     <profiles>
         <profile>
             <id>docker-build</id>
@@ -34,7 +35,7 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>${docker.repo}/${project.artifactId}:${project.version}</name>
+                                    <name>${docker.repo}/token-service:${project.version}</name>
                                     <run>
                                         <ports>
                                             <port>${host.port}:${host.port}</port>
@@ -72,11 +73,39 @@
                             </execution>
                         </executions>
                     </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>2.19.1</version>
+                        <configuration>
+                            <includes>
+                                <include>**/*IT.java</include>
+                            </includes>
+                            <systemPropertyVariables>
+                                <phantomjs.binary.version>2.1.1</phantomjs.binary.version>
+                                <org.apache.maven.user-settings>${session.request.userSettingsFile.path}</org.apache.maven.user-settings>
+                            </systemPropertyVariables>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
     </profiles>
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.wildfly.swarm</groupId>
@@ -94,46 +123,34 @@
                     <mainClass>main.Main</mainClass>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.19.1</version>
-                <configuration>
-                    <includes>
-                        <include>**/*IT.java</include>
-                    </includes>
-                    <systemPropertyVariables>
-                        <phantomjs.binary.version>2.1.1</phantomjs.binary.version>
-                        <org.apache.maven.user-settings>${session.request.userSettingsFile.path}</org.apache.maven.user-settings>
-                    </systemPropertyVariables>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
+
     <dependencies>
-        <!-- JEE Dependencies -->
+        <dependency>
+            <groupId>io.dekstroza.github.jee7</groupId>
+            <artifactId>user-service-api</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
-            <groupId>io.dekstroza.github.jee7</groupId>
-            <artifactId>token-service-api</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>jpa</artifactId>
         </dependency>
-
-        <!-- Swarm dependencies -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${version.h2}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>datasources</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.wildfly.swarm</groupId>
             <artifactId>jaxrs</artifactId>
@@ -144,33 +161,45 @@
         </dependency>
         <dependency>
             <groupId>org.wildfly.swarm</groupId>
+            <artifactId>ejb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
             <artifactId>undertow</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-client</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Logging dependencies -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <scope>provided</scope>
         </dependency>
-
-        <!-- JWT Library -->
+        <!-- TEST DEPS -->
         <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>${io.jsonwebtoken.version}</version>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
+            <scope>provided</scope>
         </dependency>
-
-        <!-- Junit tests -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxrs</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxb-provider</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jackson2-provider</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -178,7 +207,6 @@
             <artifactId>fest-assert</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.wildfly.swarm</groupId>
             <artifactId>arquillian</artifactId>
@@ -189,7 +217,7 @@
             <artifactId>arquillian-junit-container</artifactId>
             <scope>test</scope>
         </dependency>
-    </dependencies>
 
+    </dependencies>
 
 </project>
