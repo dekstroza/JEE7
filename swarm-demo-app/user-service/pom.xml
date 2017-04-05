@@ -35,7 +35,7 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>${docker.repo}/token-service:${project.version}</name>
+                                    <name>${docker.repo}/${project.artifactId}:${project.version}</name>
                                     <run>
                                         <ports>
                                             <port>${host.port}:${host.port}</port>

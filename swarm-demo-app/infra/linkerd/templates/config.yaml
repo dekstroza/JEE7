@@ -10,16 +10,51 @@ data:
       port: 9990
     namers:
     - kind: io.l5d.k8s
+      experimental: true
       host: localhost
       port: 8001
+    telemetry:
+    - kind: io.l5d.prometheus
+    - kind: io.l5d.recentRequests
+      sampleRate: 0.25
+    usage:
+      orgId: linkerd-examples-daemonset
+
     routers:
     - protocol: http
+      label: outgoing
       dtab: |
         /srv        => /#/io.l5d.k8s/default/http;
         /host       => /srv;
         /svc        => /host;
         /host/token-service => /srv/token-service;
+        /host/user-service => /srv/user-service;
+      interpreter:
+        kind: default
+        transformers:
+        - kind: io.l5d.k8s.daemonset
+          namespace: default
+          port: incoming
+          service: {{ template "fullname" . }}
       servers:
       - port: 4140
         ip: 0.0.0.0
+      responseClassifier:
+        kind: io.l5d.retryableRead5XX
+    - protocol: http
+      label: incoming
+      dtab: |
+        /srv        => /#/io.l5d.k8s/default/http;
+        /host       => /srv;
+        /svc        => /host;
+        /host/token-service => /srv/token-service;
+        /host/user-service => /srv/user-service;
+      interpreter:
+        kind: default
+        transformers:
+        - kind: io.l5d.k8s.localnode
+      servers:
+      - port: 4141
+        ip: 0.0.0.0
+
 

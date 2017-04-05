@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: token-service
+  name: registration-service
   namespace: default
 spec:
   replicas: 3
@@ -13,11 +13,12 @@ spec:
   template:
     metadata:
       labels:
-        app: token-service
+        app: registration-service
     spec:
+      dnsPolicy: ClusterFirst
       containers:
-      - name: token-service
-        image: dekstroza/token-service:1.0.1-SNAPSHOT
+      - name: registration-service
+        image: dekstroza/registration-service:1.0.1-SNAPSHOT
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
@@ -27,9 +28,13 @@ spec:
           periodSeconds: 3
         env:
         - name: HTTP_PROXY_HOST
-          value: linkerd-linkerd
+          value: "linkerd-linkerd"
         - name: HTTP_PROXY_PORT
           value: "4140"
+        - name: TOKEN_SERVICE_URL
+          value: "http://token-service/api/v1.0.0"
+        - name: USER_SERVICE_URL
+          value: "http://user-service/api/v1.0.0"
         ports:
         - name: http-port
           containerPort: 8080

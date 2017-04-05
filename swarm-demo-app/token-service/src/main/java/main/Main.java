@@ -4,7 +4,9 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.ClassLoaderAsset;
 import org.wildfly.swarm.Swarm;
 import org.wildfly.swarm.jaxrs.JAXRSArchive;
+import org.wildfly.swarm.swagger.SwaggerArchive;
 
+import io.dekstroza.github.jee7.swarmdemo.app.CORSFilter;
 import io.dekstroza.github.jee7.swarmdemo.app.TokenServiceApplication;
 import io.dekstroza.github.jee7.swarmdemo.app.domain.Credentials;
 import io.dekstroza.github.jee7.swarmdemo.app.endpoints.HealthzEndpoint;
@@ -20,13 +22,22 @@ public class Main {
     }
 
     public static JAXRSArchive createDeployment() throws Exception {
-        final JAXRSArchive jaxrsArchive = ShrinkWrap.create(JAXRSArchive.class, "token-service.war");
+        // Enable the swagger bits
+        SwaggerArchive swaggerArchive = ShrinkWrap.create(SwaggerArchive.class, "token-service.war");
+
+        swaggerArchive.setResourcePackages("io.dekstroza.github.jee7.swarmdemo.app.endpoints");
+        swaggerArchive.setTitle("Token Service");
+        swaggerArchive.setVersion("v1.0.0");
+        swaggerArchive.setContextRoot("/api");
+
+        final JAXRSArchive jaxrsArchive = swaggerArchive.as(JAXRSArchive.class);
+        jaxrsArchive.addClass(CORSFilter.class);
         jaxrsArchive.addClass(TokenGeneratorEndpoint.class);
-        jaxrsArchive.addResource(TokenServiceApplication.class);
+        jaxrsArchive.addClass(TokenServiceApplication.class);
         jaxrsArchive.addClass(HealthzEndpoint.class);
         jaxrsArchive.addClass(Credentials.class);
-
         jaxrsArchive.addAsWebInfResource(new ClassLoaderAsset("META-INF/beans.xml", Main.class.getClassLoader()), "classes/META-INF/beans.xml");
+
         jaxrsArchive.addAllDependencies();
         return jaxrsArchive;
     }

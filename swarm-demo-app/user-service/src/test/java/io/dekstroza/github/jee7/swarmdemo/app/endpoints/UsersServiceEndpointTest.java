@@ -42,7 +42,7 @@ public class UsersServiceEndpointTest {
         try {
             final WebTarget target = client.target(BASE_URL + "/healthz");
             final Response response = target.request().get();
-            Assertions.assertThat(response.getStatus()).isEqualTo(INTERNAL_SERVER_ERROR.getStatusCode());
+            Assertions.assertThat(response.getStatus()).isEqualTo(OK.getStatusCode());
         } finally {
             if (client != null) {
                 client.close();

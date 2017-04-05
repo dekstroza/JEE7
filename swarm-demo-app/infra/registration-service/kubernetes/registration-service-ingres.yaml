@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: registration-service-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /api/v1.0.0/register
+        backend:
+          serviceName: registration-service
+          servicePort: 7880
+      - path: /api/v1.0.0/healthz
+        backend:
+          serviceName: registration-service
+          servicePort: 7880
+
+

@@ -22,17 +22,15 @@ spec:
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
-            path: /api/v1.0.0/public/healthz
+            path: /api/v1.0.0/healthz
             port: 8080
           initialDelaySeconds: 20
           periodSeconds: 3
         env:
-        - name: http_proxy_host
+        - name: HTTP_PROXY_HOST
           value: linkerd-linkerd
-        - name: http_proxy_port
+        - name: HTTP_PROXY_PORT
           value: "4140"
-        - name: token_service_url
-          value: "http://token-service/api/v1.0.0/token"
         ports:
         - name: http-port
           containerPort: 8080

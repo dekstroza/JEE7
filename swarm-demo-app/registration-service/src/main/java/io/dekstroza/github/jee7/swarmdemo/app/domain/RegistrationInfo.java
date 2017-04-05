@@ -3,6 +3,7 @@ package io.dekstroza.github.jee7.swarmdemo.app.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.annotation.Generated;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -11,13 +12,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class RegistrationInfo implements Serializable {
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private String id;
+    private int id;
 
     @Column(nullable = false, unique = true)
     private int userId;
 
-    @Column(nullable = false, unique = true, length = 255)
+    @Column(nullable = false, unique = false, length = 255)
     private String email;
 
     @Column(nullable = false, unique = false, length = 16)
@@ -26,15 +28,15 @@ public class RegistrationInfo implements Serializable {
     @Column(nullable = false, unique = false, length = 255)
     private String authToken;
 
+    @Column
     @Temporal(TemporalType.TIMESTAMP)
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Date creationDate;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -78,5 +80,9 @@ public class RegistrationInfo implements Serializable {
         this.creationDate = creationDate;
     }
 
-
+    @Override
+    public String toString() {
+        return "RegistrationInfo{" + "id='" + id + '\'' + ", userId=" + userId + ", email='" + email + '\'' + ", password='" + password + '\''
+                + ", authToken='" + authToken + '\'' + ", creationDate=" + creationDate + '}';
+    }
 }

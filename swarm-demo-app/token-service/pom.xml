@@ -119,6 +119,7 @@
         </plugins>
     </build>
 
+
     <dependencies>
         <!-- JEE Dependencies -->
         <dependency>
@@ -144,9 +145,17 @@
         </dependency>
         <dependency>
             <groupId>org.wildfly.swarm</groupId>
+            <artifactId>swagger</artifactId>
+            <version>${wildfly.swarm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>ejb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
             <artifactId>undertow</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-client</artifactId>

@@ -12,17 +12,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(length = 255, nullable = false, unique = true)
+    @Column(length = 255, nullable = false, unique = false)
     private String email;
 
     @Column(length = 16, nullable = false)
     private String password;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     private Date creationDate;
 
@@ -91,5 +90,10 @@ public class User implements Serializable {
         result = 31 * result + getPassword().hashCode();
         result = 31 * result + getCreationDate().hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id + ", email='" + email + '\'' + ", password='" + password + '\'' + ", creationDate=" + creationDate + '}';
     }
 }

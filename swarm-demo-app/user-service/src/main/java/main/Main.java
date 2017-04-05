@@ -24,7 +24,6 @@ public class Main {
         jaxrsArchive.addClass(HealthzEndpoint.class);
         jaxrsArchive.addClass(UserEndpoint.class);
         jaxrsArchive.addClass(UserServiceApplication.class);
-        //jaxrsArchive.addAsWebInfResource(new ClassLoaderAsset("persistence.xml", Main.class.getClassLoader()), "classes/META-INF/persistence.xml");
         jaxrsArchive.addAllDependencies();
         return jaxrsArchive;
     }
