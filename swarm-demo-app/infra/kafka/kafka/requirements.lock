@@ -1,6 +1,0 @@
-dependencies:
-- name: kafka-pvc
-  repository: http://127.0.0.1:8879/
-  version: 0.10.1
-digest: sha256:16f958feaf4320eca2a3ee083b642c7c3c84784ea7676b74ee6fc601a7a6fc6b
-generated: 2017-01-26T17:08:41.854516466Z
