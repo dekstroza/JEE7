@@ -14,6 +14,7 @@
     <properties>
         <host.port>8080</host.port>
         <version.postgresql>42.0.0</version.postgresql>
+        <version.h2>1.4.187</version.h2>
     </properties>
 
     <profiles>
@@ -142,6 +143,16 @@
             <artifactId>postgresql</artifactId>
             <version>${version.postgresql}</version>
         </dependency>
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>datasources</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.187</version>
+        </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
