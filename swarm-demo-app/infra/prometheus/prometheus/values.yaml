@@ -71,7 +71,7 @@ alertmanager:
     ## If defined, volume.beta.kubernetes.io/storage-class: <storageClass>
     ## Default: volume.alpha.kubernetes.io/storage-class: default
     ##
-    # storageClass:
+    storageClass: cinder-persistent
 
   ## Alertmanager resource requests and limits
   ## Ref: http://kubernetes.io/docs/user-guide/compute-resources/
@@ -226,7 +226,7 @@ server:
     ## If defined, volume.beta.kubernetes.io/storage-class: <storageClass>
     ## Default: volume.alpha.kubernetes.io/storage-class: default
     ##
-    # storageClass:
+    storageClass: cinder-persistent
 
   ## Server resource requests and limits
   ## Ref: http://kubernetes.io/docs/user-guide/compute-resources/
@@ -288,6 +288,34 @@ serverFiles:
       - /etc/config/alerts
 
     scrape_configs:
+      - job_name: 'linkerd'
+        metrics_path: /admin/metrics/prometheus
+        kubernetes_sd_configs:
+        - role: endpoints
+        relabel_configs:
+        - source_labels: ['__meta_kubernetes_service_name']
+          regex: (.*linkerd$)
+          action:        keep
+        - source_labels: [__address__]
+          action: replace
+          target_label: __address__
+          regex: (.+)(?::\d+)
+          replacement: $1:9990
+        - source_labels: [__address__]
+          action: replace
+          target_label: instance
+          regex: (.+)(?::\d+)
+          replacement: $1
+        metric_relabel_configs:
+        - source_labels: [dst_id]
+          action:        replace
+          target_label:  service
+          regex:         .*/([^/]+)
+          replacement:   $1
+      - job_name: 'kafka'
+        static_configs:
+          - targets:
+            - kafka-jmx-exporter:8080
       - job_name: prometheus
         static_configs:
           - targets:
@@ -466,37 +494,3 @@ serverFiles:
           - source_labels: [__meta_kubernetes_pod_name]
             action: replace
             target_label: kubernetes_pod_name
-
-      - job_name: 'linkerd'
-        scrape_interval:     5s
-        evaluation_interval: 5s
-        metrics_path: /admin/metrics/prometheus
-
-        kubernetes_sd_configs:
-          role: endpoints
-
-        relabel_configs:
-        # only collect from linkerd's
-        - source_labels: ['__meta_kubernetes_service_name']
-          regex:         (.*linkerd$)
-          action:        keep
-        # only collect from the admin port
-        - source_labels: [__address__]
-          action: replace
-          target_label: __address__
-          regex: (.+)(?::\d+)
-          replacement: $1:9990
-        # strip off port
-        - source_labels: [__address__]
-          action: replace
-          target_label: instance
-          regex: (.+)(?::\d+)
-          replacement: $1
-
-        metric_relabel_configs:
-        # write service names into service label {service:"app1"}
-        - source_labels: [dst_id]
-          action:        replace
-          target_label:  service
-          regex:         .*/([^/]+)
-          replacement:   $1

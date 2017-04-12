@@ -1,0 +1,5 @@
+kafkaDockerImage: "solsson/kafka-persistent"
+kafkaDockerTag: "0.10.1.0"
+kafkaNamespace: "default"
+kafkaPort: "9092"
+

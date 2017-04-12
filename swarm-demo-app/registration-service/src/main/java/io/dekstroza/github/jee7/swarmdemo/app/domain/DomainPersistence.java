@@ -17,7 +17,7 @@ public class DomainPersistence {
     @PersistenceContext(unitName = "RegistrationsPU")
     EntityManager entityManager;
 
-    public RegistrationInfo persistRegistrationInfo(final RegistrationInfo info) {
+    public RegistrationInfoEntity persistRegistrationInfo(final RegistrationInfoEntity info) {
         log.info("calling persist on {}", info);
         try {
             info.setCreationDate(new Date());

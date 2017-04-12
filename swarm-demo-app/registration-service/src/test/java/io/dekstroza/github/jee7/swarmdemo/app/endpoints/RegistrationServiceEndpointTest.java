@@ -8,6 +8,7 @@ import static org.fest.assertions.Assertions.assertThat;
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.Response;
 
+import io.dekstroza.github.jee7.swarmdemo.app.domain.RegistrationInfoEntity;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
@@ -17,7 +18,6 @@ import org.junit.runner.RunWith;
 import org.wildfly.swarm.jaxrs.JAXRSArchive;
 
 import io.dekstroza.github.jee7.swarmdemo.app.RegistrationServiceConfigurationImpl;
-import io.dekstroza.github.jee7.swarmdemo.app.domain.RegistrationInfo;
 import main.Main;
 import testenv.ArquillianRegistrationServiceConfigurationImpl;
 import testenv.MockTokenService;
@@ -59,7 +59,7 @@ public class RegistrationServiceEndpointTest {
     @Test
     public void testCreateUser() throws Exception {
         System.out.println("Executing testCreateUser.");
-        final RegistrationInfo info = new RegistrationInfo();
+        final RegistrationInfoEntity info = new RegistrationInfoEntity();
         info.setEmail("kdejan@gmail.com");
         info.setPassword("password");
         final Client client = ClientBuilder.newClient();
@@ -68,11 +68,11 @@ public class RegistrationServiceEndpointTest {
             final WebTarget target = client.target(BASE_URL + "/register");
             System.out.println("About to call http put.");
             try {
-                final Entity<RegistrationInfo> entity = Entity.entity(info, APPLICATION_JSON);
+                final Entity<RegistrationInfoEntity> entity = Entity.entity(info, APPLICATION_JSON);
                 Invocation.Builder builder = target.request();
                 final Response response = builder.put(entity);
                 System.out.println("Response received.");
-                final RegistrationInfo responseUser = response.readEntity(RegistrationInfo.class);
+                final RegistrationInfoEntity responseUser = response.readEntity(RegistrationInfoEntity.class);
                 System.out.println("Response body is:"+ responseUser);
                 assertThat(response.getStatus()).isEqualTo(CREATED.getStatusCode());
             } catch (Exception e) {

@@ -1,0 +1,46 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: kafka
+  namespace: {{.Values.kafkaNamespace}}
+spec:
+  serviceName: "broker"
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: kafka
+      annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
+        pod.alpha.kubernetes.io/init-containers: '[
+        ]'
+    spec:
+      containers:
+      - name: broker
+        image: {{.Values.kafkaDockerImage}}:{{.Values.kafkaDockerTag}}
+        env:
+          - name: JMX_PORT
+            value: "9999"
+          - name: KAFKA_JMX_OPTS
+            value: "-Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.net.preferIPv4Stack=true"
+        ports:
+        - containerPort: {{.Values.kafkaPort}}
+        command:
+        - sh
+        - -c
+        - "./bin/kafka-server-start.sh config/server.properties --override broker.id=$(hostname | awk -F'-' '{print $2}')"
+        volumeMounts:
+        - name: datadir
+          mountPath: /opt/kafka/data
+  volumeClaimTemplates:
+  - metadata:
+      name: datadir
+      namespace: {{.Values.kafkaNamespace}}
+      annotations:
+        volume.alpha.kubernetes.io/storage-class: anything
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 100Mi
+

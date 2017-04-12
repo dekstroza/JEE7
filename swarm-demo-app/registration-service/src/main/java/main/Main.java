@@ -7,15 +7,6 @@ import org.wildfly.swarm.datasources.DatasourcesFraction;
 import org.wildfly.swarm.jaxrs.JAXRSArchive;
 import org.wildfly.swarm.jpa.JPAFraction;
 
-import io.dekstroza.github.jee7.swarmdemo.app.RegistrationServiceApplication;
-import io.dekstroza.github.jee7.swarmdemo.app.RegistrationServiceConfiguration;
-import io.dekstroza.github.jee7.swarmdemo.app.RegistrationServiceConfigurationImpl;
-import io.dekstroza.github.jee7.swarmdemo.app.domain.DomainPersistence;
-import io.dekstroza.github.jee7.swarmdemo.app.domain.RegistrationInfo;
-import io.dekstroza.github.jee7.swarmdemo.app.endpoints.HealthzEndpoint;
-import io.dekstroza.github.jee7.swarmdemo.app.endpoints.RegistrationEndpoint;
-import io.dekstroza.github.jee7.swarmdemo.app.endpoints.ServiceClientBuilder;
-
 public class Main {
 
     public static void main(String[] args) throws Exception {
@@ -26,14 +17,7 @@ public class Main {
 
     public static JAXRSArchive createDeployment() throws Exception {
         final JAXRSArchive jaxrsArchive = ShrinkWrap.create(JAXRSArchive.class, "registration-service.war");
-        jaxrsArchive.addClass(HealthzEndpoint.class);
-        jaxrsArchive.addClass(RegistrationEndpoint.class);
-        jaxrsArchive.addClass(RegistrationInfo.class);
-        jaxrsArchive.addClass(DomainPersistence.class);
-        jaxrsArchive.addResource(RegistrationServiceApplication.class);
-        jaxrsArchive.addClass(RegistrationServiceConfiguration.class);
-        jaxrsArchive.addClass(RegistrationServiceConfigurationImpl.class);
-        jaxrsArchive.addClass(ServiceClientBuilder.class);
+        jaxrsArchive.addPackages(true, "io.dekstroza.github.jee7.swarmdemo.app");
         jaxrsArchive.addAsWebInfResource(new ClassLoaderAsset("persistence.xml", Main.class.getClassLoader()), "classes/META-INF/persistence.xml");
         jaxrsArchive.addAllDependencies();
         return jaxrsArchive;

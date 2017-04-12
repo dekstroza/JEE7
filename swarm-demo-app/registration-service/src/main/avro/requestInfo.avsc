@@ -1,0 +1,13 @@
+{
+    "namespace": "io.dekstroza.github.jee7.swarmdemo.app.domain",
+    "type": "record",
+    "name": "RegistrationInfo",
+    "fields": [
+        {"name": "id", "type": "string", "default": ""},
+        {"name": "userId", "type": "int", "default": 0},
+        {"name": "email", "type": "string", "default": ""},
+        {"name": "password", "type": "string", "default": ""},
+        {"name": "authToken", "type": "string", "default":""},
+        {"name": "creationDate", "type": "long", "default": 0}
+    ]
+}

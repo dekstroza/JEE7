@@ -5,5 +5,4 @@ import javax.ws.rs.core.Application;
 
 @ApplicationPath("/api")
 public class TokenServiceApplication extends Application {
-
 }
