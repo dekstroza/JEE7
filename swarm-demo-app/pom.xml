@@ -43,10 +43,6 @@
     </properties>
 
     <modules>
-        <module>user-service</module>
-        <module>token-service</module>
-        <module>registration-service</module>
-        <module>user-service-api</module>
         <module>hops-factory</module>
     </modules>
 
