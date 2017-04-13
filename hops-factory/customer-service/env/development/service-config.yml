@@ -1,0 +1,14 @@
+swarm:
+  io:
+    workers:
+      default:
+        io-threads: 4
+        task-max-threads: 32
+  ds:
+    name: CustomerDS
+    connection:
+      url: "jdbc:postgresql://localhost:7776/hops-factory"
+    username: customer_service_app
+    password: 123hopS
+  jpa:
+    default-datasource: CustomerDS

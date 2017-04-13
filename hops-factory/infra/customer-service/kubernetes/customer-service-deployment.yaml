@@ -1,0 +1,50 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: customer-service
+  namespace: default
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: "10%"
+      maxSurge: "10%"
+  template:
+    metadata:
+      labels:
+        app: customer-service
+    spec:
+      containers:
+      - name: customer-service
+        image: dekstroza/customer-service:1.0.1-SNAPSHOT
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/config
+        resources:
+          requests:
+            memory: "500Mi"
+            cpu: "0.5"
+          limits:
+            memory: "600Mi"
+            cpu: "1"
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /customer_service/healthz
+            port: 8080
+          timeoutSeconds: 3
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        env:
+        - name: HTTP_PROXY_HOST
+          value: linkerd091-linkerd
+        - name: HTTP_PROXY_PORT
+          value: "4140"
+        ports:
+        - name: http-port
+          containerPort: 8080
+      volumes:
+        - name: config-volume
+          configMap:
+            name: customer-service-config

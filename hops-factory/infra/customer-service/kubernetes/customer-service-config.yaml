@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: customer-service-config
+  namespace: default
+data:
+  service-config.yml: |
+    swarm:
+      io:
+        workers:
+          default:
+            io-threads: 4
+            task-max-threads: 32
+      flyway:
+        jdbc-user: customer_service_app
+        jdbc-password: 123hopS
+        jdbc-url: 'jdbc:postgresql://hopsfactorydb-postgresql:5432/hops-factory?currentSchema=customer_service'
+      datasources:
+        data-sources:
+          CustomerDS:
+            connection-url: 'jdbc:postgresql://hopsfactorydb-postgresql:5432/hops-factory'
+            driver-name: postgresql
+            user-name: customer_service_app
+            password: 123hopS
+
+      ds:
+        name: CustomerDS
+        connection:
+        url: 'jdbc:postgresql://hopsfactorydb-postgresql:5432/hops-factory'
+        username: customer_service_app
+        password: 123hopS
+      jpa:
+        default-datasource: CustomerDS
