@@ -1,11 +1,9 @@
 package com.github.dekstroza.hopsfactory.customerservice.domain;
 
 import java.io.Serializable;
+import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
@@ -14,7 +12,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Customer implements Serializable {
 
     @Id
-    private String id;
+    @Column
+    @GeneratedValue
+    private UUID id;
     @Column
     private String firstname;
     @Column
@@ -24,11 +24,21 @@ public class Customer implements Serializable {
     @Column
     private String password;
 
-    public String getId() {
+    public Customer() {
+    }
+
+    public Customer(String firstname, String lastname, String email, String password) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+    }
+
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
