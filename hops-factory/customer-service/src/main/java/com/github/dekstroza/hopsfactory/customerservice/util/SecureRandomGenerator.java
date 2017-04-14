@@ -1,4 +1,4 @@
-package com.github.dekstroza.hopsfactory.customerservice.endpoints;
+package com.github.dekstroza.hopsfactory.customerservice.util;
 
 import java.security.SecureRandom;
 

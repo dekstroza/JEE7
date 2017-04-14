@@ -24,10 +24,10 @@ spec:
         resources:
           requests:
             memory: "500Mi"
-            cpu: "0.5"
+            cpu: "1000m"
           limits:
-            memory: "600Mi"
-            cpu: "1"
+            memory: "1Gi"
+            cpu: "1m"
         imagePullPolicy: Always
         livenessProbe:
           httpGet:

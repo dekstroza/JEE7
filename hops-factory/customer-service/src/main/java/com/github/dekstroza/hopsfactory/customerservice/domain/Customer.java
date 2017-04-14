@@ -19,7 +19,7 @@ public class Customer implements Serializable {
     private String firstname;
     @Column
     private String lastname;
-    @Column
+    @Column(unique = true)
     private String email;
     @Column
     private String password;

@@ -1,6 +1,7 @@
 package com.github.dekstroza.hopsfactory.customerservice.endpoints;
 
-import static com.github.dekstroza.hopsfactory.customerservice.endpoints.SecureRandomGenerator.secureRandom;
+import static com.github.dekstroza.hopsfactory.customerservice.util.SecureRandomGenerator.secureRandom;
+import static com.github.dekstroza.hopsfactory.customerservice.util.ValidationMessages.*;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.Response.status;
 import static javax.ws.rs.core.Response.Status.CREATED;
@@ -24,24 +25,28 @@ import javax.ws.rs.container.Suspended;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dekstroza.hopsfactory.customerservice.CustomerServiceApplication;
+import com.github.dekstroza.hopsfactory.customerservice.ExposeLogControl;
 import com.github.dekstroza.hopsfactory.customerservice.domain.Customer;
 
-@Path("v1.0.0")
 @RequestScoped
-public class CustomerEndpoint {
+@Path("customer")
+public class CustomerEndpoint implements ExposeLogControl {
 
     private static final Logger log = LoggerFactory.getLogger(CustomerEndpoint.class);
+    public static final String FIRSTNAME = "firstname";
+    public static final String LASTNAME = "lastname";
+    public static final String EMAIL = "email";
 
     @PersistenceContext(unitName = "CustomerPU")
     private EntityManager entityManager;
 
     @Transactional
-    @Produces(APPLICATION_JSON)
+    @Produces({ CustomerServiceApplication.APPLICATION_CUSTOMER_SERVICE_V1_JSON, APPLICATION_JSON })
     @PUT
-    @Path("customer")
-    public void createNewCustomer(@NotNull(message = "Parameter firstname can not be null.") @Size(min = 2, max = 100, message = "Parameter firstname must be between 2 and 100 characters long.") @QueryParam("firstname") String firstname,
-                                  @NotNull(message = "Parameter lastname can not be null.") @Size(min = 2, max = 100, message = "Parameter lastname must be between 2 and 100 characters long.") @QueryParam("lastname") String lastname,
-                                  @NotNull(message = "Parameter email can not be null.") @Size(min = 5, max = 100, message = "Parameter email must be between 2 and 100 characters long.") @Pattern(regexp = ".+@.+\\..+", message = "Parameter email must be valid mail address.") @QueryParam("email") String email,
+    public void createNewCustomer(@NotNull(message = MISSING_FIRSTNAME_MSG) @Size(min = 2, max = 100, message = FIRSTNAME_INVALID_LENGTH_MSG) @QueryParam(FIRSTNAME) String firstname,
+                                  @NotNull(message = MISSING_LASTNAME_MSG) @Size(min = 2, max = 100, message = LASTNAME_INVALID_LENGTH_MSG) @QueryParam(LASTNAME) String lastname,
+                                  @NotNull(message = MISSING_EMAIL_MSG) @Pattern(regexp = ".+@.+\\..+", message = INVALID_EMAIL_FORMAT_MSG) @QueryParam(EMAIL) String email,
                                   @Suspended AsyncResponse response) {
         try {
             final Customer customer = new Customer(firstname, lastname, email, new BigInteger(130, secureRandom).toString(32));

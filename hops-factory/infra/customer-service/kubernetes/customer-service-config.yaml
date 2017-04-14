@@ -22,7 +22,6 @@ data:
             driver-name: postgresql
             user-name: customer_service_app
             password: 123hopS
-
       ds:
         name: CustomerDS
         connection:

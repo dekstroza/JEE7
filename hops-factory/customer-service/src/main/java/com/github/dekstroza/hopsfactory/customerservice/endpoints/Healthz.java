@@ -5,6 +5,7 @@ import static javax.ws.rs.core.Response.status;
 import static javax.ws.rs.core.Response.Status.OK;
 import static javax.ws.rs.core.Response.Status.SERVICE_UNAVAILABLE;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.annotation.Resource;
@@ -18,9 +19,11 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Path("healthz")
+import com.github.dekstroza.hopsfactory.customerservice.ExposeLogControl;
+
 @RequestScoped
-public class Healthz {
+@Path("healthz")
+public class Healthz implements ExposeLogControl {
 
     @Resource(lookup = "jboss/datasources/CustomerDS")
     private DataSource dataSource;
@@ -30,9 +33,10 @@ public class Healthz {
     @GET
     @Produces(TEXT_PLAIN)
     public Response basicHealthcheck() {
-        try {
-            if (dataSource.getConnection().isValid(1)) {
-                log.info("Healthcheck is returning OK.");
+
+        try (Connection connection = dataSource.getConnection()) {
+            if (connection.isValid(1)) {
+                log.debug("Healthcheck is returning OK.");
                 return status(OK).build();
             } else {
                 log.error("Healthcheck failed to return valid connection within 1 second.");
@@ -44,4 +48,5 @@ public class Healthz {
         }
 
     }
+
 }

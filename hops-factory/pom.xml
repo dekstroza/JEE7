@@ -13,20 +13,20 @@
     <properties>
         <jee.version>7.0</jee.version>
         <junit.version>4.11</junit.version>
-        <resteasy.version>3.0.16.Final</resteasy.version>
         <slf4.api.version>1.7.5</slf4.api.version>
-        <fest-assert.version>1.4</fest-assert.version>
         <arquillian.bom.version>1.1.12.Final</arquillian.bom.version>
         <wildfly.swarm.version>2017.4.0</wildfly.swarm.version>
         <maven.compiler.plugin.version>2.5.1</maven.compiler.plugin.version>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.war.plugin.version>2.2</maven.war.plugin.version>
-        <maven.docker.plugin>0.13.8</maven.docker.plugin>
+        <maven.docker.plugin>0.20.0</maven.docker.plugin>
+        <maven.failsafe.plugin.version>2.19.1</maven.failsafe.plugin.version>
+        <flyway.maven.plugin.version>4.1.2</flyway.maven.plugin.version>
         <java.source.version>1.8</java.source.version>
         <java.target.version>1.8</java.target.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <docker.repo>dekstroza</docker.repo>
+
     </properties>
 
     <modules>
@@ -44,6 +44,26 @@
                         <source>${java.source.version}</source>
                         <target>${java.target.version}</target>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.wildfly.swarm</groupId>
+                    <artifactId>wildfly-swarm-plugin</artifactId>
+                    <version>${wildfly.swarm.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>${maven.docker.plugin}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.flywaydb</groupId>
+                    <artifactId>flyway-maven-plugin</artifactId>
+                    <version>${flyway.maven.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${maven.failsafe.plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -64,13 +84,6 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-bom</artifactId>
-                <version>${resteasy.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4.api.version}</version>
@@ -79,11 +92,6 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.easytesting</groupId>
-                <artifactId>fest-assert</artifactId>
-                <version>${fest-assert.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
