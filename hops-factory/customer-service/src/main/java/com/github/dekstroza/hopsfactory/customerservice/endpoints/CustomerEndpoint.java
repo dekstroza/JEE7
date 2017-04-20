@@ -4,14 +4,13 @@ import static com.github.dekstroza.hopsfactory.customerservice.util.SecureRandom
 import static com.github.dekstroza.hopsfactory.customerservice.util.ValidationMessages.*;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.Response.status;
+import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.CREATED;
 
 import java.math.BigInteger;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -28,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import com.github.dekstroza.hopsfactory.customerservice.CustomerServiceApplication;
 import com.github.dekstroza.hopsfactory.customerservice.ExposeLogControl;
 import com.github.dekstroza.hopsfactory.customerservice.domain.Customer;
+import com.github.dekstroza.hopsfactory.customerservice.domain.PersistanceHelper;
 
 @RequestScoped
 @Path("customer")
@@ -38,10 +38,9 @@ public class CustomerEndpoint implements ExposeLogControl {
     public static final String LASTNAME = "lastname";
     public static final String EMAIL = "email";
 
-    @PersistenceContext(unitName = "CustomerPU")
-    private EntityManager entityManager;
+    @EJB
+    private PersistanceHelper persistanceHelper;
 
-    @Transactional
     @Produces({ CustomerServiceApplication.APPLICATION_CUSTOMER_SERVICE_V1_JSON, APPLICATION_JSON })
     @PUT
     public void createNewCustomer(@NotNull(message = MISSING_FIRSTNAME_MSG) @Size(min = 2, max = 100, message = FIRSTNAME_INVALID_LENGTH_MSG) @QueryParam(FIRSTNAME) String firstname,
@@ -49,12 +48,20 @@ public class CustomerEndpoint implements ExposeLogControl {
                                   @NotNull(message = MISSING_EMAIL_MSG) @Pattern(regexp = ".+@.+\\..+", message = INVALID_EMAIL_FORMAT_MSG) @QueryParam(EMAIL) String email,
                                   @Suspended AsyncResponse response) {
         try {
-            final Customer customer = new Customer(firstname, lastname, email, new BigInteger(130, secureRandom).toString(32));
-            entityManager.persist(customer);
+            Customer customer = new Customer(firstname, lastname, email, new BigInteger(130, secureRandom).toString(32));
+            customer = persistanceHelper.persistCustomer(customer);
             response.resume(status(CREATED).entity(customer).build());
         } catch (Exception e) {
-            log.error("Error creating customer.", e);
-            response.resume(e);
+            response.resume(status(BAD_REQUEST).entity(originalCause(e).getMessage()).build());
         }
     }
+
+    private Throwable originalCause(Exception e) {
+        Throwable t = e.getCause();
+        while (t.getCause() != null) {
+            t = t.getCause();
+        }
+        return t;
+    }
+
 }

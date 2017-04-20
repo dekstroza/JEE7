@@ -4,12 +4,18 @@ swarm:
       default:
         io-threads: 4
         task-max-threads: 32
+  undertow:
+    servers:
+      default-server:
+        http-listeners:
+          default:
+            enable-http2: true
   http2:
     enabled: true
   flyway:
-        jdbc-user: ${db.user}
-        jdbc-password: ${db.user.password}
-        jdbc-url: ${flyway.url}
+    jdbc-user: ${flyway.user}
+    jdbc-password: ${flyway.password}
+    jdbc-url: ${flyway.url}
   datasources:
     data-sources:
       CustomerDS:
@@ -17,12 +23,5 @@ swarm:
         driver-name: postgresql
         user-name: ${db.user}
         password: ${db.user.password}
-  ds:
-    name: CustomerDS
-    connection:
-    url: ${db.url}
-    username: ${db.user}
-    password: ${db.user.password}
-  jpa:
-    default-datasource: CustomerDS
+
 

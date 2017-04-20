@@ -37,7 +37,7 @@ public class Healthz implements ExposeLogControl {
         try (Connection connection = dataSource.getConnection()) {
             if (connection.isValid(1)) {
                 log.debug("Healthcheck is returning OK.");
-                return status(OK).build();
+                return status(OK).entity("OK").build();
             } else {
                 log.error("Healthcheck failed to return valid connection within 1 second.");
                 return status(SERVICE_UNAVAILABLE).entity("Unable to get valid db connection").build();

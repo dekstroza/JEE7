@@ -10,7 +10,7 @@ spec:
   - host: customer-service
     http:
       paths:
-      - path: /customer_service/v1.0.0/customer
+      - path: /customer_service/
         backend:
           serviceName: customer-service
           servicePort: 7777
