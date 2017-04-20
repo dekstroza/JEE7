@@ -30,10 +30,10 @@
     </properties>
 
     <modules>
-        <module>customer-service</module>
-        <module>inventory-service</module>
-        <module>order-service</module>
-        <module>supplier-service</module>
+        <module>customer-service-module</module>
+        <module>inventory-service-module</module>
+        <module>order-service-module</module>
+        <module>supplier-service-module</module>
     </modules>
 
     <build>
