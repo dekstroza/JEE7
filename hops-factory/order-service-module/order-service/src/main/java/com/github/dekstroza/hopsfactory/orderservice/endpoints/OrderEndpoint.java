@@ -29,7 +29,8 @@ import com.github.dekstroza.hopsfactory.orderservice.domain.Order;
 @Transactional
 @Path("order")
 @RequestScoped
-public class OrderEndpoint implements ExposeLogControl {
+@ExposeLogControl
+public class OrderEndpoint {
 
     public static final Logger log = LoggerFactory.getLogger(OrderEndpoint.class);
 

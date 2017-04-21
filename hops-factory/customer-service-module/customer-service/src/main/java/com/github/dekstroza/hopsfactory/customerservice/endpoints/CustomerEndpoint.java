@@ -28,7 +28,8 @@ import com.github.dekstroza.hopsfactory.customerservice.domain.Customer;
 @Transactional
 @RequestScoped
 @Path("customer")
-public class CustomerEndpoint implements ExposeLogControl {
+@ExposeLogControl
+public class CustomerEndpoint {
 
     private static final Logger log = LoggerFactory.getLogger(CustomerEndpoint.class);
 

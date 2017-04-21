@@ -30,7 +30,8 @@ import io.swagger.annotations.*;
 @Api(value = "/supplier", description = "Operations on suppliers")
 @Path("supplier")
 @RequestScoped
-public class SupplierEndpoint implements ExposeLogControl {
+@ExposeLogControl
+public class SupplierEndpoint {
 
     private static final Logger log = LoggerFactory.getLogger(SupplierEndpoint.class);
 

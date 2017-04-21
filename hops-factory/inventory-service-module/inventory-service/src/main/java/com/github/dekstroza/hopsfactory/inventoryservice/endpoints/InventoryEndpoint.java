@@ -28,7 +28,8 @@ import com.github.dekstroza.hopsfactory.inventoryservice.domain.Inventory;
 @Transactional
 @RequestScoped
 @Path("inventory")
-public class InventoryEndpoint implements ExposeLogControl {
+@ExposeLogControl
+public class InventoryEndpoint {
 
     public static final Logger log = LoggerFactory.getLogger(InventoryEndpoint.class);
 

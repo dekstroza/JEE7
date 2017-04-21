@@ -28,7 +28,8 @@ import io.swagger.annotations.ApiResponses;
 @Api(value = "/healthz", description = "Healthcheck endpoint.")
 @RequestScoped
 @Path("healthz")
-public class Healthz implements ExposeLogControl {
+@ExposeLogControl
+public class Healthz {
 
     @Inject
     private DataSource dataSource;
