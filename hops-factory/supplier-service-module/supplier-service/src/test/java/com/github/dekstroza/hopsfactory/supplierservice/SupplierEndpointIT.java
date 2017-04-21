@@ -24,9 +24,8 @@ public class SupplierEndpointIT {
         Supplier supplier = new Supplier("Guinness Inc", "Dublin", "0871984116", "fergus.a.bartley@guinness.com");
         ExtractableResponse response = given().contentType(JSON).body(supplier).when().post(SUPPLIER_SERVICE_URL).then().assertThat().statusCode(201)
                 .and().contentType(JSON).extract();
-        Supplier actual = response.as(Supplier.class);
-        given().contentType(JSON).pathParam("id", actual.getId().toString()).when().get(SUPPLIER_SERVICE_URL + "/{id}").then().assertThat()
-                .statusCode(200).and().contentType(JSON);
+        given().contentType(JSON).pathParam("id", response.as(Supplier.class).getId().toString()).when().get(SUPPLIER_SERVICE_URL + "/{id}").then()
+                .assertThat().statusCode(200).and().contentType(JSON);
 
     }
 
@@ -37,8 +36,7 @@ public class SupplierEndpointIT {
                 .and().contentType(JSON);
         ExtractableResponse response = given().contentType(APPLICATION_SUPPLIER_SERVICE_V1_JSON).body(supplier).when().post(SUPPLIER_SERVICE_URL)
                 .then().assertThat().statusCode(201).and().contentType(JSON).and().extract();
-        Supplier actual = response.as(Supplier.class);
-        given().contentType(APPLICATION_SUPPLIER_SERVICE_V1_JSON).pathParam("id", actual.getId().toString()).when()
+        given().contentType(APPLICATION_SUPPLIER_SERVICE_V1_JSON).pathParam("id", response.as(Supplier.class).getId().toString()).when()
                 .get(SUPPLIER_SERVICE_URL + "/{id}").then().assertThat().statusCode(200).and().contentType(JSON);
 
     }

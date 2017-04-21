@@ -6,14 +6,14 @@ import static javax.ws.rs.core.Response.status;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.CREATED;
 
-import java.util.UUID;
-
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.ws.rs.PUT;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 
@@ -22,26 +22,24 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dekstroza.hopsfactory.commons.rest.ExposeLogControl;
 import com.github.dekstroza.hopsfactory.inventoryservice.domain.Inventory;
-import com.github.dekstroza.hopsfactory.inventoryservice.domain.PersistanceHelper;
 
+@Transactional
 @RequestScoped
 @Path("inventory")
 public class InventoryEndpoint implements ExposeLogControl {
 
     public static final Logger log = LoggerFactory.getLogger(InventoryEndpoint.class);
 
-    @EJB
-    PersistanceHelper persistanceHelper;
+    @PersistenceContext(unitName = "InventoryPU")
+    private EntityManager entityManager;
 
+    @Consumes(APPLICATION_JSON)
     @Produces({ APPLICATION_INVENTORY_SERVICE_V1_JSON, APPLICATION_JSON })
-    @PUT
-    public void createNewInventory(@QueryParam("supplierId") UUID supplierId, @QueryParam("name") String name,
-                                   @QueryParam("description") String description, @QueryParam("price") double price,
-                                   @QueryParam("quantity") double quantity, @Suspended AsyncResponse response) {
-
+    @POST
+    public void createNewInventory(Inventory inventory, @Suspended AsyncResponse response) {
         try {
-            response.resume(status(CREATED).entity(persistanceHelper.persistInventory(new Inventory(supplierId, price, quantity, name, description)))
-                    .build());
+            entityManager.persist(inventory);
+            response.resume(status(CREATED).entity(inventory).build());
         } catch (Exception e) {
             response.resume(status(BAD_REQUEST).entity(originalCause(e).getMessage()).build());
         }

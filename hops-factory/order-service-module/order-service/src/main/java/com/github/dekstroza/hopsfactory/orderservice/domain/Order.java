@@ -30,17 +30,21 @@ public class Order implements Serializable {
     private double price;
 
     @Column
-    private String status;
+    private ORDER_STATES status;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column
     private Date orderDate;
 
+    public static enum ORDER_STATES {
+        NEW_ORDER, PROCESSING, PROCESSED
+    };
+
     public Order() {
 
     }
 
-    public Order(UUID inventoryId, UUID customerId, double quantity, double totalAmmount, String status, Date orderDate) {
+    public Order(UUID inventoryId, UUID customerId, double quantity, double totalAmmount, ORDER_STATES status, Date orderDate) {
         this.inventoryId = inventoryId;
         this.customerId = customerId;
         this.quantity = quantity;
@@ -69,7 +73,7 @@ public class Order implements Serializable {
         return price;
     }
 
-    public String getStatus() {
+    public ORDER_STATES getStatus() {
         return status;
     }
 
@@ -97,7 +101,7 @@ public class Order implements Serializable {
         this.price = totalAmmount;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ORDER_STATES status) {
         this.status = status;
     }
 

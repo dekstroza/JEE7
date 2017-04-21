@@ -8,24 +8,26 @@ import static javax.ws.rs.core.Response.Status.*;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 
-import com.github.dekstroza.hopsfactory.supplierservice.domain.PersistanceHelper;
 import com.github.dekstroza.hopsfactory.supplierservice.domain.Supplier;
 
 import io.swagger.annotations.*;
 
+@Transactional
 @Api(value = "/supplier", description = "Operations on suppliers")
 @Path("supplier")
 @RequestScoped
 public class SupplierEndpoint {
 
-    @EJB
-    private PersistanceHelper persistanceHelper;
+    @PersistenceContext(unitName = "SupplierPU")
+    private EntityManager entityManager;
 
     @ApiOperation(httpMethod = "POST", value = "Create new supplier", response = Supplier.class, produces = APPLICATION_JSON + ", "
             + APPLICATION_SUPPLIER_SERVICE_V1_JSON, consumes = APPLICATION_JSON + ", " + APPLICATION_SUPPLIER_SERVICE_V1_JSON)
@@ -37,9 +39,10 @@ public class SupplierEndpoint {
     public void insertNewSupplier(@ApiParam(value = "Supplier to be created", required = true, allowableValues = "JSON representation of Supplier.class instance.") Supplier supplier,
                                   @Suspended AsyncResponse response) {
         try {
-            response.resume(status(CREATED).entity(persistanceHelper.persistSupplier(supplier)).build());
+            entityManager.persist(supplier);
+            response.resume(status(CREATED).entity(supplier).build());
         } catch (Exception e) {
-            response.resume(status(BAD_REQUEST).entity(originalCause(e).getMessage()).build());
+            response.resume(status(INTERNAL_SERVER_ERROR).entity(originalCause(e).getMessage()).build());
         }
     }
 
@@ -55,7 +58,7 @@ public class SupplierEndpoint {
     public void getSupplierById(@ApiParam(value = "Id of the requested supplier", required = true, name = "id", allowableValues = "Valid UUID strings", example = "571fbefb-f96e-40c7-b699-94ac2403eab4") @PathParam("id") UUID id,
                                 @Suspended AsyncResponse response) {
         try {
-            Optional.of(persistanceHelper.findById(id)).ifPresent(x -> {
+            Optional.of(entityManager.find(Supplier.class, id)).ifPresent(x -> {
                 response.resume(status(OK).entity(x).build());
                 return;
             });
@@ -74,7 +77,7 @@ public class SupplierEndpoint {
     @GET
     public void getAllSuppliers(@Suspended AsyncResponse response) {
         try {
-            response.resume(status(OK).entity(persistanceHelper.getAllSuppliers()).build());
+            response.resume(status(OK).entity(entityManager.createQuery("SELECT s FROM supplier s", Supplier.class).getResultList()).build());
         } catch (Exception e) {
             response.resume(status(INTERNAL_SERVER_ERROR).entity(originalCause(e)).build());
         }

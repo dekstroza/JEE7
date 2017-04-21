@@ -6,15 +6,14 @@ import static javax.ws.rs.core.Response.status;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.CREATED;
 
-import java.util.Date;
-import java.util.UUID;
-
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.Response;
@@ -24,25 +23,24 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dekstroza.hopsfactory.commons.rest.ExposeLogControl;
 import com.github.dekstroza.hopsfactory.orderservice.domain.Order;
-import com.github.dekstroza.hopsfactory.orderservice.domain.PersistanceHelper;
 
+@Transactional
 @Path("order")
 @RequestScoped
 public class OrderEndpoint implements ExposeLogControl {
 
     public static final Logger log = LoggerFactory.getLogger(OrderEndpoint.class);
 
-    @EJB
-    private PersistanceHelper persistanceHelper;
+    @PersistenceContext(unitName = "OrderPU")
+    private EntityManager entityManager;
 
     @POST
+    @Consumes(APPLICATION_JSON)
     @Produces({ APPLICATION_JSON, APPLICATION_ORDER_SERVICE_V1_JSON })
-    public void insertNewOrder(@QueryParam("inventory_id") UUID inventoryId, @QueryParam("customerId") UUID customerId,
-                               @QueryParam("quantity") double quantity, @QueryParam("price") double price, @Suspended AsyncResponse response) {
+    public void insertNewOrder(Order order, @Suspended AsyncResponse response) {
         try {
-            response.resume(Response.status(CREATED)
-                    .entity(persistanceHelper.persistInventory(new Order(inventoryId, customerId, quantity, price, "NEW ORDER", new Date())))
-                    .build());
+            entityManager.persist(order);
+            response.resume(Response.status(CREATED).entity(order).build());
         } catch (Exception e) {
             response.resume(status(BAD_REQUEST).entity(originalCause(e).getMessage()).build());
 
