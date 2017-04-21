@@ -1,11 +1,10 @@
 package com.github.dekstroza.hopsfactory.orderservice.domain;
 
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
-
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @Entity(name = "order")
@@ -38,7 +37,9 @@ public class Order implements Serializable {
 
     public static enum ORDER_STATES {
         NEW_ORDER, PROCESSING, PROCESSED
-    };
+    }
+
+    ;
 
     public Order() {
 
@@ -109,10 +110,21 @@ public class Order implements Serializable {
         this.orderDate = orderDate;
     }
 
+    public Order copyFrom(final Order newValues) {
+        setId(newValues.getId());
+        setStatus(newValues.getStatus());
+        setQuantity(newValues.getQuantity());
+        setOrderDate(newValues.getOrderDate());
+        setPrice(newValues.getPrice());
+        setInventoryId(newValues.getInventoryId());
+        setCustomerId(newValues.getCustomerId());
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Order{" + "id=" + id + ", inventoryId=" + inventoryId + ", customerId=" + customerId + ", quantity=" + quantity + ", totalAmmount="
-                + price + ", status='" + status + '\'' + ", orderDate=" + orderDate + '}';
+                   + price + ", status='" + status + '\'' + ", orderDate=" + orderDate + '}';
     }
 
     @Override

@@ -1,7 +1,9 @@
 package com.github.dekstroza.hopsfactory.commons.rest;
 
+import static com.github.dekstroza.hopsfactory.commons.rest.ExposableLoggerExtension.getEndpointsWithLogControl;
 import static java.util.stream.Collectors.toList;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 import static javax.ws.rs.core.Response.status;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.OK;
@@ -46,13 +48,15 @@ public class AdminEndpoint {
         }
     }
 
+    @Consumes({ TEXT_PLAIN, APPLICATION_JSON })
     @Produces(APPLICATION_JSON)
-    @POST
+    @PUT
     @Path("/logger/{clazz}")
     public Response setLogLevelForPackage(@PathParam("clazz") String clazz, @QueryParam("level") String level) {
-        if (!ExposableLoggerExtension.getEndpointsWithLogControl().contains(clazz)) {
-            return status(BAD_REQUEST).entity("Invalid class or package, allowed values are:\n"
-                    + ExposableLoggerExtension.getEndpointsWithLogControl().stream().collect(Collectors.joining("\n"))).build();
+        if (!getEndpointsWithLogControl().contains(clazz)) {
+            return status(BAD_REQUEST).entity(
+                    "Invalid class or package, allowed values are:\n" + getEndpointsWithLogControl().stream().collect(Collectors.joining("\n")))
+                    .build();
         }
         if (!logLevels.contains(level)) {
             return status(BAD_REQUEST).entity("Invalid log level, allowed values are:\n" + logLevels.stream().collect(Collectors.joining("\n")))
@@ -62,13 +66,12 @@ public class AdminEndpoint {
         return status(OK).build();
     }
 
+    @Consumes({ TEXT_PLAIN, APPLICATION_JSON })
     @Produces(APPLICATION_JSON)
     @GET
     @Path("logger")
     public Response getLogLevels() {
-        return status(OK).entity(
-                ExposableLoggerExtension.getEndpointsWithLogControl().stream().map(s -> new Logger(s, getLogLevelForClass(s))).collect(toList()))
-                .build();
+        return status(OK).entity(getEndpointsWithLogControl().stream().map(s -> new Logger(s, getLogLevelForClass(s))).collect(toList())).build();
     }
 
     private String getLogLevelForClass(String clazz) {

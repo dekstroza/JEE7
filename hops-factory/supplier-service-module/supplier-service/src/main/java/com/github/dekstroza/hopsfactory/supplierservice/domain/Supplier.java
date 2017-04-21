@@ -1,13 +1,12 @@
 package com.github.dekstroza.hopsfactory.supplierservice.domain;
 
-import java.io.Serializable;
-import java.util.UUID;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+import java.util.UUID;
 
 @ApiModel(description = "Supplier class")
 @XmlRootElement
@@ -43,7 +42,7 @@ public class Supplier implements Serializable {
 
     /**
      * Constructor with required persistence attributes
-     * 
+     *
      * @param name
      * @param address
      * @param phone
@@ -96,6 +95,15 @@ public class Supplier implements Serializable {
         this.email = email;
     }
 
+    public Supplier copyFrom(final Supplier newSupplier) {
+        setId(newSupplier.getId());
+        setPhone(newSupplier.getPhone());
+        setEmail(newSupplier.getEmail());
+        setAddress(newSupplier.getAddress());
+        setName(newSupplier.getName());
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -129,6 +137,6 @@ public class Supplier implements Serializable {
     @Override
     public String toString() {
         return "Supplier{" + "id=" + id + ", name='" + name + '\'' + ", address='" + address + '\'' + ", phone='" + phone + '\'' + ", email='" + email
-                + '\'' + '}';
+                   + '\'' + '}';
     }
 }
