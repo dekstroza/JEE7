@@ -1,6 +1,5 @@
 package com.github.dekstroza.hopsfactory.supplierservice.endpoints;
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 import static javax.ws.rs.core.Response.status;
 import static javax.ws.rs.core.Response.Status.OK;
@@ -21,8 +20,6 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dekstroza.hopsfactory.supplierservice.util.ExposeLogControl;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -31,7 +28,7 @@ import io.swagger.annotations.ApiResponses;
 @Api(value = "/healthz", description = "Supplier service healthcheck endpoint.")
 @RequestScoped
 @Path("healthz")
-public class Healthz implements ExposeLogControl {
+public class Healthz {
 
     @Resource(lookup = "jboss/datasources/SupplierDS")
     private DataSource dataSource;

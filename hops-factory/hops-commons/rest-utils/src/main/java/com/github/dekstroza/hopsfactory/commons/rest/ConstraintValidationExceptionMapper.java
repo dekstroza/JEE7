@@ -1,4 +1,4 @@
-package com.github.dekstroza.hopsfactory.supplierservice;
+package com.github.dekstroza.hopsfactory.commons.rest;
 
 import java.util.stream.Collectors;
 

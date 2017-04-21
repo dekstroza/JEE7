@@ -16,14 +16,13 @@ import javax.ws.rs.container.Suspended;
 
 import com.github.dekstroza.hopsfactory.supplierservice.domain.PersistanceHelper;
 import com.github.dekstroza.hopsfactory.supplierservice.domain.Supplier;
-import com.github.dekstroza.hopsfactory.supplierservice.util.ExposeLogControl;
 
 import io.swagger.annotations.*;
 
 @Api(value = "/supplier", description = "Operations on suppliers")
 @Path("supplier")
 @RequestScoped
-public class SupplierEndpoint implements ExposeLogControl {
+public class SupplierEndpoint {
 
     @EJB
     private PersistanceHelper persistanceHelper;

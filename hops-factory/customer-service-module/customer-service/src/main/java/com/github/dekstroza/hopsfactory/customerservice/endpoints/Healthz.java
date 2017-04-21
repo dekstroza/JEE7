@@ -19,7 +19,7 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dekstroza.hopsfactory.customerservice.ExposeLogControl;
+import com.github.dekstroza.hopsfactory.commons.rest.ExposeLogControl;
 
 @RequestScoped
 @Path("healthz")

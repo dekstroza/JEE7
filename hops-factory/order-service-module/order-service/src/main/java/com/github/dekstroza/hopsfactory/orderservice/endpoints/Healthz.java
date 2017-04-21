@@ -16,10 +16,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import com.github.dekstroza.hopsfactory.commons.rest.ExposeLogControl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.github.dekstroza.hopsfactory.orderservice.util.ExposeLogControl;
 
 @RequestScoped
 @Path("healthz")

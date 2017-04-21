@@ -34,6 +34,7 @@
         <module>inventory-service-module</module>
         <module>order-service-module</module>
         <module>supplier-service-module</module>
+        <module>hops-commons</module>
     </modules>
 
     <build>

@@ -20,9 +20,9 @@ import javax.ws.rs.container.Suspended;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dekstroza.hopsfactory.commons.rest.ExposeLogControl;
 import com.github.dekstroza.hopsfactory.inventoryservice.domain.Inventory;
 import com.github.dekstroza.hopsfactory.inventoryservice.domain.PersistanceHelper;
-import com.github.dekstroza.hopsfactory.inventoryservice.util.ExposeLogControl;
 
 @RequestScoped
 @Path("inventory")

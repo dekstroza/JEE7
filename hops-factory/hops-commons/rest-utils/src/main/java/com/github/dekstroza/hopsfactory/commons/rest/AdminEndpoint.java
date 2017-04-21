@@ -1,13 +1,10 @@
-package com.github.dekstroza.hopsfactory.inventoryservice.endpoints;
+package com.github.dekstroza.hopsfactory.commons.rest;
 
-import static com.github.dekstroza.hopsfactory.inventoryservice.InventoryServiceApplication.APPLICATION_INVENTORY_SERVICE_V1_JSON;
 import static java.util.stream.Collectors.toList;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.Response.status;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.OK;
-import static org.apache.log4j.Level.toLevel;
-import static org.apache.log4j.Logger.getLogger;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,8 +24,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.log4j.Level;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.dekstroza.hopsfactory.inventoryservice.InventoryServiceApplication;
-import com.github.dekstroza.hopsfactory.inventoryservice.util.ExposeLogControl;
 
 @RequestScoped
 @Path("admin")
@@ -69,7 +64,7 @@ public class AdminEndpoint {
 
     }
 
-    @Produces({ APPLICATION_INVENTORY_SERVICE_V1_JSON, APPLICATION_JSON })
+    @Produces(APPLICATION_JSON)
     @POST
     @Path("/logger/{clazz}")
     public Response setLogLevelForPackage(@PathParam("clazz") String clazz, @QueryParam("level") String level) {
@@ -81,11 +76,11 @@ public class AdminEndpoint {
             return status(BAD_REQUEST).entity("Invalid log level, allowed values are:\n" + logLevels.stream().collect(Collectors.joining("\n")))
                     .build();
         }
-        getLogger(clazz).setLevel(toLevel(level));
+        org.apache.log4j.Logger.getLogger(clazz).setLevel(Level.toLevel(level));
         return status(OK).build();
     }
 
-    @Produces({ APPLICATION_INVENTORY_SERVICE_V1_JSON, APPLICATION_JSON })
+    @Produces(APPLICATION_JSON)
     @GET
     @Path("logger")
     public Response getLogLevels() {
@@ -93,7 +88,7 @@ public class AdminEndpoint {
     }
 
     private String getLogLevelForClass(String clazz) {
-        org.apache.log4j.Logger logger = getLogger(clazz);
+        org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(clazz);
         if (logger != null) {
             Level level = logger.getEffectiveLevel();
             if (level != null) {

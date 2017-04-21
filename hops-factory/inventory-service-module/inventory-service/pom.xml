@@ -203,6 +203,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>io.dekstroza.github.jee7</groupId>
+            <artifactId>rest-utils</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.wildfly.swarm</groupId>
             <artifactId>undertow</artifactId>
         </dependency>
