@@ -6,9 +6,11 @@ import static javax.ws.rs.core.Response.status;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.CREATED;
 
+import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.sql.DataSource;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -33,6 +35,9 @@ public class InventoryEndpoint implements ExposeLogControl {
     @PersistenceContext(unitName = "InventoryPU")
     private EntityManager entityManager;
 
+    @Resource(lookup = "jboss/datasources/InventoryDS")
+    private DataSource dataSource;
+
     @Consumes(APPLICATION_JSON)
     @Produces({ APPLICATION_INVENTORY_SERVICE_V1_JSON, APPLICATION_JSON })
     @POST
@@ -44,6 +49,11 @@ public class InventoryEndpoint implements ExposeLogControl {
             response.resume(status(BAD_REQUEST).entity(originalCause(e).getMessage()).build());
         }
 
+    }
+
+    @javax.enterprise.inject.Produces
+    public DataSource getDataSource() {
+        return dataSource;
     }
 
     private Throwable originalCause(Exception e) {

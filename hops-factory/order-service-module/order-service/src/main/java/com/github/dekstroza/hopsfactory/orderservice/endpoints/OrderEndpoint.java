@@ -6,9 +6,11 @@ import static javax.ws.rs.core.Response.status;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.CREATED;
 
+import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.sql.DataSource;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -31,6 +33,9 @@ public class OrderEndpoint implements ExposeLogControl {
 
     public static final Logger log = LoggerFactory.getLogger(OrderEndpoint.class);
 
+    @Resource(lookup = "jboss/datasources/OrderDS")
+    private DataSource dataSource;
+
     @PersistenceContext(unitName = "OrderPU")
     private EntityManager entityManager;
 
@@ -45,6 +50,11 @@ public class OrderEndpoint implements ExposeLogControl {
             response.resume(status(BAD_REQUEST).entity(originalCause(e).getMessage()).build());
 
         }
+    }
+
+    @javax.enterprise.inject.Produces
+    public DataSource getDataSource() {
+        return dataSource;
     }
 
     private Throwable originalCause(Exception e) {
