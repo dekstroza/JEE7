@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 
 import com.jayway.restassured.http.ContentType;
 
+@SuppressWarnings("ALL")
 @RunWith(Arquillian.class)
 public class HealthzEndpointIT {
 

@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.UUID;
 
+@SuppressWarnings("WeakerAccess")
 @ApiModel(description = "Supplier class")
 @XmlRootElement
 @Entity(name = "supplier")

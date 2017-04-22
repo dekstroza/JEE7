@@ -31,6 +31,7 @@ import io.swagger.annotations.ApiResponses;
 @ExposeLogControl
 public class Healthz {
 
+    @SuppressWarnings("CdiInjectionPointsInspection")
     @Inject
     private DataSource dataSource;
 

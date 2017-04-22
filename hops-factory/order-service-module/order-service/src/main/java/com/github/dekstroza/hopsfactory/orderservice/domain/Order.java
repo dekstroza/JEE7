@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
+@SuppressWarnings("WeakerAccess")
 @XmlRootElement
 @Entity(name = "order")
 @Table(name = "orders", schema = "order_service")
@@ -35,11 +36,9 @@ public class Order implements Serializable {
     @Column
     private Date orderDate;
 
-    public static enum ORDER_STATES {
-        NEW_ORDER, PROCESSING, PROCESSED
+    public enum ORDER_STATES {
+        NEW_ORDER
     }
-
-    ;
 
     public Order() {
 

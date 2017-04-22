@@ -14,6 +14,7 @@ import com.github.dekstroza.hopsfactory.supplierservice.domain.Supplier;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.ExtractableResponse;
 
+@SuppressWarnings("ALL")
 @RunWith(Arquillian.class)
 public class SupplierEndpointIT {
 

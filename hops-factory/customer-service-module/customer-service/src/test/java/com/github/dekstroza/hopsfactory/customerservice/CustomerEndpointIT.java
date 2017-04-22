@@ -13,10 +13,11 @@ import org.junit.runner.RunWith;
 import com.github.dekstroza.hopsfactory.customerservice.domain.Customer;
 import com.jayway.restassured.response.ExtractableResponse;
 
+@SuppressWarnings("ALL")
 @RunWith(Arquillian.class)
 public class CustomerEndpointIT {
 
-    public static final String CUSTOMER_CREATE_URL = "http://localhost:8080/customer_service/customer";
+    private static final String CUSTOMER_CREATE_URL = "http://localhost:8080/customer_service/customer";
 
     @Test
     public void testCreateValidCustomer__RETURNS_201() {

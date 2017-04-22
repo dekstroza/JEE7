@@ -18,6 +18,7 @@ import org.junit.runner.RunWith;
 import com.github.dekstroza.hopsfactory.orderservice.domain.Order;
 import com.jayway.restassured.response.ExtractableResponse;
 
+@SuppressWarnings("ALL")
 @RunWith(Arquillian.class)
 public class OrderEndpointIT {
 

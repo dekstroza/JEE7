@@ -1,20 +1,20 @@
 package com.github.dekstroza.hopsfactory.commons.rest;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.AnnotatedType;
 import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.ProcessAnnotatedType;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+@SuppressWarnings("WeakerAccess")
 public class ExposableLoggerExtension implements Extension {
 
-    public static final Logger log = LoggerFactory.getLogger(ExposableLoggerExtension.class);
+    private static final Logger log = LoggerFactory.getLogger(ExposableLoggerExtension.class);
     private static final List<String> endpointsWithLogControl = new ArrayList<>();
 
     public <T> void processAnnotatedType(@Observes ProcessAnnotatedType<T> pat) {
@@ -29,7 +29,7 @@ public class ExposableLoggerExtension implements Extension {
 
     /**
      * Return unmodifiable list of all detected endpoints with log control
-     * 
+     *
      * @return unmodifiable list of FQCN with log control annotation
      */
     public static List<String> getEndpointsWithLogControl() {

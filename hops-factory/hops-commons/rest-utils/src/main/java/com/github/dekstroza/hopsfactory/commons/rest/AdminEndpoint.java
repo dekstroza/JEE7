@@ -20,8 +20,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.log4j.Level;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 @RequestScoped
 @Path("admin")
 public class AdminEndpoint {
@@ -38,14 +36,6 @@ public class AdminEndpoint {
             this.level = level;
         }
 
-        @JsonProperty("class")
-        public String getClazz() {
-            return clazz;
-        }
-
-        public String getLevel() {
-            return level;
-        }
     }
 
     @Consumes({ TEXT_PLAIN, APPLICATION_JSON })

@@ -19,9 +19,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.github.dekstroza.hopsfactory.commons.rest.ExposeLogControl;
 import com.github.dekstroza.hopsfactory.customerservice.domain.Customer;
 
@@ -30,12 +27,6 @@ import com.github.dekstroza.hopsfactory.customerservice.domain.Customer;
 @Path("customer")
 @ExposeLogControl
 public class CustomerEndpoint {
-
-    private static final Logger log = LoggerFactory.getLogger(CustomerEndpoint.class);
-
-    public static final String FIRSTNAME = "firstname";
-    public static final String LASTNAME = "lastname";
-    public static final String EMAIL = "email";
 
     @PersistenceContext(unitName = "CustomerPU")
     private EntityManager entityManager;

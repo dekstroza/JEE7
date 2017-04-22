@@ -29,7 +29,7 @@ import static javax.ws.rs.core.Response.status;
 @ExposeLogControl
 public class OrderEndpoint {
 
-    public static final Logger log = LoggerFactory.getLogger(OrderEndpoint.class);
+    private static final Logger log = LoggerFactory.getLogger(OrderEndpoint.class);
 
     @Resource(lookup = "jboss/datasources/OrderDS")
     private DataSource dataSource;

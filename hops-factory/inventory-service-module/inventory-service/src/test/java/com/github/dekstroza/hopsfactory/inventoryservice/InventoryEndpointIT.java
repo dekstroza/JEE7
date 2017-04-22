@@ -16,10 +16,11 @@ import org.junit.runner.RunWith;
 import com.github.dekstroza.hopsfactory.inventoryservice.domain.Inventory;
 import com.jayway.restassured.response.ExtractableResponse;
 
+@SuppressWarnings("ALL")
 @RunWith(Arquillian.class)
 public class InventoryEndpointIT {
 
-    public static final String INVENTORY_SERVICE_URL = INVENTORY_SERVICE_BASE_URL + "/inventory";
+    private static final String INVENTORY_SERVICE_URL = INVENTORY_SERVICE_BASE_URL + "/inventory";
 
     @Test
     public void createValidInventory() {

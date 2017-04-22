@@ -19,9 +19,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.github.dekstroza.hopsfactory.commons.rest.ExposeLogControl;
 import com.github.dekstroza.hopsfactory.inventoryservice.domain.Inventory;
 
@@ -30,8 +27,6 @@ import com.github.dekstroza.hopsfactory.inventoryservice.domain.Inventory;
 @Path("inventory")
 @ExposeLogControl
 public class InventoryEndpoint {
-
-    public static final Logger log = LoggerFactory.getLogger(InventoryEndpoint.class);
 
     @PersistenceContext(unitName = "InventoryPU")
     private EntityManager entityManager;
