@@ -55,7 +55,7 @@ public class SupplierEndpoint {
             response.resume(status(CREATED).entity(supplier).build());
         } catch (Exception e) {
             printDebugInfoOnError(e);
-            response.resume(status(INTERNAL_SERVER_ERROR).entity(originalCause(e).getMessage()).build());
+            response.resume(status(INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
         }
     }
 
@@ -75,7 +75,7 @@ public class SupplierEndpoint {
             response.resume(status(NOT_FOUND).entity("No such supplier").build());
         } catch (Exception e) {
             printDebugInfoOnError(e);
-            response.resume(status(INTERNAL_SERVER_ERROR).entity(originalCause(e)).build());
+            response.resume(status(INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
         }
     }
 
@@ -97,7 +97,7 @@ public class SupplierEndpoint {
             response.resume(status(NOT_FOUND).entity("No such supplier").build());
         } catch (Exception e) {
             printDebugInfoOnError(e);
-            response.resume(status(INTERNAL_SERVER_ERROR).entity(originalCause(e)).build());
+            response.resume(status(INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
         }
     }
 
@@ -119,7 +119,7 @@ public class SupplierEndpoint {
             response.resume(status(NOT_FOUND).entity("No such supplier").build());
         } catch (Exception e) {
             printDebugInfoOnError(e);
-            response.resume(status(INTERNAL_SERVER_ERROR).entity(originalCause(e)).build());
+            response.resume(status(INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
         }
     }
 
@@ -142,7 +142,7 @@ public class SupplierEndpoint {
             response.resume(status(NOT_FOUND).entity("No such supplier").build());
         } catch (Exception e) {
             printDebugInfoOnError(e);
-            response.resume(status(INTERNAL_SERVER_ERROR).entity(originalCause(e)).build());
+            response.resume(status(INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
         }
     }
 
@@ -164,7 +164,7 @@ public class SupplierEndpoint {
             response.resume(status(NOT_FOUND).build());
         } catch (Exception e) {
             printDebugInfoOnError(e);
-            response.resume(status(INTERNAL_SERVER_ERROR).entity(originalCause(e)).build());
+            response.resume(status(INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
         }
     }
 
@@ -181,16 +181,8 @@ public class SupplierEndpoint {
             response.resume(status(OK).entity(entityManager.createQuery("SELECT s FROM supplier s", Supplier.class).getResultList()).build());
         } catch (Exception e) {
             printDebugInfoOnError(e);
-            response.resume(status(INTERNAL_SERVER_ERROR).entity(originalCause(e)).build());
+            response.resume(status(INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
         }
-    }
-
-    private Throwable originalCause(Exception e) {
-        Throwable t = e.getCause();
-        while (t.getCause() != null) {
-            t = t.getCause();
-        }
-        return t;
     }
 
     private void printDebugInfoOnError(Throwable t) {

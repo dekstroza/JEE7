@@ -157,14 +157,6 @@
                         <goals>
                             <goal>start</goal>
                         </goals>
-                        <configuration>
-                            <jvmArguments>
-                                <jvmArgument>-Dswarm.project.stage.file=${project.build.directory}/env/devel/service-config.yml</jvmArgument>
-                                <jvmArgument>-Djava.net.preferIPv4Stack=true</jvmArgument>
-                            </jvmArguments>
-                            <stdoutFile>target/stdout.log</stdoutFile>
-                            <stderrFile>target/stderr.log</stderrFile>
-                        </configuration>
                     </execution>
                     <execution>
                         <id>stop</id>
@@ -174,6 +166,16 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <jvmArguments>
+                        <jvmArgument>-Xmx128m</jvmArgument>
+                        <jvmArgument>-Dswarm.project.stage.file=${project.build.directory}/env/devel/service-config.yml</jvmArgument>
+                        <jvmArgument>-Djava.net.preferIPv4Stack=true</jvmArgument>
+                    </jvmArguments>
+                    <stdoutFile>target/stdout.log</stdoutFile>
+                    <stderrFile>target/stderr.log</stderrFile>
+                    <fractionDetectMode>force</fractionDetectMode>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -217,45 +219,12 @@
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.dekstroza.github.jee7</groupId>
             <artifactId>rest-utils</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>cdi</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>jaxrs</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>datasources</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>transactions</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>monitor</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>swagger</artifactId>
-            <version>${wildfly.swarm.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>flyway</artifactId>
-            <version>${wildfly.swarm.version}</version>
+            <version>1.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -263,14 +232,19 @@
             <version>${version.postgresql}</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>swagger</artifactId>
+            <version>${wildfly.swarm.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>${log4j.version}</version>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>flyway</artifactId>
+            <version>${wildfly.swarm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
