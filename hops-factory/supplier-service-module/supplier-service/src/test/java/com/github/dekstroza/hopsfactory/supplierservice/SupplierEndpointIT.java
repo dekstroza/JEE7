@@ -14,7 +14,6 @@ import static com.jayway.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.is;
 
 @SuppressWarnings("ALL")
-@RunWith(Arquillian.class)
 public class SupplierEndpointIT {
 
     private static final String SUPPLIER_SERVICE_URL = SUPPLIER_SERVICE_BASE_URL + "/supplier";

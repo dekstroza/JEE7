@@ -7,8 +7,6 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-@SuppressWarnings("ALL")
-@RunWith(Arquillian.class)
 public class HealthzEndpointIT {
 
     private static final String HEALTHZ_URL = Constants.INVENTORY_SERVICE_BASE_URL + "/healthz";

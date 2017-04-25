@@ -12,7 +12,6 @@ import com.jayway.restassured.http.ContentType;
 import org.wildfly.swarm.arquillian.DefaultDeployment;
 
 @SuppressWarnings("ALL")
-@RunWith(Arquillian.class)
 public class HealthzEndpointIT {
 
     private static final String HEALTHZ_URL = SUPPLIER_SERVICE_BASE_URL + "/healthz";

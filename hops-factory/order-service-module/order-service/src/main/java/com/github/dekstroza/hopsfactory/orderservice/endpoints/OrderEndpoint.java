@@ -38,15 +38,17 @@ public class OrderEndpoint {
     private EntityManager entityManager;
 
     @POST
-    @Consumes({ APPLICATION_JSON, APPLICATION_ORDER_SERVICE_V1_JSON })
     @Produces(APPLICATION_JSON)
     public void insertNewOrder(Order order, @Suspended AsyncResponse response) {
+        log.info("Creating new order:{}", order);
         try {
             entityManager.persist(order);
+            entityManager.flush();
+            entityManager.refresh(order);
+            log.info("Order created:{}", order);
             response.resume(status(CREATED).entity(order).build());
         } catch (Exception e) {
-            printStackTrace(e);
-            response.resume(status(BAD_REQUEST).entity(originalCause(e).getMessage()).build());
+            response.resume(status(BAD_REQUEST).entity(e).build());
 
         }
     }
@@ -60,8 +62,7 @@ public class OrderEndpoint {
             Optional.of(entityManager.find(Order.class, id)).ifPresent(x -> response.resume(status(OK).entity(x).build()));
             response.resume(status(NOT_FOUND).build());
         } catch (Exception e) {
-            printStackTrace(e);
-            response.resume(status(INTERNAL_SERVER_ERROR).entity(originalCause(e).getMessage()).build());
+            response.resume(status(INTERNAL_SERVER_ERROR).entity(e).build());
 
         }
     }
@@ -73,8 +74,7 @@ public class OrderEndpoint {
         try {
             response.resume(status(OK).entity(entityManager.createQuery("SELECT o FROM order o", Order.class).getResultList()));
         } catch (Exception e) {
-            printStackTrace(e);
-            response.resume(status(INTERNAL_SERVER_ERROR).entity(originalCause(e).getMessage()).build());
+            response.resume(status(INTERNAL_SERVER_ERROR).entity(e).build());
         }
     }
 
@@ -87,8 +87,7 @@ public class OrderEndpoint {
                        .entity(entityManager.merge(x.copyFrom(order))).build()));
             response.resume(status(NOT_FOUND).entity("No such order.").build());
         } catch (Exception e) {
-            printStackTrace(e);
-            response.resume(status(INTERNAL_SERVER_ERROR).entity(originalCause(e).getMessage()).build());
+            response.resume(status(INTERNAL_SERVER_ERROR).entity(e).build());
         }
     }
 
@@ -103,8 +102,7 @@ public class OrderEndpoint {
             });
             response.resume(status(NOT_FOUND).entity("No such order.").build());
         } catch (Exception e) {
-            printStackTrace(e);
-            response.resume(status(INTERNAL_SERVER_ERROR).entity(originalCause(e).getMessage()).build());
+            response.resume(status(INTERNAL_SERVER_ERROR).entity(e).build());
         }
     }
 
@@ -113,17 +111,4 @@ public class OrderEndpoint {
         return dataSource;
     }
 
-    private Throwable originalCause(Exception e) {
-        Throwable t = e.getCause();
-        while (t.getCause() != null) {
-            t = t.getCause();
-        }
-        return t;
-    }
-
-    private void printStackTrace(Throwable t) {
-        if (log.isDebugEnabled()) {
-            t.printStackTrace();
-        }
-    }
 }

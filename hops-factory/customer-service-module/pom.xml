@@ -17,5 +17,43 @@
         <module>customer-service</module>
     </modules>
 
+    <profiles>
+        <profile>
+            <id>devel-config</id>
+            <activation>
+                <property>
+                    <name>!prod</name>
+                </property>
+            </activation>
+            <properties>
+                <db.user>customer_service_app</db.user>
+                <db.user.password>123hopS</db.user.password>
+                <db.url>jdbc:postgresql://localhost:5432/hops-factory</db.url>
+                <flyway.user>postgres</flyway.user>
+                <flyway.password>kolokvijum</flyway.password>
+                <flyway.schema>customerserviceflyway</flyway.schema>
+                <flyway.url>${db.url}?currentSchema=${flyway.schema}</flyway.url>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod-config</id>
+            <activation>
+                <property>
+                    <name>prod</name>
+                </property>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <db.user>customer_service_app</db.user>
+                <db.user.password>123hopS</db.user.password>
+                <db.url>jdbc:postgresql://hopsfactorydb-postgresql:5432/hops-factory</db.url>
+                <flyway.user>postgres</flyway.user>
+                <flyway.password>kolokvijum</flyway.password>
+                <flyway.schema>customerserviceflyway</flyway.schema>
+                <flyway.url>${db.url}?currentSchema=${flyway.schema}</flyway.url>
+            </properties>
+        </profile>
+    </profiles>
+
 
 </project>

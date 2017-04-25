@@ -1,12 +1,13 @@
 package com.github.dekstroza.hopsfactory.orderservice.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
-@SuppressWarnings("WeakerAccess")
 @XmlRootElement
 @Entity(name = "order")
 @Table(name = "orders", schema = "order_service")
@@ -30,27 +31,23 @@ public class Order implements Serializable {
     private double price;
 
     @Column
-    private ORDER_STATES status;
+    private String status;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column
+    @Column(name = "orderdate", insertable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm'Z'")
     private Date orderDate;
-
-    public enum ORDER_STATES {
-        NEW_ORDER
-    }
 
     public Order() {
 
     }
 
-    public Order(UUID inventoryId, UUID customerId, double quantity, double totalAmmount, ORDER_STATES status, Date orderDate) {
+    public Order(UUID inventoryId, UUID customerId, double quantity, double totalAmmount, String status) {
         this.inventoryId = inventoryId;
         this.customerId = customerId;
         this.quantity = quantity;
         this.price = totalAmmount;
         this.status = status;
-        this.orderDate = orderDate;
     }
 
     public UUID getId() {
@@ -73,7 +70,7 @@ public class Order implements Serializable {
         return price;
     }
 
-    public ORDER_STATES getStatus() {
+    public String getStatus() {
         return status;
     }
 
@@ -101,7 +98,7 @@ public class Order implements Serializable {
         this.price = totalAmmount;
     }
 
-    public void setStatus(ORDER_STATES status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
