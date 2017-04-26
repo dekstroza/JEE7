@@ -1,14 +1,4 @@
-﻿CREATE USER order_service_app WITH
-	LOGIN
-	NOSUPERUSER
-	NOCREATEDB
-	NOCREATEROLE
-	INHERIT
-	NOREPLICATION
-	CONNECTION LIMIT -1
-	PASSWORD '123hopS';
-
-CREATE SCHEMA order_service
+﻿CREATE SCHEMA order_service
     AUTHORIZATION order_service_app;
 
 CREATE TABLE order_service.orders

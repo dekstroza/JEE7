@@ -13,10 +13,6 @@
     <version>1.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <properties>
-        <version.postgresql>42.0.0</version.postgresql>
-    </properties>
-
     <build>
         <plugins>
             <plugin>

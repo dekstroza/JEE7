@@ -1,14 +1,6 @@
-CREATE USER customer_service_app WITH
-  LOGIN
-  NOSUPERUSER
-  INHERIT
-  NOCREATEDB
-  NOCREATEROLE
-  NOREPLICATION
-  PASSWORD '123hopS';
-
 CREATE SCHEMA customer_service
     AUTHORIZATION customer_service_app;
+
 CREATE TABLE customer_service.customers
 (
   id uuid NOT NULL DEFAULT public.gen_random_uuid(),

@@ -27,7 +27,7 @@
             <properties>
                 <db.user>order_service_app</db.user>
                 <db.user.password>123hopS</db.user.password>
-                <db.url>jdbc:postgresql://localhost:5432/hops-factory</db.url>
+                <db.url>jdbc:postgresql://localhost:5432/${db.name}</db.url>
                 <flyway.user>postgres</flyway.user>
                 <flyway.password>kolokvijum</flyway.password>
                 <flyway.url>${db.url}?currentSchema=orderserviceflyway</flyway.url>
@@ -44,7 +44,7 @@
             <properties>
                 <db.user>order_service_app</db.user>
                 <db.user.password>123hopS</db.user.password>
-                <db.url>jdbc:postgresql://hopsfactorydb-postgresql:5432/hops-factory</db.url>
+                <db.url>jdbc:postgresql://hopsfactorydb-postgresql:5432/${db.name}</db.url>
                 <flyway.user>postgres</flyway.user>
                 <flyway.user.password></flyway.user.password>
                 <flyway.schema>public</flyway.schema>

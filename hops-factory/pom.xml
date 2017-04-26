@@ -25,6 +25,7 @@
         <maven.war.plugin.version>2.3</maven.war.plugin.version>
         <maven.docker.plugin>0.20.0</maven.docker.plugin>
         <maven.failsafe.plugin.version>2.19.1</maven.failsafe.plugin.version>
+
         <flyway.maven.plugin.version>4.1.2</flyway.maven.plugin.version>
         <java.source.version>1.8</java.source.version>
         <java.target.version>1.8</java.target.version>
@@ -32,10 +33,12 @@
         <docker.repo>dekstroza</docker.repo>
         <docker.base.image>openjdk:8-jre-alpine</docker.base.image>
         <host.port>8080</host.port>
-
+        <version.postgresql>42.0.0</version.postgresql>
+        <db.name>hops_factory</db.name>
     </properties>
 
     <modules>
+        <module>database-setup</module>
         <module>customer-service-module</module>
         <module>inventory-service-module</module>
         <module>order-service-module</module>
@@ -113,7 +116,6 @@
             </build>
         </profile>
     </profiles>
-
     <build>
         <resources>
             <resource>

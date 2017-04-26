@@ -1,14 +1,4 @@
-﻿CREATE USER supplier_service_app WITH
-	LOGIN
-	NOSUPERUSER
-	NOCREATEDB
-	NOCREATEROLE
-	INHERIT
-	NOREPLICATION
-	CONNECTION LIMIT -1
-	PASSWORD '123hopS';
-
-CREATE SCHEMA supplier_service
+﻿CREATE SCHEMA supplier_service
     AUTHORIZATION supplier_service_app;
 
 CREATE TABLE supplier_service.suppliers

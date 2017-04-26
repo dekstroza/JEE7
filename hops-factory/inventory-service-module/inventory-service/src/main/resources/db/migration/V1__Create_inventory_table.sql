@@ -1,13 +1,4 @@
-﻿CREATE USER inventory_service_app WITH
-  LOGIN
-  NOSUPERUSER
-  INHERIT
-  NOCREATEDB
-  NOCREATEROLE
-  NOREPLICATION
-  PASSWORD '123hopS';
-
-CREATE SCHEMA inventory_service
+﻿CREATE SCHEMA inventory_service
     AUTHORIZATION inventory_service_app;
 
 CREATE TABLE inventory_service.inventory
