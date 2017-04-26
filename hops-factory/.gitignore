@@ -1,3 +1,4 @@
+infra/
 target/
 .idea/
 *.iml
