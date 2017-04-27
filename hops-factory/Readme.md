@@ -62,3 +62,14 @@ So run command would look like:
 ```
 docker run -d -v service-config.yml:/etc/config/service-config.yml -p 8080:8080 customer_service:1.0.1-SNAPSHOT
 ```
+
+## Healthchecks
+
+Each service has basic healthcheck exposed at http://localhost:8080/${service.name}/healthz which will return 200 if everything is ok.
+
+## Loging
+
+Each service has runtime adjustable logger, you can see available loggers at: 
+http://localhost/${service.name}/admin/logger , 
+and enable different log levels with for example: 
+http://localhost:8080/${service.name}/admin/logger/com.something.blabla?level=DEBUG
