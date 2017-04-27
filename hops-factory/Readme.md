@@ -18,7 +18,7 @@ All postgres data is configurable in main pom.xml. Defaults for inital connectio
         <db.password.dev>postgres</db.password.dev>
 ```
 
-After running with -DcreateDB that usual mvn clean install will do.
+After running ```mvn clean install -DcreateDB```, usual ```mvn clean install``` will do just fine.
 To clean everything, run ```mvn clean install -DcleanDB```, which will completely delete database and all associated roles with these three services.
 
 ## Docker
