@@ -1,9 +1,9 @@
 # Wildfly Swarm microservices
 
-Simple implementation of three services with wildfly-swarm.
+Simple implementation of three services with wildfly-swarm. Examples feature cdi, jpa2, jaxrs, flyway and swagger fractions.
 
 ## Database settings
-To create database, you neeed postgres and run first time with:
+To create database, you neeed postgres, and initial database setup. To create it, on first run do:
 ```
 mvn clean install -DcreateDB
 ```
@@ -73,3 +73,8 @@ Each service has runtime adjustable logger, you can see available loggers at:
 http://localhost/${service.name}/admin/logger , 
 and enable different log levels with for example: 
 http://localhost:8080/${service.name}/admin/logger/com.something.blabla?level=DEBUG
+
+## Swagger
+
+Example swagger doc is available for supplier service, it is accessible at:
+http://localhost:8080/supplier_service/swagger.json
