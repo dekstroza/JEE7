@@ -1,18 +1,19 @@
 package com.github.dekstroza.hopsfactory.orderservice;
 
-import com.github.dekstroza.hopsfactory.orderservice.domain.Order;
-import com.jayway.restassured.response.ExtractableResponse;
-import org.hamcrest.Matchers;
-import org.junit.Test;
-
-import java.util.UUID;
-
 import static com.github.dekstroza.hopsfactory.orderservice.Constants.ORDER_SERVICE_BASE_URL;
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.http.ContentType.JSON;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
+
+import java.util.UUID;
+
+import org.hamcrest.Matchers;
+import org.junit.Test;
+
+import com.github.dekstroza.hopsfactory.orderservice.domain.Order;
+import com.jayway.restassured.response.ExtractableResponse;
 
 public class OrderEndpointIT {
 

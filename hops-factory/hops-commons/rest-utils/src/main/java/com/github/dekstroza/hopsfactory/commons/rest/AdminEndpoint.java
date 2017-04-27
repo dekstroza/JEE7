@@ -1,25 +1,27 @@
 package com.github.dekstroza.hopsfactory.commons.rest;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.log4j.Level;
-import org.slf4j.LoggerFactory;
+import static com.github.dekstroza.hopsfactory.commons.rest.ExposableLoggerExtension.getEndpointsWithLogControl;
+import static java.util.stream.Collectors.toList;
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
+import static javax.ws.rs.core.Response.status;
+import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
+import static javax.ws.rs.core.Response.Status.OK;
 
-import javax.enterprise.context.RequestScoped;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.github.dekstroza.hopsfactory.commons.rest.ExposableLoggerExtension.getEndpointsWithLogControl;
-import static java.util.stream.Collectors.toList;
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
-import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
-import static javax.ws.rs.core.Response.Status.OK;
-import static javax.ws.rs.core.Response.status;
+import javax.enterprise.context.RequestScoped;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.apache.log4j.Level;
+import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @RequestScoped
 @Path("admin")

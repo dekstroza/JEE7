@@ -1,10 +1,11 @@
 package com.github.dekstroza.hopsfactory.customerservice;
 
-import com.jayway.restassured.http.ContentType;
-import org.junit.Test;
-
 import static com.github.dekstroza.hopsfactory.customerservice.Constants.CUSTOMER_SERVICE_BASE_URL;
 import static com.jayway.restassured.RestAssured.given;
+
+import org.junit.Test;
+
+import com.jayway.restassured.http.ContentType;
 
 public class HealthzEndpointIT {
 

@@ -1,7 +1,10 @@
 package com.github.dekstroza.hopsfactory.inventoryservice.endpoints;
 
-import com.github.dekstroza.hopsfactory.commons.rest.ExposeLogControl;
-import com.github.dekstroza.hopsfactory.inventoryservice.domain.Inventory;
+import static com.github.dekstroza.hopsfactory.inventoryservice.InventoryServiceApplication.APPLICATION_INVENTORY_SERVICE_V1_JSON;
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static javax.ws.rs.core.Response.status;
+import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
+import static javax.ws.rs.core.Response.Status.CREATED;
 
 import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
@@ -16,11 +19,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 
-import static com.github.dekstroza.hopsfactory.inventoryservice.InventoryServiceApplication.APPLICATION_INVENTORY_SERVICE_V1_JSON;
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
-import static javax.ws.rs.core.Response.Status.CREATED;
-import static javax.ws.rs.core.Response.status;
+import com.github.dekstroza.hopsfactory.commons.rest.ExposeLogControl;
+import com.github.dekstroza.hopsfactory.inventoryservice.domain.Inventory;
 
 @Transactional
 @RequestScoped

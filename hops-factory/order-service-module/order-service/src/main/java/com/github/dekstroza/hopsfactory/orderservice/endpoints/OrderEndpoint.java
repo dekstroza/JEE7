@@ -1,9 +1,13 @@
 package com.github.dekstroza.hopsfactory.orderservice.endpoints;
 
-import com.github.dekstroza.hopsfactory.commons.rest.ExposeLogControl;
-import com.github.dekstroza.hopsfactory.orderservice.domain.Order;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static com.github.dekstroza.hopsfactory.orderservice.OrderServiceApplication.APPLICATION_ORDER_SERVICE_V1_JSON;
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
+import static javax.ws.rs.core.Response.status;
+import static javax.ws.rs.core.Response.Status.*;
+
+import java.util.Optional;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
@@ -14,14 +18,12 @@ import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
-import java.util.Optional;
-import java.util.UUID;
 
-import static com.github.dekstroza.hopsfactory.orderservice.OrderServiceApplication.APPLICATION_ORDER_SERVICE_V1_JSON;
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
-import static javax.ws.rs.core.Response.Status.*;
-import static javax.ws.rs.core.Response.status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.github.dekstroza.hopsfactory.commons.rest.ExposeLogControl;
+import com.github.dekstroza.hopsfactory.orderservice.domain.Order;
 
 @Transactional
 @Path("order")

@@ -1,14 +1,15 @@
 package com.github.dekstroza.hopsfactory.customerservice;
 
-import com.github.dekstroza.hopsfactory.customerservice.domain.Customer;
-import com.jayway.restassured.response.ExtractableResponse;
-import org.junit.Test;
-
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.http.ContentType.JSON;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
+
+import org.junit.Test;
+
+import com.github.dekstroza.hopsfactory.customerservice.domain.Customer;
+import com.jayway.restassured.response.ExtractableResponse;
 
 public class CustomerEndpointIT {
 

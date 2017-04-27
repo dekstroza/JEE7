@@ -1,17 +1,16 @@
 package com.github.dekstroza.hopsfactory.supplierservice;
 
-import com.github.dekstroza.hopsfactory.supplierservice.domain.Supplier;
-import com.jayway.restassured.http.ContentType;
-import com.jayway.restassured.response.ExtractableResponse;
-import org.jboss.arquillian.junit.Arquillian;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import static com.github.dekstroza.hopsfactory.supplierservice.Constants.SUPPLIER_SERVICE_BASE_URL;
 import static com.github.dekstroza.hopsfactory.supplierservice.SupplierServiceApplication.APPLICATION_SUPPLIER_SERVICE_V1_JSON;
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.is;
+
+import org.junit.Test;
+
+import com.github.dekstroza.hopsfactory.supplierservice.domain.Supplier;
+import com.jayway.restassured.http.ContentType;
+import com.jayway.restassured.response.ExtractableResponse;
 
 @SuppressWarnings("ALL")
 public class SupplierEndpointIT {

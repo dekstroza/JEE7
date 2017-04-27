@@ -1,12 +1,13 @@
 package com.github.dekstroza.hopsfactory.orderservice.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
+
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @XmlRootElement
 @Entity(name = "order")

@@ -1,12 +1,13 @@
 package com.github.dekstroza.hopsfactory.supplierservice.domain;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+import java.util.UUID;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
-import java.util.UUID;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @SuppressWarnings("WeakerAccess")
 @ApiModel(description = "Supplier class")

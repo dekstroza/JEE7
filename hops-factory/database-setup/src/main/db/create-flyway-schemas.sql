@@ -1,6 +1,6 @@
-CREATE SCHEMA customerserviceflyway AUTHORIZATION postgres;
-CREATE SCHEMA customerserviceflyway AUTHORIZATION postgres;
-CREATE SCHEMA inventoryserviceflyway AUTHORIZATION postgres;
-CREATE SCHEMA orderserviceflyway AUTHORIZATION postgres;
-CREATE SCHEMA supplierserviceflyway AUTHORIZATION postgres;
+CREATE SCHEMA ${db.customer.service.flyway.schema} AUTHORIZATION ${db.username.dev};
+CREATE SCHEMA ${db.customer.service.flyway.schema} AUTHORIZATION ${db.username.dev};
+CREATE SCHEMA ${db.inventory.service.flyway.schema} AUTHORIZATION ${db.username.dev};
+CREATE SCHEMA ${db.order.service.flyway.schema} AUTHORIZATION ${db.username.dev};
+CREATE SCHEMA ${db.supplier.service.flyway.schema} AUTHORIZATION ${db.username.dev};
 CREATE EXTENSION IF NOT EXISTS pgcrypto;

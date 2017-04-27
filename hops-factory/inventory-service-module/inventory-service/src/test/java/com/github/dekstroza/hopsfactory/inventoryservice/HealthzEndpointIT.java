@@ -2,10 +2,9 @@ package com.github.dekstroza.hopsfactory.inventoryservice;
 
 import static com.jayway.restassured.RestAssured.given;
 
-import com.jayway.restassured.http.ContentType;
-import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import com.jayway.restassured.http.ContentType;
 
 public class HealthzEndpointIT {
 
