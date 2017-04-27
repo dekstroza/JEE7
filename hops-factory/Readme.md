@@ -62,6 +62,9 @@ So run command would look like:
 ```
 docker run -d -v service-config.yml:/etc/config/service-config.yml -p 8080:8080 customer_service:1.0.1-SNAPSHOT
 ```
+## Data migration
+
+Each service will automatically migrate or fail to deploy it's database schema, using flyway. Database schema for each service is located in src/main/resources/db.migration, and flyway versioning applies as usual. Initial version for each service is V1.
 
 ## Healthchecks
 
