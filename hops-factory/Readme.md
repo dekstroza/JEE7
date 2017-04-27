@@ -70,7 +70,7 @@ Each service has basic healthcheck exposed at http://localhost:8080/${service.na
 ## Loging
 
 Each service has runtime adjustable logger, you can see available loggers at: 
-http://localhost/${service.name}/admin/logger , 
+http://localhost:8080/${service.name}/admin/logger , 
 and enable different log levels with for example: 
 http://localhost:8080/${service.name}/admin/logger/com.something.blabla?level=DEBUG
 
