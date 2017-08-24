@@ -24,13 +24,13 @@ Build with `mvn clean  install` and start both broker and sender (assuming here 
 Broker:
 ```
 mvn clean install
-java -jar -Dswarm.project.stage.file=src/main/env/devel/service-config.yml -Dswarm.bind.address=0.0.0.0 target/message-broker-1.0.1-SNAPSHOT-hollow-swarm.jar target/message-broker-1.0.1-SNAPSHOT.war
+java -jar -Dswarm.project.stage.file=src/main/env/devel/service-config.yml target/message-broker-1.0.1-SNAPSHOT-hollow-swarm.jar target/message-broker-1.0.1-SNAPSHOT.war
 ```
 
 Sender:
 ```
 mvn clean install
-java -Dswarm.port.offset=100 -Dswarm.project.stage.file=src/main/env/devel/service-config.yml -Dswarm.bind.address=0.0.0.0  -jar target/message-sender-1.0.1-SNAPSHOT-hollow-swarm.jar target/message-sender-1.0.1-SNAPSHOT.war
+java -Dswarm.port.offset=100 -Dswarm.project.stage.file=src/main/env/devel/service-config.yml -jar target/message-sender-1.0.1-SNAPSHOT-hollow-swarm.jar target/message-sender-1.0.1-SNAPSHOT.war
 ```
 
 ###Testing:
