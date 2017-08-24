@@ -1,9 +1,9 @@
 # Wildfly Swarm microservices
 
-Simple implementation of three services with wildfly-swarm.
+Simple implementation of three services with wildfly-swarm. Examples feature cdi, jpa2, jaxrs, flyway and swagger fractions.
 
 ## Database settings
-To create database, you neeed postgres and run first time with:
+To create database, you neeed postgres, and initial database setup. To create it, on first run do:
 ```
 mvn clean install -DcreateDB
 ```
@@ -18,7 +18,7 @@ All postgres data is configurable in main pom.xml. Defaults for inital connectio
         <db.password.dev>postgres</db.password.dev>
 ```
 
-After running with -DcreateDB that usual mvn clean install will do.
+After running ```mvn clean install -DcreateDB```, usual ```mvn clean install``` will do just fine.
 To clean everything, run ```mvn clean install -DcleanDB```, which will completely delete database and all associated roles with these three services.
 
 ## Docker
@@ -62,3 +62,22 @@ So run command would look like:
 ```
 docker run -d -v service-config.yml:/etc/config/service-config.yml -p 8080:8080 customer_service:1.0.1-SNAPSHOT
 ```
+## Data migration
+
+Each service will automatically migrate or fail to deploy it's database schema, using flyway. Database schema for each service is located in src/main/resources/db.migration, and flyway versioning applies as usual. Initial version for each service is V1.
+
+## Healthchecks
+
+Each service has basic healthcheck exposed at http://localhost:8080/${service.name}/healthz which will return 200 if everything is ok.
+
+## Loging
+
+Each service has runtime adjustable logger, you can see available loggers at: 
+http://localhost:8080/${service.name}/admin/logger , 
+and enable different log levels with for example: 
+http://localhost:8080/${service.name}/admin/logger/com.something.blabla?level=DEBUG
+
+## Swagger
+
+Example swagger doc is available for supplier service, it is accessible at:
+http://localhost:8080/supplier_service/swagger.json
