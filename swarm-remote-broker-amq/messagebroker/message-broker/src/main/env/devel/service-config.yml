@@ -1,4 +1,6 @@
 swarm:
+  bind:
+    address: 0.0.0.0
   network:
     socket-binding-groups:
       standard-sockets:
