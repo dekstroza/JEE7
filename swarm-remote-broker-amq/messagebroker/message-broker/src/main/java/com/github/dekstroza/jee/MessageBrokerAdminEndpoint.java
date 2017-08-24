@@ -1,4 +1,4 @@
-package com.ericsson.techday;
+package com.github.dekstroza.jee;
 
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.GET;

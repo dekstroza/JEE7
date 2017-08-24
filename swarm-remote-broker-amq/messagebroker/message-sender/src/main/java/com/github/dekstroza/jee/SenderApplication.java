@@ -1,4 +1,4 @@
-package com.ericsson.techday;
+package com.github.dekstroza.jee;
 
 import javax.inject.Inject;
 import javax.jms.JMSConnectionFactory;

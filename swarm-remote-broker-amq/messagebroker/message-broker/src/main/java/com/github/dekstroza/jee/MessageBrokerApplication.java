@@ -1,4 +1,4 @@
-package com.ericsson.techday;
+package com.github.dekstroza.jee;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
