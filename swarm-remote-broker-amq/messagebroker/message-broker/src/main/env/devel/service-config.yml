@@ -1,0 +1,33 @@
+swarm:
+  network:
+    socket-binding-groups:
+      standard-sockets:
+        socket-bindings:
+          activemq:
+            port: 61616
+  jmx:
+    jmx-remoting-connector:
+      use-management-endpoint: false
+  messaging-activemq:
+    servers:
+      default:
+        security-enabled: false
+        remote-acceptors:
+            netty-acceptor:
+              socket-binding: activemq
+        remote-connectors:
+            netty-connector:
+              socket-binding: activemq
+        http-connectors:
+          http-connector:
+            socket-binding: http
+            endpoint: http-acceptor
+        http-acceptors:
+          http-acceptor:
+            http-listener: default
+        jmx-management-enabled: true
+        jms-queues:
+          clustered-mediation-queue: {}
+  messaging:
+    remote: false
+

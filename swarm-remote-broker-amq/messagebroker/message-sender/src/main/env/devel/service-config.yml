@@ -1,0 +1,14 @@
+swarm:
+  messaging:
+    remote:
+      name: remote-mq
+      host: 159.107.152.151
+      port: 61616
+      jndi-name: java:/jms/remote-mq
+    servers:
+      default:
+        remote-connectors:
+          remote-mq:
+            params:
+              httpEnabled: true
+  remote: true
