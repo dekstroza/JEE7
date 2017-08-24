@@ -7,9 +7,6 @@ swarm:
         socket-bindings:
           activemq:
             port: 61616
-  jmx:
-    jmx-remoting-connector:
-      use-management-endpoint: false
   messaging-activemq:
     servers:
       default:
@@ -28,8 +25,4 @@ swarm:
           http-acceptor:
             http-listener: default
         jmx-management-enabled: true
-        jms-queues:
-          clustered-mediation-queue: {}
-  messaging:
-    remote: false
 
