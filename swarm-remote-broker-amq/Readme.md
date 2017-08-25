@@ -32,6 +32,7 @@ java -Dswarm.port.offset=100 -Dswarm.project.stage.file=src/main/env/devel/servi
 
 Consumer:
 ```
+mvn clean install
 java -jar -Dswarm.port.offset=200 -Dswarm.project.stage.file=src/main/env/devel/service-config.yml target/message-consumer-1.0.1-SNAPSHOT-hollow-swarm.jar target/message-consumer-1.0.1-SNAPSHOT.war
 
 ```
