@@ -3,12 +3,9 @@
 
 ## Background
 
-All examples available are very simple and assume local broker (your swarm application and activemq broker on same wildfly-swarm instance). More often then not, due to various bs reasons
-this will not be the case, and one will have wildfly-swarm app and amq broker on a different jvm (in this case it will run in another wildfly-swarm instance).
-
-Example shows how to set up Wildfly-Swarm instance with AMQ Broker accepting remote connections, and another Wildfly-Swarm instance
-hosting simple app which will post message to the broker.
-Security is off, as this is example, and dealing with security is another layer of "goodness".
+All examples available are very simple and assume local broker (your application and activemq broker is same wildfly-swarm instance). More often then not, due to various reasons
+this will not be the case, and one will have wildfly-swarm application and activemq broker in different jvms (in this case activemq broker will be one wildfly-swarm instance and application/message producer will be another wildfly-swarm instance).
+This example shows how to set up Wildfly-Swarm instance with AMQ Broker accepting remote connections, and another Wildfly-Swarm instance/simple app which will post message to the broker. Security is off, as this is example, and dealing with security is another layer of "goodness".
 
 ## Requirements
 
