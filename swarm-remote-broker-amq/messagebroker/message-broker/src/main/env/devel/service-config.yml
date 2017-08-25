@@ -10,6 +10,10 @@ swarm:
   messaging-activemq:
     servers:
       default:
+        jms-queues:
+          mediation-queue:
+            entries:
+              entry: "java:/jms/queue/mediation-queue java:/jboss/exported/jms/queue/mediation-queue"
         security-enabled: false
         remote-acceptors:
             netty-acceptor:

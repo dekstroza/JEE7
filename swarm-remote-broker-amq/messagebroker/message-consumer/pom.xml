@@ -3,16 +3,25 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>messagebroker</artifactId>
         <groupId>io.dekstroza.github.jee7</groupId>
+        <artifactId>messagebroker</artifactId>
         <version>1.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>message-sender</artifactId>
+    <artifactId>message-consumer</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
 
+    <properties>
+        <!-- docker settings -->
+        <docker.repo>dekstroza</docker.repo>
+        <docker.base.image>openjdk:8-jre-alpine</docker.base.image>
+        <host.port>8080</host.port>
+        <!-- swarm settings -->
+        <swarm.hollow>true</swarm.hollow>
+
+    </properties>
 
     <build>
         <plugins>
@@ -46,19 +55,16 @@
         </dependency>
         <dependency>
             <groupId>org.wildfly.swarm</groupId>
-            <artifactId>remoting</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>management</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>jmx</artifactId>
+            <artifactId>ejb</artifactId>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
             <scope>provided</scope>
         </dependency>
 

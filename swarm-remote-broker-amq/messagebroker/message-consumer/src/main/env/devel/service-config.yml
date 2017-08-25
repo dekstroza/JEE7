@@ -1,11 +1,6 @@
 swarm:
   bind:
     address: 0.0.0.0
-  messaging-activemq:
-    servers:
-      default:
-        jms-queues:
-          mediation-queue: {}
   messaging:
     remote:
       name: remote-mq

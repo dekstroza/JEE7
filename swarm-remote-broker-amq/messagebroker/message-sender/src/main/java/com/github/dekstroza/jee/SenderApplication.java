@@ -1,8 +1,10 @@
 package com.github.dekstroza.jee;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.jms.JMSConnectionFactory;
 import javax.jms.JMSContext;
+import javax.jms.Queue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -15,10 +17,13 @@ public class SenderApplication extends Application {
     @JMSConnectionFactory("java:/jms/remote-mq")
     private JMSContext context;
 
+    @Resource(mappedName = "jms/queue/mediation-queue")
+    private Queue queue;
+
     @GET
     @Produces("text/plain")
     public String get() {
-        context.createProducer().send(context.createQueue("clustered-mediation-queue"), "Hello!");
+        context.createProducer().send(queue, "Hello!");
         return "Howdy!";
     }
 }
