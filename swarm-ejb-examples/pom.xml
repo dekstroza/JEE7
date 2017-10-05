@@ -78,9 +78,13 @@
                         </goals>
                         <configuration>
                             <jvmArguments>
-                                <jvmArgument>-Dswarm.project.stage.file=${project.build.directory}/env/service-config.yml</jvmArgument>
+                                <!--<jvmArgument>-Dswarm.project.stage.file=${project.build.directory}/env/service-config.yml</jvmArgument>-->
                                 <jvmArgument>-Djava.net.preferIPv4Stack=true</jvmArgument>
                             </jvmArguments>
+                            <arguments>
+                                <argument>-c</argument>
+                                <argument>${project.build.directory}/env/standalone.xml</argument>
+                            </arguments>
                             <stdoutFile>target/stdout.log</stdoutFile>
                             <stderrFile>target/stderr.log</stderrFile>
                         </configuration>
@@ -125,10 +129,6 @@
         <dependency>
             <groupId>org.wildfly.swarm</groupId>
             <artifactId>ee</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>naming</artifactId>
         </dependency>
         <dependency>
             <groupId>org.wildfly.swarm</groupId>
